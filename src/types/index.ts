@@ -33,6 +33,13 @@ export interface Track {
 
   // Position uncertainty for stealth aircraft
   positionUncertainty?: number;  // nm radius
+
+  // Autopilot status
+  autopilotStatus?: 'engaged' | 'disengaged' | 'manual' | 'remote_guided';
+  autopilotMode?: string;  // 'LNAV', 'VNAV', 'APP', 'HDG', etc.
+
+  // Emergency status for highlighting
+  emergencyType?: 'hijack' | 'medical' | 'mechanical' | 'fuel' | 'fire' | 'incapacitated_crew';
 }
 
 // Alert from safety service

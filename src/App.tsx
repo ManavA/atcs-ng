@@ -12,7 +12,7 @@ import { ViewModeToggle, TimeSlider, PresentationModeToggle, CommandLog } from '
 import { SectorStats, WeatherWidget } from './components/Widgets';
 import { CommandModal } from './components/CommandModal';
 import { HeroModePanel } from './components/HeroMode';
-import { DemoProvider, SpotlightOverlay, NarratorPanel, DemoMenuModal, useDemoMode } from './demo';
+import { DemoProvider, SpotlightOverlay, NarratorPanel, DemoMenuModal, ATCCommandDisplay, useDemoMode } from './demo';
 import { useUIStore } from './store';
 import { useDemoData } from './demo/hooks/useDemoData';
 import { useTrackStream } from './hooks/useTrackStream';
@@ -28,7 +28,7 @@ function AppContent() {
   const [commandModalCallsign, setCommandModalCallsign] = useState<string | null>(null);
   const voiceInitializedRef = useRef(false);
 
-  const { openMenu, completeInteraction, state: demoState } = useDemoMode();
+  const { openMenu, completeInteraction, state: demoState, currentStep } = useDemoMode();
   const autoStartedRef = useRef(false);
   const { heroModeActive, setHeroModeActive, viewMode, liveOnly } = useUIStore();
 
@@ -241,6 +241,10 @@ function AppContent() {
         <>
           <SpotlightOverlay />
           <NarratorPanel />
+          {/* ATC Command Display - shows "YOU:" typing when ATC issues commands */}
+          {demoState.mode === 'playing' && currentStep?.atcCommand && (
+            <ATCCommandDisplay command={currentStep.atcCommand} />
+          )}
         </>
       )}
       {/* Menu modal always shown to allow mode selection */}

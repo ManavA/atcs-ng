@@ -1,16 +1,22 @@
 import type { Scenario } from './types';
 
 /**
- * Showcase Demo v2.4 - International Crisis Simulation
+ * Showcase Demo v2.5 - International Crisis Simulation (Extended)
  *
- * Flow (~5 minutes):
+ * Flow (~8-10 minutes):
  * 1. Intro - 12 aircraft with international carriers
  * 2. Air India Hijack - Norwegian hijacker (Wakanda), Captain Sharma & FA Priya
+ *    - Extended with ATC trying to help, divert attempts, autopilot commands
  * 3. Hero Mode - Qantas A380, Sarah fights off Swedish hijacker
+ *    - Extended with step-by-step ATC guidance, autopilot engagement
  * 4. Stealth Incursion (Russian SU-57)
  * 5. TCAS Near Mid-Air Collision
  * 6. Severe Weather - Tornado
  * 7. Finale
+ *
+ * SLOWED DOWN: All autoAdvance times doubled for better pacing
+ * MORE ATC COMMANDS: Shows "YOU:" typing out what ATC says
+ * AUTOPILOT STATUS: Shows which flights are on autopilot
  *
  * Google Cloud TTS with Chirp voices for multi-accent experience
  */
@@ -39,6 +45,8 @@ export const showcaseDemoScenario: Scenario = {
         aircraftType: 'B777',
         countryCode: 'IN',
         souls: 350,
+        autopilotStatus: 'engaged',
+        autopilotMode: 'LNAV/VNAV',
       },
       // Qantas - Hero Mode flight
       {
@@ -57,6 +65,8 @@ export const showcaseDemoScenario: Scenario = {
         aircraftType: 'A380',
         countryCode: 'AU',
         souls: 489,
+        autopilotStatus: 'engaged',
+        autopilotMode: 'LNAV/VNAV',
       },
       // British Airways
       {
@@ -241,26 +251,33 @@ export const showcaseDemoScenario: Scenario = {
       id: 'intro-1',
       narrative: 'ATCS Next Gen online. Boston Sector 33. 12 aircraft under control. Heavy international traffic today.',
       spotlight: { type: 'component', id: 'radar' },
-      autoAdvance: 6000,
+      autoAdvance: 10000,
     },
     {
       id: 'intro-2',
-      narrative: 'All sensors nominal. AI threat detection active. Air India 302 and Qantas 8 inbound from overseas.',
+      narrative: 'All sensors nominal. AI threat detection active. All aircraft on autopilot, maintaining assigned routes.',
+      atcCommand: 'All stations, Boston Center, radar contact. Maintain current altitudes and headings.',
       spotlight: { type: 'component', id: 'predictions' },
-      autoAdvance: 6000,
+      autoAdvance: 12000,
+    },
+    {
+      id: 'intro-3',
+      narrative: 'Air India 302 heavy and Qantas 8 super inbound from overseas. Both aircraft showing autopilot engaged, LNAV/VNAV mode.',
+      spotlight: { type: 'flight', callsign: 'AIC302' },
+      autoAdvance: 10000,
     },
 
     // ==================== AIR INDIA HIJACK (Norwegian hijacker from Wakanda) ====================
     {
       id: 'hijack-begin',
-      narrative: 'MAYDAY received from Air India 302. Emergency transponder active. Squawk 7500 confirmed.',
+      narrative: 'MAYDAY MAYDAY MAYDAY received from Air India 302. Emergency transponder activating. Squawk 7500 - HIJACK CODE.',
       spotlight: { type: 'flight', callsign: 'AIC302' },
-      autoAdvance: 8000,
+      autoAdvance: 12000,
       events: [
         {
           delay: 0,
           type: 'updateTrack',
-          payload: { trackId: 'TRK-SD-001', squawkCode: '7500', visualState: 'hijacked' },
+          payload: { trackId: 'TRK-SD-001', squawkCode: '7500', visualState: 'hijacked', emergencyType: 'hijack' },
         },
         {
           delay: 500,
@@ -281,37 +298,45 @@ export const showcaseDemoScenario: Scenario = {
     {
       id: 'hijack-captain',
       narrative: 'Captain Sharma: Boston, this is Air India 302 heavy. A man with a weapon has entered my cockpit. He is speaking Norwegian. He claims to be from Wakanda. Please advise.',
-      atcCommand: 'Air India 302, Boston Center copies. Keep transmitting. Help is coming.',
+      atcCommand: 'Air India 302 heavy, Boston Center copies all. Squawk confirmed 7500. Keep transmitting. NORAD has been notified. Help is coming.',
       spotlight: { type: 'flight', callsign: 'AIC302' },
-      autoAdvance: 10000,
+      autoAdvance: 16000,
+    },
+    {
+      id: 'hijack-atc-divert',
+      narrative: 'ATC attempting to assist with divert options. Identifying nearest suitable airports.',
+      atcCommand: 'Air India 302, if able, divert to Bradley International, runway 06, 40 miles southwest. Emergency services standing by.',
+      spotlight: { type: 'flight', callsign: 'AIC302' },
+      autoAdvance: 14000,
     },
     {
       id: 'hijack-demands',
       narrative: 'Norwegian hijacker speaking: Jeg krever at dette flyet lander i Wakanda umiddelbart! No movement! I have control of this plane now.',
       spotlight: { type: 'flight', callsign: 'AIC302' },
-      autoAdvance: 10000,
+      autoAdvance: 14000,
       events: [
         {
           delay: 0,
           type: 'updateTrack',
-          payload: { trackId: 'TRK-SD-001', headingDeg: 180, dataCorruption: 0.2 },
+          payload: { trackId: 'TRK-SD-001', headingDeg: 180, dataCorruption: 0.2, autopilotStatus: 'disengaged' },
         },
       ],
     },
     {
-      id: 'hijack-fa',
-      narrative: 'Flight Attendant Priya: Passengers are panicking. He has locked the cockpit door. Captain Sharma is trying to negotiate. We are descending rapidly.',
+      id: 'hijack-autopilot-status',
+      narrative: 'ALERT: Air India 302 autopilot has been DISENGAGED. Aircraft now under manual control. Course deviation detected.',
+      atcCommand: 'Air India 302, we show your autopilot disengaged. If able, re-engage autopilot. Repeat, engage autopilot if safe to do so.',
       spotlight: { type: 'flight', callsign: 'AIC302' },
-      autoAdvance: 10000,
+      autoAdvance: 14000,
       events: [
         {
           delay: 500,
           type: 'addAlert',
           payload: {
-            alertId: 'ALT-HIJACK-02',
-            severity: 'CRITICAL',
-            alertType: 'LOSS_OF_SEPARATION',
-            message: 'AIR INDIA 302: Hijacker making demands. Course deviation detected.',
+            alertId: 'ALT-HIJACK-AP',
+            severity: 'WARNING',
+            alertType: 'DEVIATION_DETECTED',
+            message: 'AIC302: Autopilot DISENGAGED. Manual control detected. Course deviation 45°.',
             involvedFlightIds: ['AIC302'],
             sectorId: 'BOS_33',
             timestamp: new Date().toISOString(),
@@ -321,10 +346,43 @@ export const showcaseDemoScenario: Scenario = {
       ],
     },
     {
-      id: 'hijack-descent',
-      narrative: 'Air India 302 in uncontrolled descent. Hijacker has seized the controls. NORAD scrambling F-22 Raptors from Langley.',
+      id: 'hijack-fa',
+      narrative: 'Flight Attendant Priya: Passengers are panicking. He has locked the cockpit door. Captain Sharma is trying to negotiate. We are descending rapidly.',
       spotlight: { type: 'flight', callsign: 'AIC302' },
-      autoAdvance: 8000,
+      autoAdvance: 14000,
+      events: [
+        {
+          delay: 500,
+          type: 'addAlert',
+          payload: {
+            alertId: 'ALT-HIJACK-02',
+            severity: 'CRITICAL',
+            alertType: 'LOSS_OF_SEPARATION',
+            message: 'AIR INDIA 302: Unauthorized descent in progress. Hijacker has control.',
+            involvedFlightIds: ['AIC302'],
+            sectorId: 'BOS_33',
+            timestamp: new Date().toISOString(),
+            acknowledged: false,
+          },
+        },
+      ],
+    },
+    {
+      id: 'hijack-atc-clearance',
+      narrative: 'ATC clearing airspace around Air India 302. Vectoring all traffic away from the hijacked aircraft.',
+      atcCommand: 'All aircraft, emergency traffic, Air India 302 descending through your altitude. Delta 1892, turn left heading 090 immediately. American 445, climb flight level 350.',
+      spotlight: { type: 'component', id: 'radar' },
+      autoAdvance: 16000,
+      events: [
+        { delay: 0, type: 'updateTrack', payload: { trackId: 'TRK-SD-004', headingDeg: 90 } },
+        { delay: 200, type: 'updateTrack', payload: { trackId: 'TRK-SD-005', verticalRateFpm: 2000, altitudeFt: 35000 } },
+      ],
+    },
+    {
+      id: 'hijack-descent',
+      narrative: 'Air India 302 in uncontrolled descent. Rate of descent 6000 feet per minute. NORAD F-22 Raptors scrambling from Langley.',
+      spotlight: { type: 'flight', callsign: 'AIC302' },
+      autoAdvance: 12000,
       events: [
         {
           delay: 0,
@@ -337,13 +395,21 @@ export const showcaseDemoScenario: Scenario = {
             dataCorruption: 0.5,
           },
         },
+        { delay: 300, type: 'removeAlert', payload: { id: 'ALT-HIJACK-AP' } },
       ],
+    },
+    {
+      id: 'hijack-final-attempt',
+      narrative: 'ATC making final attempt to reach the cockpit.',
+      atcCommand: 'Air India 302, Air India 302, Boston Center on guard. If you can hear this transmission, pull up. Repeat, PULL UP. Acknowledge!',
+      spotlight: { type: 'flight', callsign: 'AIC302' },
+      autoAdvance: 14000,
     },
     {
       id: 'hijack-crash',
       narrative: 'Radar contact lost with Air India 302. 350 souls on board. Primary target fading. We could not save them.',
       spotlight: { type: 'component', id: 'radar' },
-      autoAdvance: 10000,
+      autoAdvance: 14000,
       events: [
         {
           delay: 0,
@@ -377,9 +443,9 @@ export const showcaseDemoScenario: Scenario = {
     },
     {
       id: 'crash-aftermath',
-      narrative: 'Some battles cannot be won. We mark their position. Search and rescue en route. But wait. Another crisis is developing. Qantas 8 is declaring emergency.',
+      narrative: 'Some battles cannot be won. We mark their position and vector in search and rescue. But wait... Another crisis is developing. Qantas 8 is declaring emergency.',
       spotlight: { type: 'component', id: 'radar' },
-      autoAdvance: 10000,
+      autoAdvance: 14000,
       events: [
         { delay: 1000, type: 'removeAlert', payload: { id: 'ALT-CRASH' } },
       ],
@@ -390,7 +456,7 @@ export const showcaseDemoScenario: Scenario = {
       id: 'hero-trigger',
       narrative: 'Sarah: Mayday mayday! This is Qantas 8. There was a hijacker speaking Swedish! I knocked him out but... both pilots are unconscious. Oh god, I have 489 people on this plane. Please help us!',
       spotlight: { type: 'flight', callsign: 'QFA8' },
-      autoAdvance: 12000,
+      autoAdvance: 16000,
       events: [
         {
           delay: 0,
@@ -399,6 +465,8 @@ export const showcaseDemoScenario: Scenario = {
             trackId: 'TRK-SD-002',
             visualState: 'hero',
             squawkCode: '7700',
+            emergencyType: 'incapacitated_crew',
+            autopilotStatus: 'engaged',
           },
         },
         {
@@ -408,13 +476,72 @@ export const showcaseDemoScenario: Scenario = {
             alertId: 'ALT-HERO',
             severity: 'CRITICAL',
             alertType: 'EMERGENCY_DECLARED',
-            message: 'HERO MODE: QFA8 Airbus A380. 489 souls. Guide Sarah to land at JFK.',
+            message: 'EMERGENCY: QFA8 Airbus A380. 489 souls. Both pilots incapacitated. Passenger in cockpit.',
             involvedFlightIds: ['QFA8'],
             sectorId: 'BOS_33',
             timestamp: new Date().toISOString(),
             acknowledged: false,
           },
         },
+      ],
+    },
+    {
+      id: 'hero-initial-contact',
+      narrative: 'ATC establishing contact with Sarah, the brave passenger who fought off the hijacker.',
+      atcCommand: 'Qantas 8, Boston Center. Sarah, I need you to stay calm. I am going to help you. First, tell me, is the autopilot engaged? Look for a button that says A P with a light.',
+      spotlight: { type: 'flight', callsign: 'QFA8' },
+      autoAdvance: 18000,
+    },
+    {
+      id: 'hero-autopilot-check',
+      narrative: 'Sarah: Yes! Yes there is a light! It says AUTOPILOT with green letters!',
+      atcCommand: 'Good, Sarah. The autopilot is flying the plane. The aircraft is stable. You are safe for now. Do not touch any controls. I repeat, do not touch anything.',
+      spotlight: { type: 'flight', callsign: 'QFA8' },
+      autoAdvance: 16000,
+      events: [
+        {
+          delay: 500,
+          type: 'addAlert',
+          payload: {
+            alertId: 'ALT-HERO-AP',
+            severity: 'INFO',
+            alertType: 'DEVIATION_DETECTED',
+            message: 'QFA8: Autopilot ENGAGED. Aircraft stable. Remote guidance possible.',
+            involvedFlightIds: ['QFA8'],
+            sectorId: 'BOS_33',
+            timestamp: new Date().toISOString(),
+            acknowledged: false,
+          },
+        },
+      ],
+    },
+    {
+      id: 'hero-divert-plan',
+      narrative: 'ATC coordinating with JFK for emergency landing. Clearing all traffic from approach path.',
+      atcCommand: 'All aircraft, emergency in progress. JFK runway 31L is closed for emergency traffic. All arrivals hold present position or divert to Newark.',
+      spotlight: { type: 'component', id: 'radar' },
+      autoAdvance: 16000,
+    },
+    {
+      id: 'hero-guide-heading',
+      narrative: 'Sarah: Okay, I am not touching anything. But the plane is turning! What do I do?',
+      atcCommand: 'Sarah, that is the autopilot following its programmed route. I am going to change your heading remotely. Stand by. Qantas 8, turn left heading 180 for vectors to JFK.',
+      spotlight: { type: 'flight', callsign: 'QFA8' },
+      autoAdvance: 16000,
+      events: [
+        {
+          delay: 500,
+          type: 'updateTrack',
+          payload: { trackId: 'TRK-SD-002', headingDeg: 180, autopilotStatus: 'remote_guided', autopilotMode: 'HDG SEL' },
+        },
+      ],
+    },
+    {
+      id: 'hero-active',
+      narrative: 'Remote guidance engaged. Sarah is following ATC instructions. The A380 is now on vectors to JFK. 489 souls depend on this guidance.',
+      spotlight: { type: 'component', id: 'radar' },
+      autoAdvance: 20000,
+      events: [
         {
           delay: 1500,
           type: 'triggerHeroMode',
@@ -423,23 +550,46 @@ export const showcaseDemoScenario: Scenario = {
       ],
     },
     {
-      id: 'hero-active',
-      narrative: 'Hero Mode engaged. Sarah has control of the A380 but has never flown before. The Swedish hijacker is unconscious. 489 souls depend on you.',
-      spotlight: { type: 'component', id: 'radar' },
-      autoAdvance: 60000,
+      id: 'hero-descent',
+      narrative: 'ATC initiating descent for approach.',
+      atcCommand: 'Qantas 8, Sarah, I am going to start bringing you down now. The aircraft will descend on its own. You will feel a slight pitch down. This is normal.',
+      spotlight: { type: 'flight', callsign: 'QFA8' },
+      autoAdvance: 16000,
+      events: [
+        {
+          delay: 500,
+          type: 'updateTrack',
+          payload: { trackId: 'TRK-SD-002', verticalRateFpm: -1500, altitudeFt: 15000 },
+        },
+      ],
+    },
+    {
+      id: 'hero-final-approach',
+      narrative: 'Sarah: I can see the runway! Oh my god, I can see the runway lights!',
+      atcCommand: 'Qantas 8, you are 10 miles from the runway. The autoland system is engaged. Keep your hands off the controls. The plane will land itself. Emergency services are standing by.',
+      spotlight: { type: 'flight', callsign: 'QFA8' },
+      autoAdvance: 16000,
+      events: [
+        {
+          delay: 500,
+          type: 'updateTrack',
+          payload: { trackId: 'TRK-SD-002', autopilotMode: 'AUTOLAND', altitudeFt: 3000, speedKt: 160 },
+        },
+        { delay: 600, type: 'removeAlert', payload: { id: 'ALT-HERO-AP' } },
+      ],
     },
     {
       id: 'hero-complete',
-      narrative: 'Qantas 8 is on the ground at JFK. Sarah and 489 passengers are safe. Emergency services on scene. An Australian hero made aviation history.',
+      narrative: 'Qantas 8 is on the ground at JFK. Sarah and 489 passengers are safe. Emergency services on scene. An Australian hero made aviation history today.',
       spotlight: { type: 'component', id: 'radar' },
-      autoAdvance: 10000,
+      autoAdvance: 16000,
       events: [
         { delay: 0, type: 'triggerHeroMode', payload: { active: false } },
         { delay: 0, type: 'removeAlert', payload: { id: 'ALT-HERO' } },
         {
           delay: 0,
           type: 'updateTrack',
-          payload: { trackId: 'TRK-SD-002', visualState: 'normal', squawkCode: '1200' },
+          payload: { trackId: 'TRK-SD-002', visualState: 'normal', squawkCode: '1200', autopilotStatus: 'disengaged', altitudeFt: 0, speedKt: 0 },
         },
       ],
     },
@@ -447,9 +597,9 @@ export const showcaseDemoScenario: Scenario = {
     // ==================== RUSSIAN STEALTH ====================
     {
       id: 'stealth-detect',
-      narrative: 'Anomaly detected. Intermittent radar return, no transponder. Bearing 045.',
+      narrative: 'Anomaly detected. Intermittent radar return, no transponder. Bearing 045. AI analyzing threat profile.',
       spotlight: { type: 'component', id: 'radar' },
-      autoAdvance: 6000,
+      autoAdvance: 12000,
       events: [
         {
           delay: 200,
@@ -458,7 +608,7 @@ export const showcaseDemoScenario: Scenario = {
             alertId: 'ALT-STEALTH-01',
             severity: 'WARNING',
             alertType: 'DEVIATION_DETECTED',
-            message: 'UNKNOWN CONTACT: Intermittent radar return. No transponder.',
+            message: 'UNKNOWN CONTACT: Intermittent radar return. No transponder. Possible stealth aircraft.',
             involvedFlightIds: ['UNKNOWN'],
             sectorId: 'BOS_33',
             timestamp: new Date().toISOString(),
@@ -469,10 +619,10 @@ export const showcaseDemoScenario: Scenario = {
     },
     {
       id: 'stealth-id',
-      narrative: 'Contact confirmed. Speed Mach 1.8, altitude 45,000. Russian SU-57 Felon in US airspace.',
-      atcCommand: 'All aircraft, unknown traffic bearing 045. Stand by for vectors.',
+      narrative: 'Contact confirmed. Speed Mach 1.8, altitude 45,000. AI identifies signature as Russian SU-57 Felon.',
+      atcCommand: 'All aircraft, UNKNOWN TRAFFIC bearing 045, flight level 450, supersonic. All aircraft stand by for emergency vectors.',
       spotlight: { type: 'component', id: 'alerts' },
-      autoAdvance: 8000,
+      autoAdvance: 14000,
       events: [
         {
           delay: 0,
@@ -481,7 +631,7 @@ export const showcaseDemoScenario: Scenario = {
             alertId: 'ALT-STEALTH-02',
             severity: 'CRITICAL',
             alertType: 'LOSS_OF_SEPARATION',
-            message: 'HOSTILE: SU-57 Felon violating US airspace. NORAD notified.',
+            message: 'HOSTILE AIRCRAFT: SU-57 Felon violating US airspace. NORAD scrambling interceptors.',
             involvedFlightIds: ['UNKNOWN'],
             sectorId: 'BOS_33',
             timestamp: new Date().toISOString(),
@@ -492,10 +642,10 @@ export const showcaseDemoScenario: Scenario = {
     },
     {
       id: 'stealth-response',
-      narrative: 'F-22 Raptors scrambling from Langley. Civil traffic vectoring clear.',
-      atcCommand: 'British Airways 117, turn left heading 180. Descend flight level 330.',
+      narrative: 'F-22 Raptors scrambling from Langley Air Force Base. Vectoring all civil traffic away from intercept zone.',
+      atcCommand: 'British Airways 117, turn left heading 180, descend and maintain flight level 330. Expect holding.',
       spotlight: { type: 'component', id: 'radar' },
-      autoAdvance: 8000,
+      autoAdvance: 14000,
       events: [
         { delay: 0, type: 'updateTrack', payload: { trackId: 'TRK-SD-003', headingDeg: 180, verticalRateFpm: -1500 } },
         { delay: 300, type: 'updateTrack', payload: { trackId: 'TRK-SD-011', headingDeg: 180 } },
@@ -503,9 +653,10 @@ export const showcaseDemoScenario: Scenario = {
     },
     {
       id: 'stealth-resolved',
-      narrative: 'Russian aircraft reversed course. Exiting US airspace. Crisis averted.',
+      narrative: 'Russian aircraft has reversed course and is exiting US airspace. F-22s escorting out of ADIZ. Crisis averted.',
+      atcCommand: 'All aircraft, hostile traffic clear of sector. Resume normal operations. British Airways 117, resume own navigation.',
       spotlight: { type: 'component', id: 'radar' },
-      autoAdvance: 6000,
+      autoAdvance: 14000,
       events: [
         { delay: 200, type: 'removeAlert', payload: { id: 'ALT-STEALTH-01' } },
         { delay: 400, type: 'removeAlert', payload: { id: 'ALT-STEALTH-02' } },
@@ -515,9 +666,9 @@ export const showcaseDemoScenario: Scenario = {
     // ==================== TCAS ====================
     {
       id: 'tcas-alert',
-      narrative: 'Traffic alert! Delta 1892 and American 445 converging fast. TCAS activating!',
+      narrative: 'TRAFFIC ALERT! Delta 1892 and American 445 on converging headings! AI predicts collision in 45 seconds!',
       spotlight: { type: 'component', id: 'predictions' },
-      autoAdvance: 6000,
+      autoAdvance: 12000,
       events: [
         {
           delay: 0,
@@ -528,7 +679,7 @@ export const showcaseDemoScenario: Scenario = {
             involvedFlights: ['DAL1892', 'AAL445'],
             probability: 0.97,
             predictedTime: new Date(Date.now() + 30000).toISOString(),
-            description: 'COLLISION COURSE: 443 souls at risk!',
+            description: 'COLLISION COURSE: 443 souls at risk! Immediate action required.',
           },
         },
         {
@@ -538,7 +689,7 @@ export const showcaseDemoScenario: Scenario = {
             alertId: 'ALT-TCAS-01',
             severity: 'CRITICAL',
             alertType: 'CONFLICT_PREDICTED',
-            message: 'TCAS RA: DAL1892 CLIMB. AAL445 DESCEND. Execute immediately!',
+            message: 'TCAS RESOLUTION ADVISORY IMMINENT. DAL1892 and AAL445 converging.',
             involvedFlightIds: ['DAL1892', 'AAL445'],
             sectorId: 'BOS_33',
             timestamp: new Date().toISOString(),
@@ -549,10 +700,10 @@ export const showcaseDemoScenario: Scenario = {
     },
     {
       id: 'tcas-execute',
-      narrative: 'TCAS resolution advisory executing. Both aircraft maneuvering.',
-      atcCommand: 'Delta 1892, climb flight level 390. American 445, descend flight level 240.',
+      narrative: 'TCAS Resolution Advisory triggered! Both aircraft receiving automated climb and descend commands.',
+      atcCommand: 'Delta 1892, CLIMB IMMEDIATELY flight level 390! American 445, DESCEND IMMEDIATELY flight level 240! Traffic alert!',
       spotlight: { type: 'flight', callsign: 'DAL1892' },
-      autoAdvance: 8000,
+      autoAdvance: 14000,
       events: [
         { delay: 0, type: 'updateTrack', payload: { trackId: 'TRK-SD-004', verticalRateFpm: 4000, altitudeFt: 39000 } },
         { delay: 0, type: 'updateTrack', payload: { trackId: 'TRK-SD-005', verticalRateFpm: -4000, altitudeFt: 24000 } },
@@ -560,9 +711,10 @@ export const showcaseDemoScenario: Scenario = {
     },
     {
       id: 'tcas-clear',
-      narrative: 'Conflict resolved. 15,000 feet separation achieved. 443 lives saved.',
+      narrative: 'TCAS conflict resolved. 15,000 feet vertical separation achieved. 443 lives saved by automated safety systems.',
+      atcCommand: 'Delta 1892, American 445, traffic no longer a factor. Resume normal operations. Nice work up there.',
       spotlight: { type: 'component', id: 'radar' },
-      autoAdvance: 6000,
+      autoAdvance: 14000,
       events: [
         { delay: 0, type: 'updateTrack', payload: { trackId: 'TRK-SD-004', verticalRateFpm: 0 } },
         { delay: 0, type: 'updateTrack', payload: { trackId: 'TRK-SD-005', verticalRateFpm: 0 } },
@@ -574,9 +726,9 @@ export const showcaseDemoScenario: Scenario = {
     // ==================== TORNADO ====================
     {
       id: 'tornado-warn',
-      narrative: 'Severe weather alert. EF-3 tornado, 25 miles southwest. Multiple aircraft in path.',
+      narrative: 'SEVERE WEATHER ALERT from National Weather Service. EF-3 tornado confirmed, 25 miles southwest, tracking northeast at 40 knots.',
       spotlight: { type: 'component', id: 'alerts' },
-      autoAdvance: 6000,
+      autoAdvance: 12000,
       events: [
         {
           delay: 0,
@@ -585,7 +737,7 @@ export const showcaseDemoScenario: Scenario = {
             alertId: 'ALT-TORNADO',
             severity: 'CRITICAL',
             alertType: 'WEATHER_HAZARD',
-            message: 'EF-3 TORNADO: FDX892, ASA1205, SWA3021 threatened. Rerouting!',
+            message: 'EF-3 TORNADO: FDX892, ASA1205, SWA3021 in threat zone. Immediate rerouting required!',
             involvedFlightIds: ['FDX892', 'ASA1205', 'SWA3021'],
             sectorId: 'BOS_33',
             timestamp: new Date().toISOString(),
@@ -596,10 +748,10 @@ export const showcaseDemoScenario: Scenario = {
     },
     {
       id: 'tornado-reroute',
-      narrative: 'AI weather avoidance executing. Three aircraft deviating from tornado path.',
-      atcCommand: 'FedEx 892, turn right heading 090. Climb flight level 400.',
+      narrative: 'AI weather avoidance system executing emergency reroutes. Three aircraft deviating from tornado path.',
+      atcCommand: 'FedEx 892, turn right heading 090, climb and maintain flight level 400. Weather deviation approved. Southwest 3021, turn left heading 135.',
       spotlight: { type: 'flight', callsign: 'FDX892' },
-      autoAdvance: 8000,
+      autoAdvance: 16000,
       events: [
         { delay: 0, type: 'updateTrack', payload: { trackId: 'TRK-SD-008', headingDeg: 90, verticalRateFpm: 2000 } },
         { delay: 200, type: 'updateTrack', payload: { trackId: 'TRK-SD-010', headingDeg: 0, verticalRateFpm: 1500 } },
@@ -608,30 +760,32 @@ export const showcaseDemoScenario: Scenario = {
     },
     {
       id: 'tornado-clear',
-      narrative: 'All aircraft clear of severe weather. Resuming normal operations.',
+      narrative: 'All aircraft have successfully deviated around the severe weather cell. Tornado passing east of our sector.',
+      atcCommand: 'All aircraft, severe weather has cleared our sector. Resume own navigation when ready. Good work everyone.',
       spotlight: { type: 'component', id: 'radar' },
-      autoAdvance: 6000,
+      autoAdvance: 14000,
       events: [{ delay: 300, type: 'removeAlert', payload: { id: 'ALT-TORNADO' } }],
     },
 
     // ==================== FINALE ====================
     {
       id: 'finale-1',
-      narrative: 'ATCS Next Generation. When everything goes wrong, we are the last line of defense.',
+      narrative: 'ATCS Next Generation. When everything goes wrong at once, we are the last line of defense. Every decision matters.',
       spotlight: { type: 'component', id: 'radar' },
-      autoAdvance: 6000,
+      autoAdvance: 12000,
     },
     {
       id: 'finale-2',
-      narrative: 'AI threat detection. Real-time crisis resolution. The future of air traffic control.',
+      narrative: 'AI-powered threat detection. Automated conflict resolution. Remote aircraft guidance. Autopilot integration. The future of air traffic control is here.',
       spotlight: { type: 'component', id: 'predictions' },
-      autoAdvance: 6000,
+      autoAdvance: 14000,
     },
     {
       id: 'finale-3',
-      narrative: 'Demo complete. Click any aircraft to issue commands. ATCS-NG: Protecting lives, every second.',
+      narrative: 'Demo complete. In live mode, click any aircraft to issue ATC commands. ATCS-NG: Protecting lives, every second of every flight.',
+      atcCommand: 'Boston Center signing off. Safe skies, everyone.',
       spotlight: { type: 'component', id: 'radar' },
-      autoAdvance: 10000,
+      autoAdvance: 16000,
     },
   ],
 };

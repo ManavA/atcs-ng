@@ -1,0 +1,1 @@
+export { TranslationSubtitle } from './TranslationSubtitle';

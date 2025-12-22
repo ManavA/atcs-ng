@@ -1,0 +1,130 @@
+import type { Scenario } from './types';
+
+export const weatherHazardScenario: Scenario = {
+  id: 'weather-hazard',
+  title: 'Weather Hazard Avoidance',
+  description: 'See how the system integrates weather data and helps route traffic safely',
+  icon: 'cloud',
+  duration: 1.5,
+  initialState: {
+    tracks: [
+      {
+        trackId: 'TRK-DEMO-W01',
+        callsign: 'SWA101',
+        latitudeDeg: 42.0,
+        longitudeDeg: -72.0,
+        altitudeFt: 32000,
+        headingDeg: 90,
+        speedKt: 430,
+        verticalRateFpm: 0,
+        confidence: 0.96,
+        sequence: 1,
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        trackId: 'TRK-DEMO-W02',
+        callsign: 'JBU202',
+        latitudeDeg: 41.8,
+        longitudeDeg: -71.8,
+        altitudeFt: 28000,
+        headingDeg: 75,
+        speedKt: 410,
+        verticalRateFpm: 0,
+        confidence: 0.94,
+        sequence: 1,
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        trackId: 'TRK-DEMO-W03',
+        callsign: 'AAL303',
+        latitudeDeg: 42.3,
+        longitudeDeg: -71.5,
+        altitudeFt: 36000,
+        headingDeg: 120,
+        speedKt: 450,
+        verticalRateFpm: 0,
+        confidence: 0.98,
+        sequence: 1,
+        updatedAt: new Date().toISOString(),
+      },
+    ],
+    alerts: [],
+    predictions: [],
+  },
+  steps: [
+    {
+      id: 'intro',
+      narrative: 'This scenario shows how ATCS-NG integrates real-time weather data and helps controllers route traffic around hazardous conditions.',
+      spotlight: { type: 'component', id: 'radar' },
+      autoAdvance: 4000,
+    },
+    {
+      id: 'weather-appears',
+      narrative: 'A severe thunderstorm cell has been detected! The weather service has identified an area of severe turbulence and icing. Watch the radar for the hazard overlay.',
+      spotlight: { type: 'component', id: 'radar' },
+      events: [
+        {
+          delay: 1000,
+          type: 'addAlert',
+          payload: {
+            alertId: 'ALT-DEMO-W01',
+            severity: 'WARNING',
+            alertType: 'WEATHER_HAZARD',
+            message: 'Severe thunderstorm cell detected - FL280-FL380, 25nm radius centered 42.0°N 71.0°W. Severe turbulence and icing reported.',
+            involvedFlightIds: ['SWA101', 'JBU202', 'AAL303'],
+            sectorId: 'BOS_33',
+            timestamp: new Date().toISOString(),
+            acknowledged: false,
+          },
+        },
+      ],
+      autoAdvance: 5000,
+    },
+    {
+      id: 'alert-panel',
+      narrative: 'A weather hazard alert has appeared in the Alerts panel. The system has identified three aircraft that may be affected by this weather.',
+      spotlight: { type: 'component', id: 'alerts' },
+      autoAdvance: 4000,
+    },
+    {
+      id: 'acknowledge-alert',
+      narrative: 'Acknowledge the alert to indicate you\'ve seen the weather information and are taking action.',
+      spotlight: { type: 'alert', alertId: 'ALT-DEMO-W01' },
+      interaction: {
+        type: 'acknowledge',
+        target: 'ALT-DEMO-W01',
+        hint: 'Click ACK to acknowledge the weather alert',
+      },
+    },
+    {
+      id: 'aircraft-deviating',
+      narrative: 'Aircraft are now being vectored around the weather cell. Watch SWA101 turn north to avoid the hazard area.',
+      spotlight: { type: 'flight', callsign: 'SWA101' },
+      events: [
+        {
+          delay: 0,
+          type: 'updateTrack',
+          payload: {
+            trackId: 'TRK-DEMO-W01',
+            headingDeg: 45,
+          },
+        },
+        {
+          delay: 1500,
+          type: 'updateTrack',
+          payload: {
+            trackId: 'TRK-DEMO-W02',
+            headingDeg: 30,
+          },
+        },
+      ],
+      autoAdvance: 5000,
+    },
+    {
+      id: 'summary',
+      narrative: 'Weather integration ensures controllers have real-time hazard information to keep flights safe. The system automatically tracks which aircraft may be affected and assists with routing decisions.',
+      spotlight: { type: 'component', id: 'radar' },
+      autoAdvance: 4000,
+    },
+  ],
+};

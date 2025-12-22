@@ -173,6 +173,7 @@ class CloudTTSService {
   private volume = 1.0;
   private audioCache = new Map<string, string>(); // text+voice -> base64 audio
   private radioEffectEnabled = true; // Enable radio effect for non-narrator voices
+  private useBrowserFallback = false; // When true, use browser TTS instead of Cloud TTS
 
   constructor() {
     // Google Cloud TTS API key (restricted to texttospeech.googleapis.com)
@@ -420,23 +421,26 @@ class CloudTTSService {
         return;
       }
 
+      // If browser fallback mode is enabled, use browser TTS directly
+      if (this.useBrowserFallback) {
+        console.log('[CloudTTS] Using browser fallback mode');
+        await this.speakWithBrowserFallback(item.text);
+        item.onComplete?.();
+        this.isPlaying = false;
+        setTimeout(() => this.processQueue(), 100);
+        return;
+      }
+
       const audioContent = await this.synthesize(item.text, item.character);
       await this.playAudio(audioContent, item.applyRadioEffect ?? false);
 
       // Only call onComplete on SUCCESS - fallback timer handles failures
       item.onComplete?.();
     } catch (error) {
-      console.error('[CloudTTS] Cloud TTS failed, trying browser fallback:', error);
-
-      // Try browser's built-in SpeechSynthesis as fallback
-      try {
-        await this.speakWithBrowserFallback(item.text);
-        item.onComplete?.();
-      } catch (fallbackError) {
-        // Both Cloud TTS and browser fallback failed
-        // DON'T call onComplete - let fallback timer handle advancement
-        console.error('[CloudTTS] Browser fallback also failed:', fallbackError);
-      }
+      // Cloud TTS failed - DON'T automatically fall back to browser TTS
+      // This prevents dual audio. User can manually enable fallback via UI button.
+      console.error('[CloudTTS] Cloud TTS failed:', error);
+      // DON'T call onComplete - let fallback timer handle advancement
     }
 
     this.isPlaying = false;
@@ -626,6 +630,16 @@ class CloudTTSService {
   getTranslation(text: string, language: 'norwegian' | 'swedish'): string | null {
     const translations = language === 'norwegian' ? TRANSLATIONS : SWEDISH_TRANSLATIONS;
     return translations[text] || null;
+  }
+
+  // Enable/disable browser fallback mode (for when Cloud TTS doesn't work)
+  setBrowserFallback(enabled: boolean): void {
+    this.useBrowserFallback = enabled;
+    console.log('[CloudTTS] Browser fallback mode:', enabled ? 'ENABLED' : 'DISABLED');
+  }
+
+  isBrowserFallback(): boolean {
+    return this.useBrowserFallback;
   }
 }
 

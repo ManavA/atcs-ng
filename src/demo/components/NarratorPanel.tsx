@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X,
@@ -8,6 +8,8 @@ import {
   SkipForward,
   Settings,
   MousePointer,
+  Volume2,
+  VolumeX,
 } from 'lucide-react';
 import { useDemoMode } from '../DemoProvider';
 import { CloudTTS, VoiceNotification } from '../../audio';
@@ -46,6 +48,16 @@ export function NarratorPanel() {
   const fallbackTimerRef = useRef<number | null>(null);
   const ttsSucceededRef = useRef(false);
   const { addCommandLog, narrationEnabled } = useUIStore();
+  const [usingBrowserAudio, setUsingBrowserAudio] = useState(false);
+
+  // Toggle browser fallback mode
+  const toggleBrowserFallback = () => {
+    const newValue = !usingBrowserAudio;
+    setUsingBrowserAudio(newValue);
+    CloudTTS.setBrowserFallback(newValue);
+    // Also disable VoiceNotification to prevent any dual audio
+    VoiceNotification.setEnabled(false);
+  };
 
   // Speak the narrative when step changes, auto-advance when done
   useEffect(() => {
@@ -150,6 +162,20 @@ export function NarratorPanel() {
       VoiceNotification.cancel(); // Also cancel fallback
     }
   }, [state.mode, state.isActive]);
+
+  // Disable VoiceNotification entirely during demo to prevent dual audio
+  useEffect(() => {
+    if (state.isActive && state.mode === 'playing') {
+      // Disable VoiceNotification during demo - CloudTTS handles all audio
+      VoiceNotification.setEnabled(false);
+    }
+    return () => {
+      // Re-enable VoiceNotification when demo ends
+      VoiceNotification.setEnabled(true);
+      // Reset browser fallback mode
+      CloudTTS.setBrowserFallback(false);
+    };
+  }, [state.isActive, state.mode]);
 
   if (!state.isActive || state.mode === 'menu') {
     return null;
@@ -428,6 +454,45 @@ export function NarratorPanel() {
             >
               <Settings size={10} />
               Presenter Mode
+            </button>
+          </div>
+
+          {/* Audio fallback button */}
+          <div style={{
+            marginTop: 10,
+            paddingTop: 10,
+            borderTop: '1px solid rgba(110, 118, 129, 0.2)',
+          }}>
+            <button
+              onClick={toggleBrowserFallback}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 6,
+                width: '100%',
+                padding: '6px 10px',
+                background: usingBrowserAudio ? 'rgba(255, 170, 0, 0.15)' : 'transparent',
+                border: `1px solid ${usingBrowserAudio ? 'rgba(255, 170, 0, 0.4)' : 'rgba(110, 118, 129, 0.2)'}`,
+                borderRadius: 4,
+                color: usingBrowserAudio ? '#ffaa00' : '#6e7681',
+                cursor: 'pointer',
+                fontFamily: "'Rajdhani', sans-serif",
+                fontSize: 10,
+                fontWeight: 500,
+              }}
+            >
+              {usingBrowserAudio ? (
+                <>
+                  <Volume2 size={12} />
+                  Using Browser Audio (Click to use AI Voices)
+                </>
+              ) : (
+                <>
+                  <VolumeX size={12} />
+                  Audio not working? Click here for fallback
+                </>
+              )}
             </button>
           </div>
         </div>

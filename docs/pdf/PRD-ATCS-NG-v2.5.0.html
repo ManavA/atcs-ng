@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Requirements Document</title>
+    <style>
+/* hanaML Purple Theme - PDF Stylesheet */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --primary: #7C3AED;
+  --primary-dark: #5B21B6;
+  --primary-light: #A78BFA;
+  --background: #1a1a2e;
+  --background-light: #16213e;
+  --surface: #0f3460;
+  --text-primary: #E5E7EB;
+  --text-secondary: #9CA3AF;
+  --border: #374151;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --info: #3B82F6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 11pt;
+  line-height: 1.6;
+  color: #1F2937;
+  background: #ffffff;
+  margin: 0;
+  padding: 40px 60px;
+}
+
+/* Page Header */
+@page {
+  size: A4;
+  margin: 20mm 15mm 25mm 15mm;
+  @top-center {
+    content: "hanaML Documentation";
+    font-size: 9pt;
+    color: #7C3AED;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-size: 9pt;
+    color: #6B7280;
+  }
+}
+
+/* Cover Page Styling */
+.cover-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12pt;
+  margin-bottom: 20px;
+}
+
+/* Headings */
+h1 {
+  font-size: 28pt;
+  font-weight: 700;
+  color: #7C3AED;
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid #7C3AED;
+  page-break-after: avoid;
+}
+
+h2 {
+  font-size: 18pt;
+  font-weight: 600;
+  color: #1F2937;
+  margin-top: 32px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #E5E7EB;
+  page-break-after: avoid;
+}
+
+h3 {
+  font-size: 14pt;
+  font-weight: 600;
+  color: #374151;
+  margin-top: 24px;
+  margin-bottom: 10px;
+  page-break-after: avoid;
+}
+
+h4 {
+  font-size: 12pt;
+  font-weight: 600;
+  color: #4B5563;
+  margin-top: 20px;
+  margin-bottom: 8px;
+  page-break-after: avoid;
+}
+
+h5, h6 {
+  font-size: 11pt;
+  font-weight: 600;
+  color: #6B7280;
+  margin-top: 16px;
+  margin-bottom: 6px;
+}
+
+/* Paragraphs */
+p {
+  margin: 0 0 12px 0;
+  text-align: justify;
+}
+
+/* Links */
+a {
+  color: #7C3AED;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Lists */
+ul, ol {
+  margin: 0 0 16px 0;
+  padding-left: 24px;
+}
+
+li {
+  margin-bottom: 6px;
+}
+
+li > ul, li > ol {
+  margin-top: 6px;
+  margin-bottom: 0;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 10pt;
+  page-break-inside: avoid;
+}
+
+thead {
+  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+  color: white;
+}
+
+th {
+  padding: 12px 10px;
+  text-align: left;
+  font-weight: 600;
+  border: 1px solid #7C3AED;
+}
+
+td {
+  padding: 10px;
+  border: 1px solid #E5E7EB;
+  vertical-align: top;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #F9FAFB;
+}
+
+tbody tr:hover {
+  background-color: #F3F4F6;
+}
+
+/* Code Blocks */
+pre {
+  background: #1F2937;
+  color: #E5E7EB;
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 9pt;
+  line-height: 1.5;
+  margin: 16px 0;
+  border-left: 4px solid #7C3AED;
+  page-break-inside: avoid;
+}
+
+code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 9pt;
+  background: #F3F4F6;
+  color: #7C3AED;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+/* Blockquotes */
+blockquote {
+  margin: 16px 0;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(91, 33, 182, 0.08) 100%);
+  border-left: 4px solid #7C3AED;
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: #4B5563;
+}
+
+blockquote p {
+  margin: 0;
+}
+
+/* Horizontal Rule */
+hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, #7C3AED 0%, #A78BFA 50%, #7C3AED 100%);
+  margin: 32px 0;
+}
+
+/* ASCII Art Boxes - preserve formatting */
+pre.ascii-art {
+  background: #FAFAFA;
+  color: #1F2937;
+  border: 2px solid #E5E7EB;
+  border-left: 4px solid #7C3AED;
+  font-size: 8pt;
+  line-height: 1.4;
+}
+
+/* Status Indicators */
+.status-completed, .status-done {
+  color: #10B981;
+  font-weight: 600;
+}
+
+.status-in-progress, .status-wip {
+  color: #F59E0B;
+  font-weight: 600;
+}
+
+.status-pending, .status-todo {
+  color: #6B7280;
+  font-weight: 600;
+}
+
+.status-blocked, .status-critical {
+  color: #EF4444;
+  font-weight: 600;
+}
+
+/* Priority Badges */
+.priority-p0 {
+  display: inline-block;
+  background: #EF4444;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9pt;
+  font-weight: 600;
+}
+
+.priority-p1 {
+  display: inline-block;
+  background: #F59E0B;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9pt;
+  font-weight: 600;
+}
+
+.priority-p2 {
+  display: inline-block;
+  background: #3B82F6;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9pt;
+  font-weight: 600;
+}
+
+/* Document Info Box */
+.doc-info {
+  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.doc-info table {
+  background: transparent;
+}
+
+.doc-info th, .doc-info td {
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Callout Boxes */
+.callout {
+  padding: 16px;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+
+.callout-info {
+  background: #EFF6FF;
+  border-left: 4px solid #3B82F6;
+}
+
+.callout-warning {
+  background: #FFFBEB;
+  border-left: 4px solid #F59E0B;
+}
+
+.callout-success {
+  background: #ECFDF5;
+  border-left: 4px solid #10B981;
+}
+
+.callout-error {
+  background: #FEF2F2;
+  border-left: 4px solid #EF4444;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 2px solid #E5E7EB;
+  color: #6B7280;
+  font-size: 9pt;
+}
+
+.footer .badge {
+  display: inline-block;
+  background: #7C3AED;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 9pt;
+}
+
+/* Page Breaks */
+.page-break {
+  page-break-after: always;
+}
+
+.no-break {
+  page-break-inside: avoid;
+}
+
+/* Print-specific */
+@media print {
+  body {
+    padding: 0;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  a {
+    color: #7C3AED;
+  }
+
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    color: #6B7280;
+  }
+}
+
+/* Table of Contents */
+.toc {
+  background: #F9FAFB;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.toc h2 {
+  margin-top: 0;
+  color: #7C3AED;
+  border-bottom: 2px solid #7C3AED;
+}
+
+.toc ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.toc li {
+  padding: 4px 0;
+  border-bottom: 1px dotted #E5E7EB;
+}
+
+.toc a {
+  color: #374151;
+}
+
+.toc a:hover {
+  color: #7C3AED;
+}
+
+/* Metrics/Dashboard Style */
+.metric-card {
+  display: inline-block;
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 8px;
+  text-align: center;
+  min-width: 120px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.metric-value {
+  font-size: 24pt;
+  font-weight: 700;
+  color: #7C3AED;
+}
+
+.metric-label {
+  font-size: 10pt;
+  color: #6B7280;
+  text-transform: uppercase;
+}
+
+/* Section Numbers */
+h2::before {
+  color: #7C3AED;
+  font-weight: 700;
+}
+
+/* Checkbox styling for checklists */
+input[type="checkbox"] {
+  accent-color: #7C3AED;
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+}
+
+/* Definition Lists */
+dl {
+  margin: 16px 0;
+}
+
+dt {
+  font-weight: 600;
+  color: #374151;
+  margin-top: 12px;
+}
+
+dd {
+  margin-left: 20px;
+  color: #4B5563;
+}
+
+    </style>
+</head>
+<body>
+<h1 id="product-requirements-document">Product Requirements Document</h1>
+<div align="center">
+
+<img src="file:///home/manava/atcs-ng/docs/hanaML-Template-7C3AED.png" alt="hanaML" style="max-height: 40px;">
+
+**ATCS-NG: Next Generation Air Traffic Control System**
+
+| Document ID | Version | Status | Classification |
+|-------------|---------|--------|----------------|
+| PRD-ATCS-2024-001 | 2.5.0 | Approved | Internal |
+
+| Author | Reviewers | Approvers |
+|--------|-----------|-----------|
+| Product Team | Engineering, Design, Operations | VP Product, VP Engineering |
+
+| Created | Last Updated | Review Cycle |
+|---------|--------------|--------------|
+| 2024-10-15 | 2024-12-22 | Quarterly |
+
+</div>
+
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-executive-summary">Executive Summary</a></li>
+<li><a href="#2-problem-statement">Problem Statement</a></li>
+<li><a href="#3-goals--success-metrics">Goals &amp; Success Metrics</a></li>
+<li><a href="#4-user-personas">User Personas</a></li>
+<li><a href="#5-user-journeys">User Journeys</a></li>
+<li><a href="#6-requirements">Requirements</a></li>
+<li><a href="#7-scope--constraints">Scope &amp; Constraints</a></li>
+<li><a href="#8-dependencies">Dependencies</a></li>
+<li><a href="#9-risks--mitigations">Risks &amp; Mitigations</a></li>
+<li><a href="#10-timeline">Timeline</a></li>
+<li><a href="#11-open-questions">Open Questions</a></li>
+<li><a href="#12-appendix">Appendix</a></li>
+</ol>
+<hr />
+<h2 id="1-executive-summary">1. Executive Summary</h2>
+<h3 id="11-product-vision">1.1 Product Vision</h3>
+<p>ATCS-NG (Air Traffic Control System - Next Generation) is a revolutionary AI-powered air traffic control interface designed to augment human controllers with predictive analytics, automated conflict resolution, and real-time threat detection. The system represents a paradigm shift from reactive to proactive air traffic management.</p>
+<h3 id="12-value-proposition">1.2 Value Proposition</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">                           </span><span class="n">VALUE</span><span class="w"> </span><span class="n">PROPOSITION</span><span class="w"> </span><span class="n">CANVAS</span><span class="w">                          </span><span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span><span class="w">                                                                             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">┌─────────────────────────┐</span><span class="w">          </span><span class="err">┌─────────────────────────────────┐</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">     </span><span class="n">CUSTOMER</span><span class="w"> </span><span class="n">GAINS</span><span class="w">      </span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w">        </span><span class="n">GAIN</span><span class="w"> </span><span class="n">CREATORS</span><span class="w">            </span><span class="err">│</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├─────────────────────────┤</span><span class="w">          </span><span class="err">├─────────────────────────────────┤</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Reduced</span><span class="w"> </span><span class="n">cognitive</span><span class="w"> </span><span class="nb">load</span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">AI</span><span class="o">-</span><span class="n">powered</span><span class="w"> </span><span class="n">predictions</span><span class="w">        </span><span class="err">│</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Faster</span><span class="w"> </span><span class="n">decision</span><span class="w"> </span><span class="n">making</span><span class="err">│</span><span class="w">   </span><span class="err">◄──►</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Automated</span><span class="w"> </span><span class="n">conflict</span><span class="w"> </span><span class="n">alerts</span><span class="w">     </span><span class="err">│</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Improved</span><span class="w"> </span><span class="n">safety</span><span class="w">       </span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Voice</span><span class="w"> </span><span class="n">synthesis</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">comms</span><span class="w">     </span><span class="err">│</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Career</span><span class="w"> </span><span class="n">advancement</span><span class="w">    </span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="mi">3</span><span class="n">D</span><span class="o">/</span><span class="mi">2</span><span class="n">D</span><span class="w"> </span><span class="n">unified</span><span class="w"> </span><span class="n">visualization</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└─────────────────────────┘</span><span class="w">          </span><span class="err">└─────────────────────────────────┘</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">┌─────────────────────────┐</span><span class="w">          </span><span class="err">┌─────────────────────────────────┐</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">    </span><span class="n">CUSTOMER</span><span class="w"> </span><span class="n">PAINS</span><span class="w">       </span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w">        </span><span class="n">PAIN</span><span class="w"> </span><span class="n">RELIEVERS</span><span class="w">           </span><span class="err">│</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├─────────────────────────┤</span><span class="w">          </span><span class="err">├─────────────────────────────────┤</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Information</span><span class="w"> </span><span class="n">overload</span><span class="w">  </span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Smart</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="n">prioritization</span><span class="w">     </span><span class="err">│</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Manual</span><span class="w"> </span><span class="n">conflict</span><span class="w"> </span><span class="n">detect</span><span class="err">│</span><span class="w">   </span><span class="err">◄──►</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">TCAS</span><span class="o">/</span><span class="n">predictive</span><span class="w"> </span><span class="n">automation</span><span class="w">    </span><span class="err">│</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Communication</span><span class="w"> </span><span class="n">delays</span><span class="w">  </span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Cloud</span><span class="w"> </span><span class="n">TTS</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">accents</span><span class="w">        </span><span class="err">│</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Fatigue</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">vigilance</span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">AI</span><span class="w"> </span><span class="n">copilot</span><span class="w"> </span><span class="n">assistance</span><span class="w">         </span><span class="err">│</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└─────────────────────────┘</span><span class="w">          </span><span class="err">└─────────────────────────────────┘</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                             </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<h3 id="13-key-outcomes">1.3 Key Outcomes</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Current State</th>
+<th>Target State</th>
+<th>Improvement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Conflict Detection Time</td>
+<td>45 seconds</td>
+<td>5 seconds</td>
+<td>89% faster</td>
+</tr>
+<tr>
+<td>Controller Cognitive Load</td>
+<td>High (8/10)</td>
+<td>Moderate (4/10)</td>
+<td>50% reduction</td>
+</tr>
+<tr>
+<td>Near-Miss Incidents</td>
+<td>2.3 per 10k flights</td>
+<td>0.3 per 10k</td>
+<td>87% reduction</td>
+</tr>
+<tr>
+<td>Training Time for New Controllers</td>
+<td>18 months</td>
+<td>12 months</td>
+<td>33% reduction</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-problem-statement">2. Problem Statement</h2>
+<h3 id="21-current-state-analysis">2.1 Current State Analysis</h3>
+<p>Modern air traffic control systems face unprecedented challenges:</p>
+<div class="codehilite"><pre><span></span><code>┌──────────────────────────────────────────────────────────────────────────────┐
+│<span class="w">                         </span><span class="nv">PROBLEM</span><span class="w"> </span><span class="nv">LANDSCAPE</span><span class="w">                                     </span>│
+├──────────────────────────────────────────────────────────────────────────────┤
+│<span class="w">                                                                               </span>│
+│<span class="w">    </span><span class="nv">VOLUME</span><span class="w">                    </span><span class="nv">COMPLEXITY</span><span class="w">                   </span><span class="nv">TECHNOLOGY</span><span class="w">          </span>│
+│<span class="w">    </span>───────<span class="w">                   </span>──────────<span class="w">                   </span>──────────<span class="w">          </span>│
+│<span class="w">    </span>┌─────┐<span class="w">                   </span>┌─────────┐<span class="w">                  </span>┌─────────┐<span class="w">        </span>│
+│<span class="w">    </span>│█████│<span class="w"> </span><span class="mi">45</span>,<span class="mi">000</span><span class="o">+</span><span class="w">           </span>│<span class="w">  </span><span class="nv">Mixed</span><span class="w">  </span>│<span class="w">                  </span>│<span class="w"> </span><span class="nv">Legacy</span><span class="w">  </span>│<span class="w">        </span>│
+│<span class="w">    </span>│█████│<span class="w"> </span><span class="nv">daily</span><span class="w"> </span><span class="nv">flights</span><span class="w">     </span>│<span class="w"> </span><span class="nv">Traffic</span><span class="w"> </span>│<span class="w">                  </span>│<span class="w"> </span><span class="nv">Systems</span><span class="w"> </span>│<span class="w">        </span>│
+│<span class="w">    </span>│█████│<span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">US</span><span class="w"> </span><span class="nv">alone</span><span class="w">       </span>│<span class="w">  </span><span class="nv">Types</span><span class="w">  </span>│<span class="w">                  </span>│<span class="w">  </span><span class="mi">1980</span><span class="nv">s</span><span class="w">  </span>│<span class="w">        </span>│
+│<span class="w">    </span>│█████│<span class="w">                   </span>│<span class="w"> </span>┌─────┐<span class="w"> </span>│<span class="w">                  </span>│<span class="w"> </span>────────│<span class="w">        </span>│
+│<span class="w">    </span>│█████│<span class="w"> </span><span class="nv">Growing</span><span class="w"> </span><span class="mi">3</span><span class="o">%</span><span class="w">        </span>│<span class="w"> </span>│<span class="nv">Drone</span>│<span class="w"> </span>│<span class="w"> </span><span class="nv">UAVs</span>,<span class="w"> </span><span class="nv">eVTOL</span><span class="w">     </span>│<span class="w"> </span><span class="nv">Limited</span><span class="w"> </span>│<span class="w">        </span>│
+│<span class="w">    </span>│█████│<span class="w"> </span><span class="nv">annually</span><span class="w">          </span>│<span class="w"> </span>│<span class="nv">Comm</span><span class="w"> </span>│<span class="w"> </span>│<span class="w"> </span><span class="nv">Space</span><span class="w"> </span><span class="nv">vehicles</span><span class="w">  </span>│<span class="w"> </span><span class="nv">AI</span><span class="o">/</span><span class="nv">ML</span><span class="w">   </span>│<span class="w">        </span>│
+│<span class="w">    </span>│█████│<span class="w">                   </span>│<span class="w"> </span>│<span class="nv">PrivJ</span>│<span class="w"> </span>│<span class="w"> </span><span class="nv">Supersonic</span><span class="w">      </span>│<span class="w"> </span><span class="nv">No</span><span class="w"> </span><span class="nv">Cloud</span>│<span class="w">        </span>│
+│<span class="w">    </span>└─────┘<span class="w">                   </span>└─────────┘<span class="w">                  </span>└─────────┘<span class="w">        </span>│
+│<span class="w">                                                                               </span>│
+│<span class="w">    </span><span class="nv">HUMAN</span><span class="w"> </span><span class="nv">FACTORS</span><span class="w">             </span><span class="nv">SAFETY</span><span class="w"> </span><span class="nv">DEMANDS</span><span class="w">               </span><span class="nv">EFFICIENCY</span><span class="w">         </span>│
+│<span class="w">    </span>─────────────<span class="w">             </span>─────────────<span class="w">               </span>──────────<span class="w">          </span>│
+│<span class="w">    </span>•<span class="w"> </span><span class="nv">Controller</span><span class="w"> </span><span class="nv">shortage</span><span class="w">     </span>•<span class="w"> </span><span class="nv">Zero</span><span class="w"> </span><span class="nv">tolerance</span><span class="w"> </span><span class="k">for</span><span class="w">        </span>•<span class="w"> </span><span class="nv">Fuel</span><span class="w"> </span><span class="nv">costs</span><span class="w">        </span>│
+│<span class="w">    </span>•<span class="w"> </span><span class="nv">Aging</span><span class="w"> </span><span class="nv">workforce</span><span class="w">           </span><span class="nv">mid</span><span class="o">-</span><span class="nv">air</span><span class="w"> </span><span class="nv">collisions</span><span class="w">        </span>•<span class="w"> </span><span class="nv">Delays</span><span class="w"> </span><span class="nv">cost</span><span class="w">       </span>│
+│<span class="w">    </span>•<span class="w"> </span><span class="nv">Burnout</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nv">fatigue</span><span class="w">       </span>•<span class="w"> </span><span class="nv">Cybersecurity</span><span class="w"> </span><span class="nv">threats</span><span class="w">       </span><span class="mh">$28B</span><span class="o">/</span><span class="nv">year</span><span class="w">        </span>│
+│<span class="w">    </span>•<span class="w"> </span><span class="nv">Training</span><span class="w"> </span><span class="nv">bottleneck</span><span class="w">     </span>•<span class="w"> </span><span class="nv">Weather</span><span class="w"> </span><span class="nv">unpredictability</span><span class="w">  </span>•<span class="w"> </span><span class="nv">Optimal</span><span class="w"> </span><span class="nv">routes</span><span class="w">    </span>│
+│<span class="w">                                                                               </span>│
+└──────────────────────────────────────────────────────────────────────────────┘
+</code></pre></div>
+
+<h3 id="22-impact-analysis">2.2 Impact Analysis</h3>
+<p><strong>Without ATCS-NG:</strong>
+- Controllers manage 20+ aircraft with paper strips and 1990s displays
+- Conflict detection relies on human vigilance under high stress
+- Communication is voice-only with no automated transcription
+- Weather updates require manual cross-referencing
+- Emergency protocols require memorization, not guided assistance</p>
+<p><strong>With ATCS-NG:</strong>
+- AI-augmented decision support reduces cognitive load by 50%
+- Predictive conflict detection provides 45+ second advance warning
+- Multi-accent voice synthesis ensures clear international communications
+- Integrated weather overlays with automated rerouting suggestions
+- Hero Mode provides step-by-step emergency guidance</p>
+<hr />
+<h2 id="3-goals-success-metrics">3. Goals &amp; Success Metrics</h2>
+<h3 id="31-primary-goals">3.1 Primary Goals</h3>
+<div class="codehilite"><pre><span></span><code>┌─────────────────────────────────────────────────────────────────┐
+│                      GOAL HIERARCHY                              │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│                    ┌───────────────────┐                         │
+│                    │   MISSION GOAL    │                         │
+│                    │  &quot;Zero Mid-Air    │                         │
+│                    │   Collisions&quot;     │                         │
+│                    └─────────┬─────────┘                         │
+│                              │                                   │
+│           ┌──────────────────┼──────────────────┐                │
+│           │                  │                  │                │
+│    ┌──────▼──────┐    ┌──────▼──────┐    ┌──────▼──────┐        │
+│    │  STRATEGIC  │    │  STRATEGIC  │    │  STRATEGIC  │        │
+│    │   GOAL 1    │    │   GOAL 2    │    │   GOAL 3    │        │
+│    │  Predictive │    │  Augmented  │    │  Seamless   │        │
+│    │   Safety    │    │  Decision   │    │  Comms      │        │
+│    └──────┬──────┘    └──────┬──────┘    └──────┬──────┘        │
+│           │                  │                  │                │
+│    ┌──────▼──────┐    ┌──────▼──────┐    ┌──────▼──────┐        │
+│    │ TACTICAL    │    │ TACTICAL    │    │ TACTICAL    │        │
+│    │ • AI alerts │    │ • 3D viz    │    │ • Cloud TTS │        │
+│    │ • TCAS      │    │ • Hero Mode │    │ • Accents   │        │
+│    │ • Weather   │    │ • Autopilot │    │ • Logging   │        │
+│    └─────────────┘    └─────────────┘    └─────────────┘        │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+</code></pre></div>
+
+<h3 id="32-non-goals-out-of-scope">3.2 Non-Goals (Out of Scope)</h3>
+<table>
+<thead>
+<tr>
+<th>Explicitly Not Doing</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Replacing human controllers</td>
+<td>Augmentation, not automation</td>
+</tr>
+<tr>
+<td>Direct aircraft control</td>
+<td>Advisory system only</td>
+</tr>
+<tr>
+<td>Real ATC certification</td>
+<td>Demonstration/training platform</td>
+</tr>
+<tr>
+<td>Full NAS integration</td>
+<td>Requires FAA partnership</td>
+</tr>
+<tr>
+<td>Actual flight data processing</td>
+<td>Simulation mode only</td>
+</tr>
+</tbody>
+</table>
+<h3 id="33-success-metrics-framework">3.3 Success Metrics Framework</h3>
+<div class="codehilite"><pre><span></span><code>┌────────────────────────────────────────────────────────────────────────────┐
+│<span class="w">                        </span><span class="nv">METRICS</span><span class="w"> </span><span class="nv">PYRAMID</span><span class="w">                                      </span>│
+├────────────────────────────────────────────────────────────────────────────┤
+│<span class="w">                                                                             </span>│
+│<span class="w">                           </span>┌─────────────────┐<span class="w">                               </span>│
+│<span class="w">                           </span>│<span class="w">  </span><span class="nv">NORTH</span><span class="w"> </span><span class="nv">STAR</span><span class="w">     </span>│<span class="w">                               </span>│
+│<span class="w">                           </span>│<span class="w">  </span>────────────<span class="w">   </span>│<span class="w">                               </span>│
+│<span class="w">                           </span>│<span class="w">  </span><span class="nv">Lives</span><span class="w"> </span><span class="nv">Saved</span><span class="w">    </span>│<span class="w">                               </span>│
+│<span class="w">                           </span>│<span class="w">  </span><span class="ss">(</span><span class="nv">Simulated</span><span class="ss">)</span><span class="w">    </span>│<span class="w">                               </span>│
+│<span class="w">                           </span>└────────┬────────┘<span class="w">                               </span>│
+│<span class="w">                                    </span>│<span class="w">                                        </span>│
+│<span class="w">                    </span>┌───────────────┼───────────────┐<span class="w">                        </span>│
+│<span class="w">                    </span>│<span class="w">               </span>│<span class="w">               </span>│<span class="w">                        </span>│
+│<span class="w">              </span>┌─────▼─────┐<span class="w">   </span>┌─────▼─────┐<span class="w">   </span>┌─────▼─────┐<span class="w">                  </span>│
+│<span class="w">              </span>│<span class="w">  </span><span class="nv">L1</span>:<span class="w"> </span><span class="nv">USER</span><span class="w"> </span>│<span class="w">   </span>│<span class="w"> </span><span class="nv">L1</span>:<span class="w"> </span><span class="nv">SAFETY</span>│<span class="w">   </span>│<span class="nv">L1</span>:<span class="w"> </span><span class="nv">QUALITY</span>│<span class="w">                  </span>│
+│<span class="w">              </span>│<span class="w"> </span><span class="nv">ENGAGEMENT</span>│<span class="w">   </span>│<span class="w">  </span><span class="nv">METRICS</span><span class="w">  </span>│<span class="w">   </span>│<span class="w">  </span><span class="nv">METRICS</span><span class="w">  </span>│<span class="w">                  </span>│
+│<span class="w">              </span>├───────────┤<span class="w">   </span>├───────────┤<span class="w">   </span>├───────────┤<span class="w">                  </span>│
+│<span class="w">              </span>│•<span class="w"> </span><span class="nv">DAU</span><span class="o">/</span><span class="nv">MAU</span><span class="w">  </span>│<span class="w">   </span>│•<span class="w"> </span><span class="nv">Conflicts</span>│<span class="w">   </span>│•<span class="w"> </span><span class="nv">Latency</span><span class="w">  </span>│<span class="w">                  </span>│
+│<span class="w">              </span>│•<span class="w"> </span><span class="nv">Session</span><span class="w">  </span>│<span class="w">   </span>│<span class="w">  </span><span class="nv">detected</span><span class="w"> </span>│<span class="w">   </span>│•<span class="w"> </span><span class="k">Uptime</span><span class="w">   </span>│<span class="w">                  </span>│
+│<span class="w">              </span>│<span class="w">  </span><span class="nv">length</span><span class="w">   </span>│<span class="w">   </span>│•<span class="w"> </span><span class="nv">Response</span><span class="w"> </span>│<span class="w">   </span>│•<span class="w"> </span><span class="nv">Error</span><span class="w">    </span>│<span class="w">                  </span>│
+│<span class="w">              </span>│•<span class="w"> </span><span class="nv">Feature</span><span class="w">  </span>│<span class="w">   </span>│<span class="w">  </span><span class="nv">time</span><span class="w">     </span>│<span class="w">   </span>│<span class="w">  </span><span class="nv">rate</span><span class="w">     </span>│<span class="w">                  </span>│
+│<span class="w">              </span>│<span class="w">  </span><span class="nv">adoption</span><span class="w"> </span>│<span class="w">   </span>│•<span class="w"> </span><span class="nv">False</span><span class="w"> </span><span class="o">+/-</span>│<span class="w">   </span>│•<span class="w"> </span><span class="nv">TTS</span><span class="w"> </span><span class="nv">qual</span><span class="w"> </span>│<span class="w">                  </span>│
+│<span class="w">              </span>└─────┬─────┘<span class="w">   </span>└─────┬─────┘<span class="w">   </span>└─────┬─────┘<span class="w">                  </span>│
+│<span class="w">                    </span>│<span class="w">               </span>│<span class="w">               </span>│<span class="w">                        </span>│
+│<span class="w">    </span>┌───────────────┴───────────────┴───────────────┴────────────────┐<span class="w">      </span>│
+│<span class="w">    </span>│<span class="w">                     </span><span class="nv">L2</span>:<span class="w"> </span><span class="nv">OPERATIONAL</span><span class="w"> </span><span class="nv">METRICS</span><span class="w">                     </span>│<span class="w">      </span>│
+│<span class="w">    </span>├─────────────────────────────────────────────────────────────────┤<span class="w">      </span>│
+│<span class="w">    </span>│<span class="w"> </span>•<span class="w"> </span><span class="nv">Demo</span><span class="w"> </span><span class="nv">completion</span><span class="w"> </span><span class="nv">rate</span>:<span class="w"> </span><span class="o">&gt;</span><span class="mi">90</span><span class="o">%</span><span class="w">    </span>•<span class="w"> </span><span class="nv">Audio</span><span class="w"> </span><span class="nv">success</span><span class="w"> </span><span class="nv">rate</span>:<span class="w"> </span><span class="o">&gt;</span><span class="mi">95</span><span class="o">%</span><span class="w">      </span>│<span class="w">      </span>│
+│<span class="w">    </span>│<span class="w"> </span>•<span class="w"> </span><span class="nv">Hero</span><span class="w"> </span><span class="nv">Mode</span><span class="w"> </span><span class="nv">completion</span>:<span class="w"> </span><span class="o">&gt;</span><span class="mi">80</span><span class="o">%</span><span class="w">    </span>•<span class="w"> </span><span class="mi">3</span><span class="nv">D</span><span class="w"> </span><span class="nv">rendering</span><span class="w"> </span><span class="nv">FPS</span>:<span class="w"> </span><span class="o">&gt;</span><span class="mi">30</span><span class="w">        </span>│<span class="w">      </span>│
+│<span class="w">    </span>│<span class="w"> </span>•<span class="w"> </span><span class="nv">Time</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">first</span><span class="w"> </span><span class="nv">alert</span>:<span class="w"> </span><span class="o">&lt;</span><span class="mi">100</span><span class="nv">ms</span><span class="w">   </span>•<span class="w"> </span><span class="nv">API</span><span class="w"> </span><span class="nv">response</span><span class="w"> </span><span class="nv">time</span>:<span class="w"> </span><span class="o">&lt;</span><span class="mi">200</span><span class="nv">ms</span><span class="w">    </span>│<span class="w">      </span>│
+│<span class="w">    </span>└─────────────────────────────────────────────────────────────────┘<span class="w">      </span>│
+│<span class="w">                                                                             </span>│
+└────────────────────────────────────────────────────────────────────────────┘
+</code></pre></div>
+
+<hr />
+<h2 id="4-user-personas">4. User Personas</h2>
+<h3 id="41-primary-personas">4.1 Primary Personas</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">  </span><span class="n">PERSONA</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="w"> </span><span class="n">MARCUS</span><span class="w"> </span><span class="n">CHEN</span><span class="w">                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">═══════════════════════════════════════════════════════════════════════════│</span>
+<span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">┌──────────┐</span><span class="w">   </span><span class="n">Role</span><span class="p">:</span><span class="w"> </span><span class="n">Senior</span><span class="w"> </span><span class="n">Air</span><span class="w"> </span><span class="n">Traffic</span><span class="w"> </span><span class="n">Controller</span><span class="w">                         </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">┌────┐</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Age</span><span class="p">:</span><span class="w"> </span><span class="mi">47</span><span class="w">  </span><span class="o">|</span><span class="w">  </span><span class="n">Experience</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="w"> </span><span class="n">years</span><span class="w">  </span><span class="o">|</span><span class="w">  </span><span class="n">Location</span><span class="p">:</span><span class="w"> </span><span class="n">Boston</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">👤</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">                                                                </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">└────┘</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="s2">&quot;I&#39;ve seen too many close calls. Technology should          │</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="n">Marcus</span><span class="w">  </span><span class="err">│</span><span class="w">    </span><span class="n">help</span><span class="w"> </span><span class="n">me</span><span class="w"> </span><span class="n">see</span><span class="w"> </span><span class="n">problems</span><span class="w"> </span><span class="n">before</span><span class="w"> </span><span class="n">they</span><span class="w"> </span><span class="n">become</span><span class="w"> </span><span class="n">crises</span><span class="o">.</span><span class="s2">&quot;           │</span>
+<span class="err">│</span><span class="w">  </span><span class="err">└──────────┘</span><span class="w">                                                                </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">GOALS</span><span class="w">                              </span><span class="n">FRUSTRATIONS</span><span class="w">                             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">──────</span><span class="w">                             </span><span class="err">─────────────</span><span class="w">                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Catch</span><span class="w"> </span><span class="n">conflicts</span><span class="w"> </span><span class="n">early</span><span class="w">            </span><span class="err">•</span><span class="w"> </span><span class="n">Outdated</span><span class="w"> </span><span class="n">radar</span><span class="w"> </span><span class="n">displays</span><span class="w">               </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Reduce</span><span class="w"> </span><span class="n">end</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">shift</span><span class="w"> </span><span class="n">fatigue</span><span class="w">      </span><span class="err">•</span><span class="w"> </span><span class="n">Information</span><span class="w"> </span><span class="n">scattered</span><span class="w"> </span><span class="n">across</span><span class="w"> </span><span class="n">screens</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Mentor</span><span class="w"> </span><span class="n">junior</span><span class="w"> </span><span class="n">controllers</span><span class="w">        </span><span class="err">•</span><span class="w"> </span><span class="n">No</span><span class="w"> </span><span class="n">predictive</span><span class="w"> </span><span class="n">capabilities</span><span class="w">            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Maintain</span><span class="w"> </span><span class="n">perfect</span><span class="w"> </span><span class="n">safety</span><span class="w"> </span><span class="n">record</span><span class="w">   </span><span class="err">•</span><span class="w"> </span><span class="n">Voice</span><span class="w"> </span><span class="n">comms</span><span class="w"> </span><span class="n">hard</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">accents</span><span class="w">         </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">BEHAVIORS</span><span class="w">                          </span><span class="n">NEEDS</span><span class="w"> </span><span class="n">FROM</span><span class="w"> </span><span class="n">ATCS</span><span class="o">-</span><span class="n">NG</span><span class="w">                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">──────────</span><span class="w">                         </span><span class="err">──────────────────</span><span class="w">                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Works</span><span class="w"> </span><span class="n">rotating</span><span class="w"> </span><span class="n">shifts</span><span class="w">            </span><span class="err">•</span><span class="w"> </span><span class="n">Unified</span><span class="w"> </span><span class="n">display</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">AI</span><span class="w"> </span><span class="n">predictions</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Manages</span><span class="w"> </span><span class="mi">15</span><span class="o">-</span><span class="mi">25</span><span class="w"> </span><span class="n">aircraft</span><span class="w">           </span><span class="err">•</span><span class="w"> </span><span class="n">Clear</span><span class="w"> </span><span class="n">audio</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">accent</span><span class="w"> </span><span class="n">support</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Uses</span><span class="w"> </span><span class="n">muscle</span><span class="w"> </span><span class="n">memory</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">commands</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Conflict</span><span class="w"> </span><span class="n">alerts</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">impact</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Skeptical</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">technology</span><span class="w">      </span><span class="err">•</span><span class="w"> </span><span class="n">Familiar</span><span class="w"> </span><span class="n">interface</span><span class="w"> </span><span class="n">patterns</span><span class="w">           </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">─────────────────────────────────────────────────────────────────────────</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">JOURNEY</span><span class="w"> </span><span class="n">TOUCHPOINTS</span><span class="p">:</span><span class="w">  </span><span class="n">Training</span><span class="w"> </span><span class="err">─►</span><span class="w"> </span><span class="n">Daily</span><span class="w"> </span><span class="n">Ops</span><span class="w"> </span><span class="err">─►</span><span class="w"> </span><span class="n">Crisis</span><span class="w"> </span><span class="err">─►</span><span class="w"> </span><span class="n">Debrief</span><span class="w">           </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────┘</span>
+
+<span class="err">┌─────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">  </span><span class="n">PERSONA</span><span class="w"> </span><span class="mi">2</span><span class="p">:</span><span class="w"> </span><span class="n">SARAH</span><span class="w"> </span><span class="n">OKONKWO</span><span class="w">                                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">═══════════════════════════════════════════════════════════════════════════│</span>
+<span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">┌──────────┐</span><span class="w">   </span><span class="n">Role</span><span class="p">:</span><span class="w"> </span><span class="n">ATC</span><span class="w"> </span><span class="n">Training</span><span class="w"> </span><span class="n">Instructor</span><span class="w">                                </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">┌────┐</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Age</span><span class="p">:</span><span class="w"> </span><span class="mi">38</span><span class="w">  </span><span class="o">|</span><span class="w">  </span><span class="n">Experience</span><span class="p">:</span><span class="w"> </span><span class="mi">14</span><span class="w"> </span><span class="n">years</span><span class="w">  </span><span class="o">|</span><span class="w">  </span><span class="n">Location</span><span class="p">:</span><span class="w"> </span><span class="n">Academy</span><span class="w">      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">👤</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">                                                                </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">└────┘</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="s2">&quot;I need realistic scenarios to prepare students             │</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="n">Sarah</span><span class="w">   </span><span class="err">│</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">anything</span><span class="w"> </span><span class="n">they</span><span class="w"> </span><span class="n">might</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">real</span><span class="w"> </span><span class="n">world</span><span class="o">.</span><span class="s2">&quot;           │</span>
+<span class="err">│</span><span class="w">  </span><span class="err">└──────────┘</span><span class="w">                                                                </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">GOALS</span><span class="w">                              </span><span class="n">FRUSTRATIONS</span><span class="w">                             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">──────</span><span class="w">                             </span><span class="err">─────────────</span><span class="w">                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Create</span><span class="w"> </span><span class="n">realistic</span><span class="w"> </span><span class="n">training</span><span class="w">        </span><span class="err">•</span><span class="w"> </span><span class="n">Limited</span><span class="w"> </span><span class="n">scenario</span><span class="w"> </span><span class="n">variety</span><span class="w">              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Track</span><span class="w"> </span><span class="n">student</span><span class="w"> </span><span class="n">progress</span><span class="w">           </span><span class="err">•</span><span class="w"> </span><span class="n">No</span><span class="w"> </span><span class="n">emergency</span><span class="w"> </span><span class="n">simulations</span><span class="w">              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Reduce</span><span class="w"> </span><span class="n">training</span><span class="w"> </span><span class="n">time</span><span class="w">             </span><span class="err">•</span><span class="w"> </span><span class="n">Can</span><span class="s1">&#39;t demonstrate rare events         │</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Prepare</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="n">emergencies</span><span class="w">      </span><span class="err">•</span><span class="w"> </span><span class="n">Manual</span><span class="w"> </span><span class="n">scenario</span><span class="w"> </span><span class="n">setup</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">tedious</span><span class="w">      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">BEHAVIORS</span><span class="w">                          </span><span class="n">NEEDS</span><span class="w"> </span><span class="n">FROM</span><span class="w"> </span><span class="n">ATCS</span><span class="o">-</span><span class="n">NG</span><span class="w">                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">──────────</span><span class="w">                         </span><span class="err">──────────────────</span><span class="w">                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Runs</span><span class="w"> </span><span class="mi">6</span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="n">training</span><span class="w"> </span><span class="n">sessions</span><span class="o">/</span><span class="n">day</span><span class="w">   </span><span class="err">•</span><span class="w"> </span><span class="n">Pre</span><span class="o">-</span><span class="n">built</span><span class="w"> </span><span class="n">crisis</span><span class="w"> </span><span class="n">scenarios</span><span class="w">            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Evaluates</span><span class="w"> </span><span class="n">student</span><span class="w"> </span><span class="n">responses</span><span class="w">      </span><span class="err">•</span><span class="w"> </span><span class="n">Demo</span><span class="w"> </span><span class="n">mode</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">guided</span><span class="w"> </span><span class="n">narration</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Documents</span><span class="w"> </span><span class="n">edge</span><span class="w"> </span><span class="n">cases</span><span class="w">             </span><span class="err">•</span><span class="w"> </span><span class="n">Hero</span><span class="w"> </span><span class="n">Mode</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">emergency</span><span class="w"> </span><span class="n">training</span><span class="w">      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Presents</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">certification</span><span class="w"> </span><span class="n">boards</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Recording</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">playback</span><span class="w"> </span><span class="n">features</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">─────────────────────────────────────────────────────────────────────────</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">JOURNEY</span><span class="w"> </span><span class="n">TOUCHPOINTS</span><span class="p">:</span><span class="w">  </span><span class="n">Curriculum</span><span class="w"> </span><span class="n">Design</span><span class="w"> </span><span class="err">─►</span><span class="w"> </span><span class="n">Live</span><span class="w"> </span><span class="n">Training</span><span class="w"> </span><span class="err">─►</span><span class="w"> </span><span class="n">Evaluation</span><span class="w">     </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────┘</span>
+
+<span class="err">┌─────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">  </span><span class="n">PERSONA</span><span class="w"> </span><span class="mi">3</span><span class="p">:</span><span class="w"> </span><span class="n">DIRECTOR</span><span class="w"> </span><span class="n">JAMES</span><span class="w"> </span><span class="n">WRIGHT</span><span class="w">                                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">═══════════════════════════════════════════════════════════════════════════│</span>
+<span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">┌──────────┐</span><span class="w">   </span><span class="n">Role</span><span class="p">:</span><span class="w"> </span><span class="n">ATC</span><span class="w"> </span><span class="n">Operations</span><span class="w"> </span><span class="n">Director</span><span class="w">                                </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">┌────┐</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Age</span><span class="p">:</span><span class="w"> </span><span class="mi">54</span><span class="w">  </span><span class="o">|</span><span class="w">  </span><span class="n">Experience</span><span class="p">:</span><span class="w"> </span><span class="mi">28</span><span class="w"> </span><span class="n">years</span><span class="w">  </span><span class="o">|</span><span class="w">  </span><span class="n">Location</span><span class="p">:</span><span class="w"> </span><span class="n">HQ</span><span class="w">           </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">👤</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">                                                                </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">└────┘</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="s2">&quot;Show me data. Show me safety improvements.                  │</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="n">James</span><span class="w">   </span><span class="err">│</span><span class="w">    </span><span class="n">Show</span><span class="w"> </span><span class="n">me</span><span class="w"> </span><span class="n">how</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">helps</span><span class="w"> </span><span class="n">my</span><span class="w"> </span><span class="n">people</span><span class="w"> </span><span class="n">do</span><span class="w"> </span><span class="n">their</span><span class="w"> </span><span class="n">jobs</span><span class="o">.</span><span class="s2">&quot;           │</span>
+<span class="err">│</span><span class="w">  </span><span class="err">└──────────┘</span><span class="w">                                                                </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">GOALS</span><span class="w">                              </span><span class="n">FRUSTRATIONS</span><span class="w">                             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">──────</span><span class="w">                             </span><span class="err">─────────────</span><span class="w">                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Improve</span><span class="w"> </span><span class="n">safety</span><span class="w"> </span><span class="n">statistics</span><span class="w">        </span><span class="err">•</span><span class="w"> </span><span class="n">Justifying</span><span class="w"> </span><span class="n">technology</span><span class="w"> </span><span class="n">investments</span><span class="w">     </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Optimize</span><span class="w"> </span><span class="n">staffing</span><span class="w">                </span><span class="err">•</span><span class="w"> </span><span class="n">Controller</span><span class="w"> </span><span class="n">burnout</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">turnover</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Meet</span><span class="w"> </span><span class="n">regulatory</span><span class="w"> </span><span class="n">requirements</span><span class="w">     </span><span class="err">•</span><span class="w"> </span><span class="n">Incident</span><span class="w"> </span><span class="n">investigations</span><span class="w"> </span><span class="n">take</span><span class="w"> </span><span class="n">weeks</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Modernize</span><span class="w"> </span><span class="n">infrastructure</span><span class="w">         </span><span class="err">•</span><span class="w"> </span><span class="n">Legacy</span><span class="w"> </span><span class="n">system</span><span class="w"> </span><span class="n">maintenance</span><span class="w"> </span><span class="n">costs</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">BEHAVIORS</span><span class="w">                          </span><span class="n">NEEDS</span><span class="w"> </span><span class="n">FROM</span><span class="w"> </span><span class="n">ATCS</span><span class="o">-</span><span class="n">NG</span><span class="w">                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">──────────</span><span class="w">                         </span><span class="err">──────────────────</span><span class="w">                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Reviews</span><span class="w"> </span><span class="n">daily</span><span class="w"> </span><span class="n">safety</span><span class="w"> </span><span class="n">reports</span><span class="w">     </span><span class="err">•</span><span class="w"> </span><span class="n">Dashboard</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="n">metrics</span><span class="w">            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Presents</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">FAA</span><span class="w"> </span><span class="n">leadership</span><span class="w">       </span><span class="err">•</span><span class="w"> </span><span class="n">Exportable</span><span class="w"> </span><span class="n">reports</span><span class="w">                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Manages</span><span class="w"> </span><span class="o">$</span><span class="mi">50</span><span class="n">M</span><span class="o">+</span><span class="w"> </span><span class="n">budgets</span><span class="w">            </span><span class="err">•</span><span class="w"> </span><span class="n">ROI</span><span class="w"> </span><span class="n">demonstration</span><span class="w"> </span><span class="n">capabilities</span><span class="w">        </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="n">Balances</span><span class="w"> </span><span class="n">safety</span><span class="w"> </span><span class="n">vs</span><span class="w"> </span><span class="n">efficiency</span><span class="w">    </span><span class="err">•</span><span class="w"> </span><span class="n">Compliance</span><span class="w"> </span><span class="n">documentation</span><span class="w">              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">─────────────────────────────────────────────────────────────────────────</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">JOURNEY</span><span class="w"> </span><span class="n">TOUCHPOINTS</span><span class="p">:</span><span class="w">  </span><span class="n">Strategic</span><span class="w"> </span><span class="n">Planning</span><span class="w"> </span><span class="err">─►</span><span class="w"> </span><span class="n">Budget</span><span class="w"> </span><span class="n">Review</span><span class="w"> </span><span class="err">─►</span><span class="w"> </span><span class="n">Board</span><span class="w"> </span><span class="n">Reports</span><span class="w"> </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<hr />
+<h2 id="5-user-journeys">5. User Journeys</h2>
+<h3 id="51-critical-user-journeys">5.1 Critical User Journeys</h3>
+<div class="codehilite"><pre><span></span><code>┌─────────────────────────────────────────────────────────────────────────────┐
+│<span class="w">  </span><span class="nv">JOURNEY</span><span class="w"> </span><span class="mi">1</span>:<span class="w"> </span><span class="nv">CRISIS</span><span class="w"> </span><span class="nv">RESPONSE</span><span class="w">                                                  </span>│
+│<span class="w">  </span>═══════════════════════════════════════════════════════════════════════════│
+│<span class="w">                                                                              </span>│
+│<span class="w">  </span><span class="nv">TRIGGER</span>:<span class="w"> </span><span class="nv">Hijack</span><span class="w"> </span><span class="nv">transponder</span><span class="w"> </span><span class="nv">code</span><span class="w"> </span><span class="ss">(</span><span class="mi">7500</span><span class="ss">)</span><span class="w"> </span><span class="nv">detected</span><span class="w">                            </span>│
+│<span class="w">                                                                              </span>│
+│<span class="w">  </span>┌─────────┐<span class="w">    </span>┌─────────┐<span class="w">    </span>┌─────────┐<span class="w">    </span>┌─────────┐<span class="w">    </span>┌─────────┐<span class="w">   </span>│
+│<span class="w">  </span>│<span class="w"> </span><span class="nv">DETECT</span><span class="w">  </span>│───►│<span class="w"> </span><span class="nv">ALERT</span><span class="w">   </span>│───►│<span class="w"> </span><span class="nv">ASSESS</span><span class="w">  </span>│───►│<span class="w"> </span><span class="nv">RESPOND</span><span class="w"> </span>│───►│<span class="w"> </span><span class="nv">RESOLVE</span><span class="w"> </span>│<span class="w">   </span>│
+│<span class="w">  </span>└────┬────┘<span class="w">    </span>└────┬────┘<span class="w">    </span>└────┬────┘<span class="w">    </span>└────┬────┘<span class="w">    </span>└────┬────┘<span class="w">   </span>│
+│<span class="w">       </span>│<span class="w">              </span>│<span class="w">              </span>│<span class="w">              </span>│<span class="w">              </span>│<span class="w">         </span>│
+│<span class="w">       </span>▼<span class="w">              </span>▼<span class="w">              </span>▼<span class="w">              </span>▼<span class="w">              </span>▼<span class="w">         </span>│
+│<span class="w">  </span>┌─────────────────────────────────────────────────────────────────────┐<span class="w">   </span>│
+│<span class="w">  </span>│<span class="w"> </span><span class="nv">CONTROLLER</span><span class="w"> </span><span class="nv">ACTIONS</span><span class="w">                                                   </span>│<span class="w">   </span>│
+│<span class="w">  </span>├─────────────────────────────────────────────────────────────────────┤<span class="w">   </span>│
+│<span class="w">  </span>│<span class="w"> </span>•<span class="w"> </span><span class="nv">Sees</span><span class="w"> </span><span class="mi">7500</span><span class="w">      </span>•<span class="w"> </span><span class="nv">Hears</span><span class="w"> </span><span class="nv">audio</span><span class="w">   </span>•<span class="w"> </span><span class="nv">Reviews</span><span class="w">       </span>•<span class="w"> </span><span class="nv">Issues</span><span class="w">          </span>│<span class="w">   </span>│
+│<span class="w">  </span>│<span class="w">   </span><span class="nv">code</span><span class="w"> </span><span class="nv">on</span><span class="w"> </span><span class="nv">radar</span><span class="w">    </span><span class="nv">alert</span><span class="w">           </span><span class="nv">aircraft</span><span class="w">        </span><span class="nv">vectors</span><span class="w"> </span><span class="nv">to</span><span class="w">      </span>│<span class="w">   </span>│
+│<span class="w">  </span>│<span class="w">                  </span>•<span class="w"> </span><span class="nv">Reads</span><span class="w"> </span><span class="nv">alert</span><span class="w">     </span><span class="nv">details</span><span class="w">         </span><span class="nv">clear</span><span class="w"> </span><span class="nv">airspace</span><span class="w">  </span>│<span class="w">   </span>│
+│<span class="w">  </span>│<span class="w">                    </span><span class="nv">panel</span><span class="w">         </span>•<span class="w"> </span><span class="nv">Contacts</span><span class="w">       </span>•<span class="w"> </span><span class="nv">Notifies</span><span class="w">       </span>│<span class="w">   </span>│
+│<span class="w">  </span>│<span class="w">                                    </span><span class="nv">NORAD</span><span class="w">           </span><span class="nv">authorities</span><span class="w">     </span>│<span class="w">   </span>│
+│<span class="w">  </span>└─────────────────────────────────────────────────────────────────────┘<span class="w">   </span>│
+│<span class="w">                                                                              </span>│
+│<span class="w">  </span>┌─────────────────────────────────────────────────────────────────────┐<span class="w">   </span>│
+│<span class="w">  </span>│<span class="w"> </span><span class="nv">ATCS</span><span class="o">-</span><span class="nv">NG</span><span class="w"> </span><span class="nv">SUPPORT</span><span class="w">                                                      </span>│<span class="w">   </span>│
+│<span class="w">  </span>├─────────────────────────────────────────────────────────────────────┤<span class="w">   </span>│
+│<span class="w">  </span>│<span class="w"> </span>•<span class="w"> </span><span class="nv">Highlights</span><span class="w">     </span>•<span class="w"> </span><span class="nv">Speaks</span><span class="w">        </span>•<span class="w"> </span><span class="nv">Shows</span><span class="w">         </span>•<span class="w"> </span><span class="nv">Suggests</span><span class="w">        </span>│<span class="w">   </span>│
+│<span class="w">  </span>│<span class="w">   </span><span class="nv">aircraft</span><span class="w"> </span><span class="nv">in</span><span class="w">      </span><span class="s2">&quot;MAYDAY&quot;</span><span class="w">        </span><span class="nv">souls</span><span class="w"> </span><span class="nv">on</span><span class="w">        </span><span class="nv">divert</span><span class="w">          </span>│<span class="w">   </span>│
+│<span class="w">  </span>│<span class="w">   </span><span class="nv">red</span><span class="w">              </span><span class="nv">alert</span><span class="w">           </span><span class="nv">board</span><span class="w">           </span><span class="nv">options</span><span class="w">         </span>│<span class="w">   </span>│
+│<span class="w">  </span>│<span class="w"> </span>•<span class="w"> </span><span class="nv">Marks</span><span class="w"> </span><span class="nv">as</span><span class="w">       </span>•<span class="w"> </span><span class="nv">Shows</span><span class="w">         </span>•<span class="w"> </span><span class="nv">Displays</span><span class="w">      </span>•<span class="w"> </span><span class="nv">Clears</span><span class="w">          </span>│<span class="w">   </span>│
+│<span class="w">  </span>│<span class="w">   </span><span class="nv">emergency</span><span class="w">        </span><span class="nv">critical</span><span class="w">        </span><span class="nv">pilot</span><span class="w"> </span><span class="nv">voice</span><span class="w">     </span><span class="nv">traffic</span><span class="w">        </span>│<span class="w">   </span>│
+│<span class="w">  </span>│<span class="w">                    </span><span class="nv">banner</span><span class="w">                          </span><span class="nv">automatically</span><span class="w">   </span>│<span class="w">   </span>│
+│<span class="w">  </span>└─────────────────────────────────────────────────────────────────────┘<span class="w">   </span>│
+│<span class="w">                                                                              </span>│
+│<span class="w">  </span><span class="nv">EMOTIONAL</span><span class="w"> </span><span class="nv">ARC</span>:<span class="w">  </span><span class="nv">Surprise</span><span class="w"> </span>──►<span class="w"> </span><span class="nv">Alarm</span><span class="w"> </span>──►<span class="w"> </span><span class="nv">Focused</span><span class="w"> </span>──►<span class="w"> </span><span class="nv">Confident</span><span class="w"> </span>──►<span class="w"> </span><span class="nv">Relief</span><span class="w">    </span>│
+│<span class="w">                                                                              </span>│
+│<span class="w">  </span><span class="nv">SUCCESS</span><span class="w"> </span><span class="nv">METRIC</span>:<span class="w"> </span><span class="nv">Time</span><span class="w"> </span><span class="nv">from</span><span class="w"> </span><span class="nv">detection</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">first</span><span class="w"> </span><span class="nv">ATC</span><span class="w"> </span><span class="nv">response</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="nv">seconds</span><span class="w">     </span>│
+│<span class="w">                                                                              </span>│
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│<span class="w">  </span><span class="nv">JOURNEY</span><span class="w"> </span><span class="mi">2</span>:<span class="w"> </span><span class="nv">HERO</span><span class="w"> </span><span class="nv">MODE</span><span class="w"> </span><span class="ss">(</span><span class="nv">INCAPACITATED</span><span class="w"> </span><span class="nv">CREW</span><span class="ss">)</span><span class="w">                                   </span>│
+│<span class="w">  </span>═══════════════════════════════════════════════════════════════════════════│
+│<span class="w">                                                                              </span>│
+│<span class="w">  </span><span class="nv">TRIGGER</span>:<span class="w"> </span><span class="nv">Passenger</span><span class="w"> </span><span class="nv">takes</span><span class="w"> </span><span class="nv">control</span><span class="w"> </span><span class="nv">after</span><span class="w"> </span><span class="nv">crew</span><span class="w"> </span><span class="nv">incapacitation</span><span class="w">                  </span>│
+│<span class="w">                                                                              </span>│
+│<span class="w">        </span><span class="nv">STEP</span><span class="w"> </span><span class="mi">1</span><span class="w">          </span><span class="nv">STEP</span><span class="w"> </span><span class="mi">2</span><span class="w">          </span><span class="nv">STEP</span><span class="w"> </span><span class="mi">3</span><span class="w">          </span><span class="nv">STEP</span><span class="w"> </span><span class="mi">4</span><span class="w">               </span>│
+│<span class="w">     </span>┌──────────┐<span class="w">    </span>┌──────────┐<span class="w">    </span>┌──────────┐<span class="w">    </span>┌──────────┐<span class="w">           </span>│
+│<span class="w">     </span>│<span class="w"> </span><span class="nv">ESTABLISH</span>│<span class="w">    </span>│<span class="w"> </span><span class="nv">VERIFY</span><span class="w">   </span>│<span class="w">    </span>│<span class="w"> </span><span class="nv">GUIDE</span><span class="w">    </span>│<span class="w">    </span>│<span class="w"> </span><span class="nv">LAND</span><span class="w">     </span>│<span class="w">           </span>│
+│<span class="w">     </span>│<span class="w"> </span><span class="nv">CONTACT</span><span class="w">  </span>│<span class="w">    </span>│<span class="w"> </span><span class="nv">AUTOPILOT</span>│<span class="w">    </span>│<span class="w"> </span><span class="nv">APPROACH</span><span class="w"> </span>│<span class="w">    </span>│<span class="w"> </span><span class="nv">SAFELY</span><span class="w">   </span>│<span class="w">           </span>│
+│<span class="w">     </span>└────┬─────┘<span class="w">    </span>└────┬─────┘<span class="w">    </span>└────┬─────┘<span class="w">    </span>└────┬─────┘<span class="w">           </span>│
+│<span class="w">          </span>│<span class="w">               </span>│<span class="w">               </span>│<span class="w">               </span>│<span class="w">                  </span>│
+│<span class="w">          </span>▼<span class="w">               </span>▼<span class="w">               </span>▼<span class="w">               </span>▼<span class="w">                  </span>│
+│<span class="w">     </span>┌────────────────────────────────────────────────────────────────┐<span class="w">     </span>│
+│<span class="w">     </span>│<span class="w">                                                                 </span>│<span class="w">     </span>│
+│<span class="w">     </span>│<span class="w">   </span><span class="s2">&quot;Sarah, I need     &quot;</span><span class="nv">Is</span><span class="w"> </span><span class="nv">the</span><span class="w">        </span><span class="s2">&quot;I&#39;m changing    &quot;</span><span class="nv">The</span><span class="w"> </span><span class="nv">plane</span>│<span class="w">     </span>│
+│<span class="w">     </span>│<span class="w">    </span><span class="nv">you</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">stay</span><span class="w">       </span><span class="nv">autopilot</span><span class="w">      </span><span class="nv">your</span><span class="w"> </span><span class="nv">heading</span><span class="w">    </span><span class="nv">will</span><span class="w"> </span><span class="nv">land</span><span class="w">  </span>│<span class="w">     </span>│
+│<span class="w">     </span>│<span class="w">    </span><span class="nv">calm</span>...<span class="s2">&quot;          engaged?&quot;</span><span class="w">      </span><span class="nv">to</span><span class="w"> </span><span class="mi">180</span>...<span class="s2">&quot;      itself...&quot;</span><span class="w"> </span>│<span class="w">     </span>│
+│<span class="w">     </span>│<span class="w">                                                                 </span>│<span class="w">     </span>│
+│<span class="w">     </span>└────────────────────────────────────────────────────────────────┘<span class="w">     </span>│
+│<span class="w">                                                                              </span>│
+│<span class="w">  </span><span class="nv">ATCS</span><span class="o">-</span><span class="nv">NG</span><span class="w"> </span><span class="nv">FEATURES</span><span class="w"> </span><span class="nv">USED</span>:<span class="w">                                                      </span>│
+│<span class="w">  </span>─────────────────────<span class="w">                                                       </span>│
+│<span class="w">  </span>├──<span class="w"> </span><span class="nv">Hero</span><span class="w"> </span><span class="nv">Mode</span><span class="w"> </span><span class="nv">Panel</span><span class="w">         </span><span class="nv">Guided</span><span class="w"> </span><span class="nv">step</span><span class="o">-</span><span class="nv">by</span><span class="o">-</span><span class="nv">step</span><span class="w"> </span><span class="nv">instructions</span><span class="w">               </span>│
+│<span class="w">  </span>├──<span class="w"> </span><span class="nv">Cloud</span><span class="w"> </span><span class="nv">TTS</span><span class="w"> </span><span class="ss">(</span><span class="nv">ATC</span><span class="w"> </span><span class="nv">Voice</span><span class="ss">)</span><span class="w">   </span><span class="nv">Clear</span>,<span class="w"> </span><span class="nv">calm</span><span class="w"> </span><span class="nv">voice</span><span class="w"> </span><span class="nv">synthesis</span><span class="w">                    </span>│
+│<span class="w">  </span>├──<span class="w"> </span><span class="nv">Autopilot</span><span class="w"> </span><span class="nv">Status</span><span class="w">        </span><span class="nv">Shows</span><span class="w"> </span><span class="nv">AP</span><span class="w"> </span><span class="nv">engaged</span><span class="o">/</span><span class="nv">disengaged</span><span class="w">                    </span>│
+│<span class="w">  </span>├──<span class="w"> </span><span class="nv">Remote</span><span class="w"> </span><span class="nv">Guidance</span><span class="w">         </span><span class="nv">Heading</span><span class="o">/</span><span class="nv">altitude</span><span class="w"> </span><span class="nv">changes</span><span class="w"> </span><span class="nv">tracked</span><span class="w">               </span>│
+│<span class="w">  </span>└──<span class="w"> </span><span class="nv">Emergency</span><span class="w"> </span><span class="nv">Highlighting</span><span class="w">  </span><span class="nv">Aircraft</span><span class="w"> </span><span class="nv">shown</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">special</span><span class="w"> </span><span class="nv">marker</span><span class="w">             </span>│
+│<span class="w">                                                                              </span>│
+│<span class="w">  </span><span class="nv">PASSENGER</span><span class="w"> </span><span class="nv">EMOTIONAL</span><span class="w"> </span><span class="nv">ARC</span>:<span class="w">  </span><span class="nv">Terror</span><span class="w"> </span>──►<span class="w"> </span><span class="nv">Panic</span><span class="w"> </span>──►<span class="w"> </span><span class="nv">Focus</span><span class="w"> </span>──►<span class="w"> </span><span class="nv">Hope</span><span class="w"> </span>──►<span class="w"> </span><span class="nv">Relief</span><span class="w">   </span>│
+│<span class="w">                                                                              </span>│
+│<span class="w">  </span><span class="nv">SUCCESS</span><span class="w"> </span><span class="nv">METRIC</span>:<span class="w"> </span><span class="nv">Passenger</span><span class="w"> </span><span class="nv">understands</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">follows</span><span class="w"> </span><span class="mi">100</span><span class="o">%</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">instructions</span><span class="w">     </span>│
+│<span class="w">                                                                              </span>│
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│<span class="w">  </span><span class="nv">JOURNEY</span><span class="w"> </span><span class="mi">3</span>:<span class="w"> </span><span class="nv">DEMO</span><span class="o">/</span><span class="nv">TRAINING</span><span class="w"> </span><span class="nv">EXPERIENCE</span><span class="w">                                         </span>│
+│<span class="w">  </span>═══════════════════════════════════════════════════════════════════════════│
+│<span class="w">                                                                              </span>│
+│<span class="w">  </span><span class="nv">TRIGGER</span>:<span class="w"> </span><span class="nv">User</span><span class="w"> </span><span class="nv">launches</span><span class="w"> </span><span class="nv">ATCS</span><span class="o">-</span><span class="nv">NG</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">first</span><span class="w"> </span><span class="nv">time</span><span class="w"> </span><span class="nv">or</span><span class="w"> </span><span class="nv">training</span><span class="w"> </span><span class="nv">session</span><span class="w">          </span>│
+│<span class="w">                                                                              </span>│
+│<span class="w">  </span>┌───────────────────────────────────────────────────────────────────────┐<span class="w">  </span>│
+│<span class="w">  </span>│<span class="w">                          </span><span class="nv">DEMO</span><span class="w"> </span><span class="nv">FLOW</span><span class="w">                                     </span>│<span class="w">  </span>│
+│<span class="w">  </span>├───────────────────────────────────────────────────────────────────────┤<span class="w">  </span>│
+│<span class="w">  </span>│<span class="w">                                                                        </span>│<span class="w">  </span>│
+│<span class="w">  </span>│<span class="w">     </span>┌─────┐<span class="w">     </span>┌─────┐<span class="w">     </span>┌─────┐<span class="w">     </span>┌─────┐<span class="w">     </span>┌─────┐<span class="w">          </span>│<span class="w">  </span>│
+│<span class="w">  </span>│<span class="w">     </span>│<span class="nv">MENU</span><span class="w"> </span>│────►│<span class="nv">INTRO</span>│────►│<span class="nv">HIJCK</span>│────►│<span class="nv">HERO</span><span class="w"> </span>│────►│<span class="nv">MORE</span><span class="w"> </span>│<span class="w">          </span>│<span class="w">  </span>│
+│<span class="w">  </span>│<span class="w">     </span>│<span class="w">     </span>│<span class="w">     </span>│<span class="mi">12</span><span class="w"> </span><span class="nv">AC</span>│<span class="w">     </span>│<span class="w"> </span><span class="nv">AIC</span><span class="w"> </span>│<span class="w">     </span>│<span class="w"> </span><span class="nv">QFA</span><span class="w"> </span>│<span class="w">     </span>│<span class="nv">SCEN</span><span class="w"> </span>│<span class="w">          </span>│<span class="w">  </span>│
+│<span class="w">  </span>│<span class="w">     </span>└─────┘<span class="w">     </span>└─────┘<span class="w">     </span>└─────┘<span class="w">     </span>└─────┘<span class="w">     </span>└─────┘<span class="w">          </span>│<span class="w">  </span>│
+│<span class="w">  </span>│<span class="w">        </span>│<span class="w">                                                   </span>│<span class="w">          </span>│<span class="w">  </span>│
+│<span class="w">  </span>│<span class="w">        </span>│<span class="w">           </span>┌─────────────────────────┐<span class="w">            </span>│<span class="w">          </span>│<span class="w">  </span>│
+│<span class="w">  </span>│<span class="w">        </span>└──────────►│<span class="w">    </span><span class="nv">LIVE</span><span class="w"> </span><span class="nv">MODE</span><span class="w">            </span>│◄───────────┘<span class="w">          </span>│<span class="w">  </span>│
+│<span class="w">  </span>│<span class="w">                    </span>│<span class="w">  </span><span class="ss">(</span><span class="nv">Real</span><span class="w"> </span><span class="nv">sensor</span><span class="w"> </span><span class="nv">data</span><span class="ss">)</span><span class="w">     </span>│<span class="w">                       </span>│<span class="w">  </span>│
+│<span class="w">  </span>│<span class="w">                    </span>└─────────────────────────┘<span class="w">                       </span>│<span class="w">  </span>│
+│<span class="w">  </span>│<span class="w">                                                                        </span>│<span class="w">  </span>│
+│<span class="w">  </span>└───────────────────────────────────────────────────────────────────────┘<span class="w">  </span>│
+│<span class="w">                                                                              </span>│
+│<span class="w">  </span><span class="nv">DEMO</span><span class="w"> </span><span class="nv">SCENARIOS</span><span class="w"> </span><span class="nv">INCLUDED</span>:<span class="w">                                                    </span>│
+│<span class="w">  </span>────────────────────────<span class="w">                                                    </span>│
+│<span class="w">  </span><span class="mi">1</span>.<span class="w"> </span><span class="nv">Crisis</span><span class="w"> </span><span class="nv">Showcase</span><span class="w"> </span><span class="ss">(</span><span class="nv">Featured</span><span class="ss">)</span><span class="w"> </span>─<span class="w"> </span><span class="nv">All</span><span class="w"> </span><span class="nv">scenarios</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">voices</span><span class="w">                   </span>│
+│<span class="w">  </span><span class="mi">2</span>.<span class="w"> </span><span class="nv">Hijack</span><span class="w"> </span><span class="nv">Scenario</span><span class="w"> </span>─<span class="w"> </span><span class="nv">Air</span><span class="w"> </span><span class="nv">India</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">Norwegian</span><span class="w"> </span><span class="nv">hijacker</span><span class="w">                      </span>│
+│<span class="w">  </span><span class="mi">3</span>.<span class="w"> </span><span class="nv">TCAS</span><span class="w"> </span><span class="nv">Resolution</span><span class="w"> </span>─<span class="w"> </span><span class="nv">Near</span><span class="w"> </span><span class="nv">mid</span><span class="o">-</span><span class="nv">air</span><span class="w"> </span><span class="nv">collision</span><span class="w">                                 </span>│
+│<span class="w">  </span><span class="mi">4</span>.<span class="w"> </span><span class="nv">Weather</span><span class="w"> </span><span class="nv">Avoidance</span><span class="w"> </span>─<span class="w"> </span><span class="nv">Tornado</span><span class="w"> </span><span class="nv">rerouting</span><span class="w">                                    </span>│
+│<span class="w">  </span><span class="mi">5</span>.<span class="w"> </span><span class="nv">Stealth</span><span class="w"> </span><span class="nv">Incursion</span><span class="w"> </span>─<span class="w"> </span><span class="nv">Russian</span><span class="w"> </span><span class="nv">SU</span><span class="o">-</span><span class="mi">57</span><span class="w"> </span><span class="nv">detection</span><span class="w">                              </span>│
+│<span class="w">  </span><span class="mi">6</span>.<span class="w"> </span><span class="nv">Hero</span><span class="w"> </span><span class="nv">Mode</span><span class="w"> </span>─<span class="w"> </span><span class="nv">Qantas</span><span class="w"> </span><span class="nv">passenger</span><span class="w"> </span><span class="nv">rescue</span><span class="w">                                      </span>│
+│<span class="w">                                                                              </span>│
+│<span class="w">  </span><span class="nv">SUCCESS</span><span class="w"> </span><span class="nv">METRICS</span>:<span class="w">                                                            </span>│
+│<span class="w">  </span>•<span class="w"> </span><span class="nv">Demo</span><span class="w"> </span><span class="nv">completion</span><span class="w"> </span><span class="nv">rate</span>:<span class="w"> </span><span class="o">&gt;</span><span class="mi">90</span><span class="o">%</span><span class="w">                                                </span>│
+│<span class="w">  </span>•<span class="w"> </span><span class="nv">Time</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">complete</span><span class="w"> </span><span class="nv">Crisis</span><span class="w"> </span><span class="nv">Showcase</span>:<span class="w"> </span><span class="o">~</span><span class="mi">8</span><span class="w"> </span><span class="nv">minutes</span><span class="w">                              </span>│
+│<span class="w">  </span>•<span class="w"> </span><span class="nv">User</span><span class="w"> </span><span class="nv">progresses</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">Live</span><span class="w"> </span><span class="nv">Mode</span>:<span class="w"> </span><span class="o">&gt;</span><span class="mi">60</span><span class="o">%</span><span class="w">                                        </span>│
+│<span class="w">                                                                              </span>│
+└─────────────────────────────────────────────────────────────────────────────┘
+</code></pre></div>
+
+<hr />
+<h2 id="6-requirements">6. Requirements</h2>
+<h3 id="61-functional-requirements">6.1 Functional Requirements</h3>
+<h4 id="p0-must-have-launch-blockers">P0: Must Have (Launch Blockers)</h4>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Acceptance Criteria</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F-001</td>
+<td>Real-time radar display</td>
+<td>Tracks update at 1Hz with &lt;100ms latency</td>
+<td>✅ Done</td>
+</tr>
+<tr>
+<td>F-002</td>
+<td>Flight strip management</td>
+<td>Click to select, drag to reorder, color-coded</td>
+<td>✅ Done</td>
+</tr>
+<tr>
+<td>F-003</td>
+<td>Alert system</td>
+<td>Critical/Warning/Info levels with audio</td>
+<td>✅ Done</td>
+</tr>
+<tr>
+<td>F-004</td>
+<td>AI predictions panel</td>
+<td>Conflict predictions with probability %</td>
+<td>✅ Done</td>
+</tr>
+<tr>
+<td>F-005</td>
+<td>Demo mode with scenarios</td>
+<td>6+ scenarios with auto-advance</td>
+<td>✅ Done</td>
+</tr>
+<tr>
+<td>F-006</td>
+<td>Cloud TTS integration</td>
+<td>Multi-voice, multi-accent synthesis</td>
+<td>✅ Done</td>
+</tr>
+<tr>
+<td>F-007</td>
+<td>Hero Mode</td>
+<td>Step-by-step guidance for emergencies</td>
+<td>✅ Done</td>
+</tr>
+<tr>
+<td>F-008</td>
+<td>2D/3D view toggle</td>
+<td>Seamless switch between views</td>
+<td>✅ Done</td>
+</tr>
+</tbody>
+</table>
+<h4 id="p1-should-have-target-for-v25">P1: Should Have (Target for v2.5)</h4>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Acceptance Criteria</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F-009</td>
+<td>ATC command display</td>
+<td>"YOU:" typing effect with TTS</td>
+<td>✅ Done</td>
+</tr>
+<tr>
+<td>F-010</td>
+<td>Autopilot status tracking</td>
+<td>Shows AP mode for each aircraft</td>
+<td>✅ Done</td>
+</tr>
+<tr>
+<td>F-011</td>
+<td>Command logging</td>
+<td>History of ATC commands issued</td>
+<td>✅ Done</td>
+</tr>
+<tr>
+<td>F-012</td>
+<td>Weather widget</td>
+<td>Current conditions display</td>
+<td>✅ Done</td>
+</tr>
+<tr>
+<td>F-013</td>
+<td>Sector statistics</td>
+<td>Real-time traffic stats</td>
+<td>✅ Done</td>
+</tr>
+<tr>
+<td>F-014</td>
+<td>Presentation mode</td>
+<td>Manual step advancement</td>
+<td>✅ Done</td>
+</tr>
+</tbody>
+</table>
+<h4 id="p2-nice-to-have-post-launch">P2: Nice to Have (Post-Launch)</h4>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Acceptance Criteria</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F-015</td>
+<td>Voice command input</td>
+<td>Speech-to-text for controller commands</td>
+<td>🔜 Planned</td>
+</tr>
+<tr>
+<td>F-016</td>
+<td>Recording/playback</td>
+<td>Record sessions for review</td>
+<td>🔜 Planned</td>
+</tr>
+<tr>
+<td>F-017</td>
+<td>Multi-sector support</td>
+<td>Switch between sectors</td>
+<td>🔜 Planned</td>
+</tr>
+<tr>
+<td>F-018</td>
+<td>Custom scenario builder</td>
+<td>Create training scenarios</td>
+<td>🔜 Planned</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-non-functional-requirements">6.2 Non-Functional Requirements</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">                    </span><span class="n">NON</span><span class="o">-</span><span class="n">FUNCTIONAL</span><span class="w"> </span><span class="n">REQUIREMENTS</span><span class="w">                               </span><span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">PERFORMANCE</span><span class="w">                          </span><span class="n">RELIABILITY</span><span class="w">                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">───────────</span><span class="w">                          </span><span class="err">───────────</span><span class="w">                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">┌────────────────────────┐</span><span class="w">          </span><span class="err">┌────────────────────────┐</span><span class="w">             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Page</span><span class="w"> </span><span class="nb">load</span><span class="p">:</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">3</span><span class="n">s</span><span class="w">       </span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Uptime</span><span class="p">:</span><span class="w"> </span><span class="mf">99.9</span><span class="o">%</span><span class="w">        </span><span class="err">│</span><span class="w">             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Radar</span><span class="w"> </span><span class="n">update</span><span class="p">:</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">100</span><span class="n">ms</span><span class="w"> </span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">MTTR</span><span class="p">:</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">15</span><span class="w"> </span><span class="n">minutes</span><span class="w">    </span><span class="err">│</span><span class="w">             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">TTS</span><span class="w"> </span><span class="n">latency</span><span class="p">:</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">500</span><span class="n">ms</span><span class="w">  </span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Data</span><span class="w"> </span><span class="n">loss</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="o">%</span><span class="w">        </span><span class="err">│</span><span class="w">             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="mi">3</span><span class="n">D</span><span class="w"> </span><span class="n">render</span><span class="p">:</span><span class="w"> </span><span class="o">&gt;</span><span class="mi">30</span><span class="w"> </span><span class="n">FPS</span><span class="w">   </span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Graceful</span><span class="w"> </span><span class="n">degradation</span><span class="w"> </span><span class="err">│</span><span class="w">             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="mi">50</span><span class="o">+</span><span class="w"> </span><span class="n">concurrent</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Auto</span><span class="o">-</span><span class="n">reconnection</span><span class="w">    </span><span class="err">│</span><span class="w">             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">└────────────────────────┘</span><span class="w">          </span><span class="err">└────────────────────────┘</span><span class="w">             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">SECURITY</span><span class="w">                             </span><span class="n">ACCESSIBILITY</span><span class="w">                          </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">────────</span><span class="w">                             </span><span class="err">─────────────</span><span class="w">                          </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">┌────────────────────────┐</span><span class="w">          </span><span class="err">┌────────────────────────┐</span><span class="w">             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">HTTPS</span><span class="w"> </span><span class="n">only</span><span class="w">           </span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">WCAG</span><span class="w"> </span><span class="mf">2.1</span><span class="w"> </span><span class="n">AA</span><span class="w"> </span><span class="n">target</span><span class="w">   </span><span class="err">│</span><span class="w">             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">API</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="n">protection</span><span class="w">   </span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Keyboard</span><span class="w"> </span><span class="n">navigation</span><span class="w">  </span><span class="err">│</span><span class="w">             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">No</span><span class="w"> </span><span class="n">PII</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">logs</span><span class="w">       </span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Screen</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="n">compat</span><span class="w"> </span><span class="err">│</span><span class="w">             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Cloud</span><span class="w"> </span><span class="n">Run</span><span class="w"> </span><span class="n">security</span><span class="w">   </span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">High</span><span class="w"> </span><span class="n">contrast</span><span class="w"> </span><span class="n">mode</span><span class="w">   </span><span class="err">│</span><span class="w">             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Rate</span><span class="w"> </span><span class="n">limiting</span><span class="w">        </span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Resizable</span><span class="w"> </span><span class="n">text</span><span class="w">       </span><span class="err">│</span><span class="w">             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">└────────────────────────┘</span><span class="w">          </span><span class="err">└────────────────────────┘</span><span class="w">             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">SCALABILITY</span><span class="w">                          </span><span class="n">MAINTAINABILITY</span><span class="w">                        </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">───────────</span><span class="w">                          </span><span class="err">───────────────</span><span class="w">                        </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">┌────────────────────────┐</span><span class="w">          </span><span class="err">┌────────────────────────┐</span><span class="w">             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Horizontal</span><span class="w"> </span><span class="n">scaling</span><span class="w">   </span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Modular</span><span class="w"> </span><span class="n">architecture</span><span class="w"> </span><span class="err">│</span><span class="w">             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">CDN</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">assets</span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">TypeScript</span><span class="w"> </span><span class="n">strict</span><span class="w">    </span><span class="err">│</span><span class="w">             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Database</span><span class="w"> </span><span class="n">connection</span><span class="w">  </span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Component</span><span class="w"> </span><span class="n">library</span><span class="w">    </span><span class="err">│</span><span class="w">             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">pooling</span><span class="w">              </span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Automated</span><span class="w"> </span><span class="n">testing</span><span class="w">    </span><span class="err">│</span><span class="w">             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">Caching</span><span class="w"> </span><span class="n">layers</span><span class="w">       </span><span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w"> </span><span class="err">•</span><span class="w"> </span><span class="n">CI</span><span class="o">/</span><span class="n">CD</span><span class="w"> </span><span class="n">pipeline</span><span class="w">       </span><span class="err">│</span><span class="w">             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">└────────────────────────┘</span><span class="w">          </span><span class="err">└────────────────────────┘</span><span class="w">             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<hr />
+<h2 id="7-scope-constraints">7. Scope &amp; Constraints</h2>
+<h3 id="71-in-scope">7.1 In Scope</h3>
+<ul>
+<li><strong>UI Client</strong>: React-based web application</li>
+<li><strong>Demo System</strong>: Pre-built crisis scenarios with narration</li>
+<li><strong>Voice Synthesis</strong>: Google Cloud TTS with multiple voices</li>
+<li><strong>Real-time Visualization</strong>: 2D radar and 3D scene views</li>
+<li><strong>Alert System</strong>: AI-powered predictions and warnings</li>
+<li><strong>Hero Mode</strong>: Emergency guidance feature</li>
+</ul>
+<h3 id="72-out-of-scope">7.2 Out of Scope</h3>
+<ul>
+<li>Direct FAA system integration</li>
+<li>Real flight data processing</li>
+<li>Actual aircraft control</li>
+<li>Mobile applications</li>
+<li>Offline functionality</li>
+</ul>
+<h3 id="73-technical-constraints">7.3 Technical Constraints</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span>                        <span class="n">TECHNICAL</span> <span class="n">CONSTRAINTS</span>                                 <span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span>                                                                              <span class="err">│</span>
+<span class="err">│</span>  <span class="n">PLATFORM</span>                  <span class="n">BROWSER</span>                    <span class="n">INFRASTRUCTURE</span>         <span class="err">│</span>
+<span class="err">│</span>  <span class="err">────────</span>                  <span class="err">───────</span>                    <span class="err">──────────────</span>         <span class="err">│</span>
+<span class="err">│</span>  <span class="err">•</span> <span class="n">React</span> <span class="mi">18</span><span class="o">+</span>              <span class="err">•</span> <span class="n">Chrome</span> <span class="mi">90</span><span class="o">+</span>               <span class="err">•</span> <span class="n">Google</span> <span class="n">Cloud</span> <span class="n">Run</span>     <span class="err">│</span>
+<span class="err">│</span>  <span class="err">•</span> <span class="n">TypeScript</span> <span class="mi">5</span><span class="o">+</span>          <span class="err">•</span> <span class="n">Firefox</span> <span class="mi">88</span><span class="o">+</span>              <span class="err">•</span> <span class="n">Cloud</span> <span class="n">SQL</span> <span class="p">(</span><span class="n">Postgres</span><span class="p">)</span> <span class="err">│</span>
+<span class="err">│</span>  <span class="err">•</span> <span class="n">Vite</span> <span class="mi">7</span><span class="o">+</span>                <span class="err">•</span> <span class="n">Safari</span> <span class="mi">15</span><span class="o">+</span>               <span class="err">•</span> <span class="n">Cloud</span> <span class="n">Storage</span>        <span class="err">│</span>
+<span class="err">│</span>  <span class="err">•</span> <span class="n">Three</span><span class="p">.</span><span class="n">js</span>               <span class="err">•</span> <span class="n">Edge</span> <span class="mi">90</span><span class="o">+</span>                 <span class="err">•</span> <span class="n">Cloud</span> <span class="n">TTS</span> <span class="n">API</span>        <span class="err">│</span>
+<span class="err">│</span>  <span class="err">•</span> <span class="n">Framer</span> <span class="n">Motion</span>          <span class="err">•</span> <span class="n">No</span> <span class="n">IE11</span> <span class="n">support</span>          <span class="err">•</span> <span class="n">Artifact</span> <span class="n">Registry</span>    <span class="err">│</span>
+<span class="err">│</span>                                                                              <span class="err">│</span>
+<span class="err">│</span>  <span class="n">DEPENDENCIES</span>              <span class="n">BUDGET</span>                     <span class="n">TIMELINE</span>               <span class="err">│</span>
+<span class="err">│</span>  <span class="err">────────────</span>              <span class="err">──────</span>                     <span class="err">────────</span>               <span class="err">│</span>
+<span class="err">│</span>  <span class="err">•</span> <span class="n">Google</span> <span class="n">Cloud</span> <span class="n">TTS</span> <span class="n">API</span>   <span class="err">•</span> <span class="n">Cloud</span> <span class="n">Run</span><span class="p">:</span> <span class="o">$</span><span class="n">X</span><span class="o">/</span><span class="n">month</span>      <span class="err">•</span> <span class="n">MVP</span><span class="p">:</span> <span class="n">Complete</span>        <span class="err">│</span>
+<span class="err">│</span>  <span class="err">•</span> <span class="n">React</span> <span class="n">Three</span> <span class="n">Fiber</span>      <span class="err">•</span> <span class="n">TTS</span> <span class="n">API</span><span class="p">:</span> <span class="o">$</span><span class="n">Y</span><span class="o">/</span><span class="n">month</span>        <span class="err">•</span> <span class="n">v2</span><span class="p">.</span><span class="mi">5</span><span class="p">:</span> <span class="n">Complete</span>       <span class="err">│</span>
+<span class="err">│</span>  <span class="err">•</span> <span class="n">Framer</span> <span class="n">Motion</span>          <span class="err">•</span> <span class="n">Storage</span><span class="p">:</span> <span class="o">$</span><span class="n">Z</span><span class="o">/</span><span class="n">month</span>        <span class="err">•</span> <span class="n">v3</span><span class="p">.</span><span class="mi">0</span><span class="p">:</span> <span class="n">Q1</span> <span class="mi">2025</span>        <span class="err">│</span>
+<span class="err">│</span>  <span class="err">•</span> <span class="n">Lucide</span> <span class="n">React</span>           <span class="err">•</span> <span class="n">Total</span><span class="p">:</span> <span class="o">$</span><span class="n">XXX</span><span class="o">/</span><span class="n">month</span>        <span class="err">•</span> <span class="n">GA</span><span class="p">:</span> <span class="n">Q2</span> <span class="mi">2025</span>          <span class="err">│</span>
+<span class="err">│</span>                                                                              <span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<hr />
+<h2 id="8-dependencies">8. Dependencies</h2>
+<h3 id="81-dependency-map">8.1 Dependency Map</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span>                          <span class="n">DEPENDENCY</span> <span class="n">GRAPH</span>                                    <span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span>                                                                              <span class="err">│</span>
+<span class="err">│</span>                         <span class="err">┌─────────────────┐</span>                                  <span class="err">│</span>
+<span class="err">│</span>                         <span class="err">│</span>   <span class="n">ATCS</span><span class="o">-</span><span class="n">NG</span> <span class="n">UI</span>    <span class="err">│</span>                                  <span class="err">│</span>
+<span class="err">│</span>                         <span class="err">│</span>    <span class="p">(</span><span class="n">React</span><span class="p">)</span>      <span class="err">│</span>                                  <span class="err">│</span>
+<span class="err">│</span>                         <span class="err">└────────┬────────┘</span>                                  <span class="err">│</span>
+<span class="err">│</span>                                  <span class="err">│</span>                                           <span class="err">│</span>
+<span class="err">│</span>           <span class="err">┌──────────────────────┼──────────────────────┐</span>                   <span class="err">│</span>
+<span class="err">│</span>           <span class="err">│</span>                      <span class="err">│</span>                      <span class="err">│</span>                    <span class="err">│</span>
+<span class="err">│</span>           <span class="err">▼</span>                      <span class="err">▼</span>                      <span class="err">▼</span>                    <span class="err">│</span>
+<span class="err">│</span>  <span class="err">┌─────────────────┐</span>    <span class="err">┌─────────────────┐</span>    <span class="err">┌─────────────────┐</span>          <span class="err">│</span>
+<span class="err">│</span>  <span class="err">│</span>  <span class="n">API</span> <span class="n">Gateway</span>    <span class="err">│</span>    <span class="err">│</span>  <span class="n">Google</span> <span class="n">Cloud</span>   <span class="err">│</span>    <span class="err">│</span>  <span class="n">Static</span> <span class="n">Assets</span>  <span class="err">│</span>          <span class="err">│</span>
+<span class="err">│</span>  <span class="err">│</span>  <span class="p">(</span><span class="n">Cloud</span> <span class="n">Run</span><span class="p">)</span>    <span class="err">│</span>    <span class="err">│</span>  <span class="n">TTS</span> <span class="n">API</span>        <span class="err">│</span>    <span class="err">│</span>  <span class="p">(</span><span class="n">Cloud</span> <span class="n">Storage</span><span class="p">)</span><span class="err">│</span>          <span class="err">│</span>
+<span class="err">│</span>  <span class="err">└────────┬────────┘</span>    <span class="err">└─────────────────┘</span>    <span class="err">└─────────────────┘</span>          <span class="err">│</span>
+<span class="err">│</span>           <span class="err">│</span>                                                                  <span class="err">│</span>
+<span class="err">│</span>           <span class="err">├──────────────────────────────────────────────┐</span>                  <span class="err">│</span>
+<span class="err">│</span>           <span class="err">│</span>                      <span class="err">│</span>                       <span class="err">│</span>                   <span class="err">│</span>
+<span class="err">│</span>           <span class="err">▼</span>                      <span class="err">▼</span>                       <span class="err">▼</span>                   <span class="err">│</span>
+<span class="err">│</span>  <span class="err">┌─────────────────┐</span>    <span class="err">┌─────────────────┐</span>    <span class="err">┌─────────────────┐</span>          <span class="err">│</span>
+<span class="err">│</span>  <span class="err">│</span>  <span class="n">Flight</span> <span class="n">Data</span>    <span class="err">│</span>    <span class="err">│</span>  <span class="n">AI</span> <span class="n">Service</span>     <span class="err">│</span>    <span class="err">│</span>  <span class="n">Weather</span>        <span class="err">│</span>          <span class="err">│</span>
+<span class="err">│</span>  <span class="err">│</span>  <span class="n">Service</span>        <span class="err">│</span>    <span class="err">│</span>  <span class="p">(</span><span class="n">Predictions</span><span class="p">)</span>  <span class="err">│</span>    <span class="err">│</span>  <span class="n">Service</span>        <span class="err">│</span>          <span class="err">│</span>
+<span class="err">│</span>  <span class="err">└────────┬────────┘</span>    <span class="err">└─────────────────┘</span>    <span class="err">└─────────────────┘</span>          <span class="err">│</span>
+<span class="err">│</span>           <span class="err">│</span>                                                                  <span class="err">│</span>
+<span class="err">│</span>           <span class="err">▼</span>                                                                  <span class="err">│</span>
+<span class="err">│</span>  <span class="err">┌─────────────────┐</span>                                                        <span class="err">│</span>
+<span class="err">│</span>  <span class="err">│</span>  <span class="n">Cloud</span> <span class="n">SQL</span>      <span class="err">│</span>                                                        <span class="err">│</span>
+<span class="err">│</span>  <span class="err">│</span>  <span class="p">(</span><span class="n">PostgreSQL</span><span class="p">)</span>   <span class="err">│</span>                                                        <span class="err">│</span>
+<span class="err">│</span>  <span class="err">└─────────────────┘</span>                                                        <span class="err">│</span>
+<span class="err">│</span>                                                                              <span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<h3 id="82-external-dependencies">8.2 External Dependencies</h3>
+<table>
+<thead>
+<tr>
+<th>Dependency</th>
+<th>Type</th>
+<th>Risk Level</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Google Cloud TTS</td>
+<td>API</td>
+<td>Medium</td>
+<td>Browser fallback</td>
+</tr>
+<tr>
+<td>Google Cloud Run</td>
+<td>Hosting</td>
+<td>Low</td>
+<td>Multi-region deploy</td>
+</tr>
+<tr>
+<td>React Three Fiber</td>
+<td>Library</td>
+<td>Low</td>
+<td>Pinned versions</td>
+</tr>
+<tr>
+<td>Framer Motion</td>
+<td>Library</td>
+<td>Low</td>
+<td>Pinned versions</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="9-risks-mitigations">9. Risks &amp; Mitigations</h2>
+<h3 id="91-risk-matrix">9.1 Risk Matrix</h3>
+<div class="codehilite"><pre><span></span><code>┌─────────────────────────────────────────────────────────────────────────────┐
+│                            RISK MATRIX                                       │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  IMPACT                                                                      │
+│    ▲                                                                         │
+│    │                                                                         │
+│  H │  ┌─────────────┐                    ┌─────────────┐                    │
+│  I │  │ R3: Browser │                    │ R1: TTS API │                    │
+│  G │  │ Compat      │                    │ Failure     │                    │
+│  H │  └─────────────┘                    └─────────────┘                    │
+│    │                                                                         │
+│  M │              ┌─────────────┐  ┌─────────────┐                          │
+│  E │              │ R4: 3D Perf │  │ R2: Demo    │                          │
+│  D │              │ Issues      │  │ Interruption│                          │
+│    │              └─────────────┘  └─────────────┘                          │
+│    │                                                                         │
+│  L │                                          ┌─────────────┐               │
+│  O │                                          │ R5: Styling │               │
+│  W │                                          │ Inconsist.  │               │
+│    │                                          └─────────────┘               │
+│    └────────────────────────────────────────────────────────────────────►   │
+│         LOW              MEDIUM              HIGH                            │
+│                        LIKELIHOOD                                            │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+</code></pre></div>
+
+<h3 id="92-risk-details-mitigations">9.2 Risk Details &amp; Mitigations</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Risk</th>
+<th>Likelihood</th>
+<th>Impact</th>
+<th>Mitigation</th>
+<th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td>TTS API failure</td>
+<td>Medium</td>
+<td>High</td>
+<td>Browser SpeechSynthesis fallback</td>
+<td>Eng</td>
+</tr>
+<tr>
+<td>R2</td>
+<td>Demo interrupted by clicks</td>
+<td>Medium</td>
+<td>Medium</td>
+<td>Fixed: Removed openMenu setTimeout</td>
+<td>Eng</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>Browser compatibility</td>
+<td>Low</td>
+<td>High</td>
+<td>Cross-browser testing</td>
+<td>QA</td>
+</tr>
+<tr>
+<td>R4</td>
+<td>3D performance on low-end devices</td>
+<td>Medium</td>
+<td>Medium</td>
+<td>2D fallback, perf monitoring</td>
+<td>Eng</td>
+</tr>
+<tr>
+<td>R5</td>
+<td>Styling inconsistencies</td>
+<td>Low</td>
+<td>Low</td>
+<td>Design system, component library</td>
+<td>Design</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="10-timeline">10. Timeline</h2>
+<h3 id="101-release-timeline">10.1 Release Timeline</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span>                          <span class="n">RELEASE</span> <span class="n">TIMELINE</span>                                    <span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span>                                                                              <span class="err">│</span>
+<span class="err">│</span>  <span class="mi">2024</span>                                                                        <span class="err">│</span>
+<span class="err">│</span>  <span class="err">────</span>                                                                        <span class="err">│</span>
+<span class="err">│</span>                                                                              <span class="err">│</span>
+<span class="err">│</span>  <span class="n">OCT</span>         <span class="n">NOV</span>         <span class="kr">DEC</span>         <span class="n">JAN</span>         <span class="n">FEB</span>         <span class="n">MAR</span>            <span class="err">│</span>
+<span class="err">│</span>   <span class="err">│</span>           <span class="err">│</span>           <span class="err">│</span>           <span class="err">│</span>           <span class="err">│</span>           <span class="err">│</span>             <span class="err">│</span>
+<span class="err">│</span>   <span class="err">▼</span>           <span class="err">▼</span>           <span class="err">▼</span>           <span class="err">▼</span>           <span class="err">▼</span>           <span class="err">▼</span>             <span class="err">│</span>
+<span class="err">│</span>  <span class="err">═══════════════════════════════════════════════════════════════</span>            <span class="err">│</span>
+<span class="err">│</span>   <span class="err">│</span>                       <span class="err">│</span>           <span class="err">│</span>                       <span class="err">│</span>             <span class="err">│</span>
+<span class="err">│</span>   <span class="err">│</span>    <span class="err">┌─────────────┐</span>    <span class="err">│</span>           <span class="err">│</span>    <span class="err">┌─────────────┐</span>    <span class="err">│</span>             <span class="err">│</span>
+<span class="err">│</span>   <span class="err">└───►│</span>   <span class="n">v2</span><span class="p">.</span><span class="mi">0</span>      <span class="err">│</span>    <span class="err">│</span>           <span class="err">└───►│</span>   <span class="n">v3</span><span class="p">.</span><span class="mi">0</span>      <span class="err">│</span>    <span class="err">│</span>             <span class="err">│</span>
+<span class="err">│</span>        <span class="err">│</span>  <span class="n">MVP</span> <span class="n">Demo</span>   <span class="err">│</span>    <span class="err">│</span>                <span class="err">│</span>  <span class="n">Live</span> <span class="n">Mode</span>  <span class="err">│</span>    <span class="err">│</span>             <span class="err">│</span>
+<span class="err">│</span>        <span class="err">└─────────────┘</span>    <span class="err">│</span>                <span class="err">│</span>  <span class="n">Voice</span> <span class="n">Cmd</span>  <span class="err">│</span>    <span class="err">│</span>             <span class="err">│</span>
+<span class="err">│</span>                           <span class="err">│</span>                <span class="err">└─────────────┘</span>    <span class="err">│</span>             <span class="err">│</span>
+<span class="err">│</span>             <span class="err">┌─────────────┴───┐</span>                               <span class="err">│</span>             <span class="err">│</span>
+<span class="err">│</span>             <span class="err">│</span>     <span class="n">v2</span><span class="p">.</span><span class="mi">5</span>        <span class="err">│◄────</span> <span class="n">WE</span> <span class="n">ARE</span> <span class="n">HERE</span>              <span class="err">│</span>             <span class="err">│</span>
+<span class="err">│</span>             <span class="err">│</span>  <span class="n">Crisis</span> <span class="n">Demo</span>    <span class="err">│</span>                               <span class="err">│</span>             <span class="err">│</span>
+<span class="err">│</span>             <span class="err">│</span>  <span class="n">Cloud</span> <span class="n">TTS</span>      <span class="err">│</span>                               <span class="err">│</span>             <span class="err">│</span>
+<span class="err">│</span>             <span class="err">│</span>  <span class="n">Hero</span> <span class="n">Mode</span>      <span class="err">│</span>                               <span class="err">│</span>             <span class="err">│</span>
+<span class="err">│</span>             <span class="err">│</span>  <span class="n">ATC</span> <span class="n">Commands</span>   <span class="err">│</span>                               <span class="err">│</span>             <span class="err">│</span>
+<span class="err">│</span>             <span class="err">└─────────────────┘</span>                               <span class="err">│</span>             <span class="err">│</span>
+<span class="err">│</span>                                                                              <span class="err">│</span>
+<span class="err">│</span>  <span class="err">───────────────────────────────────────────────────────────────────────</span>    <span class="err">│</span>
+<span class="err">│</span>  <span class="n">LEGEND</span><span class="p">:</span>  <span class="err">██</span> <span class="n">Completed</span>    <span class="err">░░</span> <span class="n">In</span> <span class="n">Progress</span>    <span class="err">▒▒</span> <span class="n">Planned</span>                      <span class="err">│</span>
+<span class="err">│</span>                                                                              <span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<h3 id="102-milestone-summary">10.2 Milestone Summary</h3>
+<table>
+<thead>
+<tr>
+<th>Milestone</th>
+<th>Target Date</th>
+<th>Status</th>
+<th>Key Deliverables</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v2.0 MVP</td>
+<td>Oct 2024</td>
+<td>✅ Complete</td>
+<td>Basic demo, radar, alerts</td>
+</tr>
+<tr>
+<td>v2.5 Crisis</td>
+<td>Dec 2024</td>
+<td>✅ Complete</td>
+<td>Cloud TTS, Hero Mode, ATC commands</td>
+</tr>
+<tr>
+<td>v3.0 Live</td>
+<td>Feb 2025</td>
+<td>🔜 Planned</td>
+<td>Voice commands, live data, recording</td>
+</tr>
+<tr>
+<td>GA Release</td>
+<td>Q2 2025</td>
+<td>📋 Roadmap</td>
+<td>Full training platform</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="11-open-questions">11. Open Questions</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Question</th>
+<th>Owner</th>
+<th>Due Date</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q1</td>
+<td>Should we add voice command input for v3.0?</td>
+<td>Product</td>
+<td>Jan 2025</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>Q2</td>
+<td>What languages beyond English should TTS support?</td>
+<td>Product</td>
+<td>Jan 2025</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>Q3</td>
+<td>Do we need offline capability for field training?</td>
+<td>Eng</td>
+<td>Feb 2025</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>Q4</td>
+<td>Should demo scenarios be customizable by trainers?</td>
+<td>Design</td>
+<td>Feb 2025</td>
+<td>Open</td>
+</tr>
+<tr>
+<td>Q5</td>
+<td>What metrics dashboards do operators need?</td>
+<td>Product</td>
+<td>Feb 2025</td>
+<td>Open</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="12-appendix">12. Appendix</h2>
+<h3 id="121-glossary">12.1 Glossary</h3>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ATC</td>
+<td>Air Traffic Control</td>
+</tr>
+<tr>
+<td>ATCS-NG</td>
+<td>Air Traffic Control System - Next Generation</td>
+</tr>
+<tr>
+<td>Cloud TTS</td>
+<td>Google Cloud Text-to-Speech API</td>
+</tr>
+<tr>
+<td>Hero Mode</td>
+<td>Emergency guidance feature for incapacitated crew scenarios</td>
+</tr>
+<tr>
+<td>TCAS</td>
+<td>Traffic Collision Avoidance System</td>
+</tr>
+<tr>
+<td>Squawk</td>
+<td>Transponder code (7500=hijack, 7700=emergency)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="122-related-documents">12.2 Related Documents</h3>
+<ul>
+<li><a href="./design-document.md">Design Document</a></li>
+<li><a href="./technical-specification.md">Technical Specification</a></li>
+<li><a href="./release-plan.md">Release Plan</a></li>
+</ul>
+<h3 id="123-change-log">12.3 Change Log</h3>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Date</th>
+<th>Author</th>
+<th>Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2.5.0</td>
+<td>2024-12-22</td>
+<td>Product Team</td>
+<td>Added Hero Mode, Cloud TTS, ATC commands</td>
+</tr>
+<tr>
+<td>2.0.0</td>
+<td>2024-10-15</td>
+<td>Product Team</td>
+<td>Initial MVP requirements</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<div align="center">
+
+<img src="file:///home/manava/atcs-ng/docs/hanaML-Template-7C3AED.png" alt="hanaML" style="max-height: 40px;">
+
+*This document is maintained by the Product Team and reviewed quarterly.*
+
+</div>
+    <div class="footer">
+        <span class="badge">hanaML</span>
+        <p>Generated on 2025-12-22 17:09:09</p>
+    </div>
+</body>
+</html>

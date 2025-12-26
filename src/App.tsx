@@ -28,37 +28,28 @@ function AppContent() {
   const [commandModalCallsign, setCommandModalCallsign] = useState<string | null>(null);
   const voiceInitializedRef = useRef(false);
 
-  const { openMenu, completeInteraction, state: demoState, currentStep } = useDemoMode();
-  const autoStartedRef = useRef(false);
+  const { completeInteraction, state: demoState, currentStep } = useDemoMode();
   const { heroModeActive, setHeroModeActive, viewMode, liveOnly } = useUIStore();
 
   // Initialize voice on first user interaction (required by browsers)
-  // And auto-start the demo after first interaction
+  // Note: Demo menu is opened by DemoProvider on mount, not here
   useEffect(() => {
-    const initVoiceAndDemo = () => {
+    const initVoice = () => {
       if (!voiceInitializedRef.current) {
         voiceInitializedRef.current = true;
         VoiceNotification.forceInit();
         console.log('[Voice] Initialized on user interaction');
-
-        // Auto-start demo after brief delay
-        if (!autoStartedRef.current) {
-          autoStartedRef.current = true;
-          setTimeout(() => {
-            openMenu();
-          }, 500);
-        }
       }
     };
 
-    document.addEventListener('click', initVoiceAndDemo, { once: true });
-    document.addEventListener('keydown', initVoiceAndDemo, { once: true });
+    document.addEventListener('click', initVoice, { once: true });
+    document.addEventListener('keydown', initVoice, { once: true });
 
     return () => {
-      document.removeEventListener('click', initVoiceAndDemo);
-      document.removeEventListener('keydown', initVoiceAndDemo);
+      document.removeEventListener('click', initVoice);
+      document.removeEventListener('keydown', initVoice);
     };
-  }, [openMenu]);
+  }, []);
 
   // Data hooks - get base data
   const { tracks: baseTracks, connected, trackCount } = useTrackStream('BOS_33');

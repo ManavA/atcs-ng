@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Document - Template</title>
+    <style>
+/* hanaML Purple Theme - PDF Stylesheet */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --primary: #7C3AED;
+  --primary-dark: #5B21B6;
+  --primary-light: #A78BFA;
+  --background: #1a1a2e;
+  --background-light: #16213e;
+  --surface: #0f3460;
+  --text-primary: #E5E7EB;
+  --text-secondary: #9CA3AF;
+  --border: #374151;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --info: #3B82F6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 11pt;
+  line-height: 1.6;
+  color: #1F2937;
+  background: #ffffff;
+  margin: 0;
+  padding: 40px 60px;
+}
+
+/* Page Header */
+@page {
+  size: A4;
+  margin: 20mm 15mm 25mm 15mm;
+  @top-center {
+    content: "hanaML Documentation";
+    font-size: 9pt;
+    color: #7C3AED;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-size: 9pt;
+    color: #6B7280;
+  }
+}
+
+/* Cover Page Styling */
+.cover-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12pt;
+  margin-bottom: 20px;
+}
+
+/* Headings */
+h1 {
+  font-size: 28pt;
+  font-weight: 700;
+  color: #7C3AED;
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid #7C3AED;
+  page-break-after: avoid;
+}
+
+h2 {
+  font-size: 18pt;
+  font-weight: 600;
+  color: #1F2937;
+  margin-top: 32px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #E5E7EB;
+  page-break-after: avoid;
+}
+
+h3 {
+  font-size: 14pt;
+  font-weight: 600;
+  color: #374151;
+  margin-top: 24px;
+  margin-bottom: 10px;
+  page-break-after: avoid;
+}
+
+h4 {
+  font-size: 12pt;
+  font-weight: 600;
+  color: #4B5563;
+  margin-top: 20px;
+  margin-bottom: 8px;
+  page-break-after: avoid;
+}
+
+h5, h6 {
+  font-size: 11pt;
+  font-weight: 600;
+  color: #6B7280;
+  margin-top: 16px;
+  margin-bottom: 6px;
+}
+
+/* Paragraphs */
+p {
+  margin: 0 0 12px 0;
+  text-align: justify;
+}
+
+/* Links */
+a {
+  color: #7C3AED;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Lists */
+ul, ol {
+  margin: 0 0 16px 0;
+  padding-left: 24px;
+}
+
+li {
+  margin-bottom: 6px;
+}
+
+li > ul, li > ol {
+  margin-top: 6px;
+  margin-bottom: 0;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 10pt;
+  page-break-inside: avoid;
+}
+
+thead {
+  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+  color: white;
+}
+
+th {
+  padding: 12px 10px;
+  text-align: left;
+  font-weight: 600;
+  border: 1px solid #7C3AED;
+}
+
+td {
+  padding: 10px;
+  border: 1px solid #E5E7EB;
+  vertical-align: top;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #F9FAFB;
+}
+
+tbody tr:hover {
+  background-color: #F3F4F6;
+}
+
+/* Code Blocks */
+pre {
+  background: #1F2937;
+  color: #E5E7EB;
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 9pt;
+  line-height: 1.5;
+  margin: 16px 0;
+  border-left: 4px solid #7C3AED;
+  page-break-inside: avoid;
+}
+
+code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 9pt;
+  background: #F3F4F6;
+  color: #7C3AED;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+/* Blockquotes */
+blockquote {
+  margin: 16px 0;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(91, 33, 182, 0.08) 100%);
+  border-left: 4px solid #7C3AED;
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: #4B5563;
+}
+
+blockquote p {
+  margin: 0;
+}
+
+/* Horizontal Rule */
+hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, #7C3AED 0%, #A78BFA 50%, #7C3AED 100%);
+  margin: 32px 0;
+}
+
+/* ASCII Art Boxes - preserve formatting */
+pre.ascii-art {
+  background: #FAFAFA;
+  color: #1F2937;
+  border: 2px solid #E5E7EB;
+  border-left: 4px solid #7C3AED;
+  font-size: 8pt;
+  line-height: 1.4;
+}
+
+/* Status Indicators */
+.status-completed, .status-done {
+  color: #10B981;
+  font-weight: 600;
+}
+
+.status-in-progress, .status-wip {
+  color: #F59E0B;
+  font-weight: 600;
+}
+
+.status-pending, .status-todo {
+  color: #6B7280;
+  font-weight: 600;
+}
+
+.status-blocked, .status-critical {
+  color: #EF4444;
+  font-weight: 600;
+}
+
+/* Priority Badges */
+.priority-p0 {
+  display: inline-block;
+  background: #EF4444;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9pt;
+  font-weight: 600;
+}
+
+.priority-p1 {
+  display: inline-block;
+  background: #F59E0B;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9pt;
+  font-weight: 600;
+}
+
+.priority-p2 {
+  display: inline-block;
+  background: #3B82F6;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9pt;
+  font-weight: 600;
+}
+
+/* Document Info Box */
+.doc-info {
+  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.doc-info table {
+  background: transparent;
+}
+
+.doc-info th, .doc-info td {
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Callout Boxes */
+.callout {
+  padding: 16px;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+
+.callout-info {
+  background: #EFF6FF;
+  border-left: 4px solid #3B82F6;
+}
+
+.callout-warning {
+  background: #FFFBEB;
+  border-left: 4px solid #F59E0B;
+}
+
+.callout-success {
+  background: #ECFDF5;
+  border-left: 4px solid #10B981;
+}
+
+.callout-error {
+  background: #FEF2F2;
+  border-left: 4px solid #EF4444;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 2px solid #E5E7EB;
+  color: #6B7280;
+  font-size: 9pt;
+}
+
+.footer .badge {
+  display: inline-block;
+  background: #7C3AED;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 9pt;
+}
+
+/* Page Breaks */
+.page-break {
+  page-break-after: always;
+}
+
+.no-break {
+  page-break-inside: avoid;
+}
+
+/* Print-specific */
+@media print {
+  body {
+    padding: 0;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  a {
+    color: #7C3AED;
+  }
+
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    color: #6B7280;
+  }
+}
+
+/* Table of Contents */
+.toc {
+  background: #F9FAFB;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.toc h2 {
+  margin-top: 0;
+  color: #7C3AED;
+  border-bottom: 2px solid #7C3AED;
+}
+
+.toc ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.toc li {
+  padding: 4px 0;
+  border-bottom: 1px dotted #E5E7EB;
+}
+
+.toc a {
+  color: #374151;
+}
+
+.toc a:hover {
+  color: #7C3AED;
+}
+
+/* Metrics/Dashboard Style */
+.metric-card {
+  display: inline-block;
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 8px;
+  text-align: center;
+  min-width: 120px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.metric-value {
+  font-size: 24pt;
+  font-weight: 700;
+  color: #7C3AED;
+}
+
+.metric-label {
+  font-size: 10pt;
+  color: #6B7280;
+  text-transform: uppercase;
+}
+
+/* Section Numbers */
+h2::before {
+  color: #7C3AED;
+  font-weight: 700;
+}
+
+/* Checkbox styling for checklists */
+input[type="checkbox"] {
+  accent-color: #7C3AED;
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+}
+
+/* Definition Lists */
+dl {
+  margin: 16px 0;
+}
+
+dt {
+  font-weight: 600;
+  color: #374151;
+  margin-top: 12px;
+}
+
+dd {
+  margin-left: 20px;
+  color: #4B5563;
+}
+
+    </style>
+</head>
+<body>
+<h1 id="design-document-template">Design Document - Template</h1>
+<div align="center">
+
+<img src="file:///home/manava/atcs-ng/docs/hanaML-Template-7C3AED.png" alt="hanaML" style="max-height: 40px;">
+
+**[PROJECT NAME]**
+
+| Document ID | Version | Status | Classification |
+|-------------|---------|--------|----------------|
+| DD-XXXX-YYYY-NNN | 0.0.0 | Draft | Internal |
+
+</div>
+
+<hr />
+<h2 id="template-guide">Template Guide</h2>
+<h3 id="purpose-of-this-document">Purpose of This Document</h3>
+<p>The <strong>Design Document</strong> defines the <strong>HOW</strong> of a product or feature. It serves as the technical blueprint for:</p>
+<ul>
+<li><strong>Architecture</strong>: How will the system be structured?</li>
+<li><strong>Components</strong>: What are the building blocks?</li>
+<li><strong>Interactions</strong>: How do components communicate?</li>
+<li><strong>Data Models</strong>: What data structures are needed?</li>
+<li><strong>APIs</strong>: What interfaces will be exposed?</li>
+</ul>
+<blockquote>
+<p><strong>Key Insight</strong>: A good Design Document translates PRD requirements into actionable technical specifications that engineers can implement.</p>
+</blockquote>
+<hr />
+<h3 id="how-to-use-this-template">How to Use This Template</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">                              </span><span class="n">HOW</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="k">USE</span><span class="w"> </span><span class="n">THIS</span><span class="w"> </span><span class="n">TEMPLATE</span><span class="w">                                </span><span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">STEP</span><span class="w"> </span><span class="mi">1</span><span class="err">:</span><span class="w"> </span><span class="n">COPY</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">RENAME</span><span class="w">                                                               </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">─────────────────────</span><span class="w">                                                               </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Copy</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="k">file</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">rename</span><span class="w"> </span><span class="nl">it</span><span class="p">:</span><span class="w">                                                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="nf">Format</span><span class="err">:</span><span class="w"> </span><span class="n">DD</span><span class="o">-[</span><span class="n">PROJECT</span><span class="o">]-[</span><span class="n">DATE</span><span class="o">]-[</span><span class="n">topic</span><span class="o">]</span><span class="p">.</span><span class="n">md</span><span class="w">                                           </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="nl">Example</span><span class="p">:</span><span class="w"> </span><span class="n">DD</span><span class="o">-</span><span class="n">ATCS</span><span class="o">-</span><span class="mi">20241222</span><span class="o">-</span><span class="n">hero</span><span class="o">-</span><span class="n">mode</span><span class="p">.</span><span class="n">md</span><span class="w">                                           </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">STEP</span><span class="w"> </span><span class="mi">2</span><span class="err">:</span><span class="w"> </span><span class="n">REFERENCE</span><span class="w"> </span><span class="n">THE</span><span class="w"> </span><span class="n">PRD</span><span class="w">                                                           </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">─────────────────────────</span><span class="w">                                                           </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Link</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">approved</span><span class="w"> </span><span class="n">PRD</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">design</span><span class="w"> </span><span class="n">implements</span><span class="p">.</span><span class="w">                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Ensure</span><span class="w"> </span><span class="n">design</span><span class="w"> </span><span class="n">decisions</span><span class="w"> </span><span class="n">trace</span><span class="w"> </span><span class="n">back</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">requirements</span><span class="p">.</span><span class="w">                                 </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">STEP</span><span class="w"> </span><span class="mi">3</span><span class="err">:</span><span class="w"> </span><span class="n">FILL</span><span class="w"> </span><span class="ow">IN</span><span class="w"> </span><span class="n">SECTIONS</span><span class="w">                                                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">────────────────────────</span><span class="w">                                                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="nf">Replace</span><span class="w"> </span><span class="o">[</span><span class="n">PLACEHOLDERS</span><span class="o">]</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">actual</span><span class="w"> </span><span class="n">content</span><span class="p">.</span><span class="w">                                         </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="k">Include</span><span class="w"> </span><span class="n">diagrams</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">helpful</span><span class="w"> </span><span class="p">(</span><span class="nf">ASCII</span><span class="w"> </span><span class="n">art</span><span class="w"> </span><span class="n">preferred</span><span class="p">).</span><span class="w">                               </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">STEP</span><span class="w"> </span><span class="mi">4</span><span class="err">:</span><span class="w"> </span><span class="n">TECHNICAL</span><span class="w"> </span><span class="n">REVIEW</span><span class="w">                                                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">────────────────────────</span><span class="w">                                                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Share</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">engineering</span><span class="w"> </span><span class="n">team</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">feedback</span><span class="p">.</span><span class="w">                                           </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Address</span><span class="w"> </span><span class="ow">all</span><span class="w"> </span><span class="n">technical</span><span class="w"> </span><span class="n">concerns</span><span class="w"> </span><span class="k">before</span><span class="w"> </span><span class="n">approval</span><span class="p">.</span><span class="w">                                     </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">STEP</span><span class="w"> </span><span class="mi">5</span><span class="err">:</span><span class="w"> </span><span class="k">GET</span><span class="w"> </span><span class="n">APPROVAL</span><span class="w">                                                                </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">────────────────────</span><span class="w">                                                                </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Obtain</span><span class="w"> </span><span class="nf">sign</span><span class="o">-</span><span class="k">off</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">Engineering</span><span class="w"> </span><span class="n">Lead</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">Architect</span><span class="p">.</span><span class="w">                                </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="k">Update</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="ss">&quot;Draft&quot;</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="ss">&quot;Approved&quot;</span><span class="p">.</span><span class="w">                                           </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<hr />
+<h3 id="product-lifecycle-position">Product Lifecycle Position</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">                              </span><span class="nx">PRODUCT</span><span class="w"> </span><span class="nx">LIFECYCLE</span><span class="w"> </span><span class="nx">POSITION</span><span class="w">                              </span><span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">    </span><span class="nx">IDEATION</span><span class="w">      </span><span class="nx">PLANNING</span><span class="w">       </span><span class="nx">BUILD</span><span class="w">         </span><span class="nx">TEST</span><span class="w">        </span><span class="nx">RELEASE</span><span class="w">      </span><span class="nx">OPERATE</span><span class="w">      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">       </span><span class="err">│</span><span class="w">             </span><span class="err">│</span><span class="w">             </span><span class="err">│</span><span class="w">             </span><span class="err">│</span><span class="w">            </span><span class="err">│</span><span class="w">            </span><span class="err">│</span><span class="w">          </span><span class="err">│</span>
+<span class="err">│</span><span class="w">       </span><span class="err">▼</span><span class="w">             </span><span class="err">▼</span><span class="w">             </span><span class="err">▼</span><span class="w">             </span><span class="err">▼</span><span class="w">            </span><span class="err">▼</span><span class="w">            </span><span class="err">▼</span><span class="w">          </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">┌───────┐</span><span class="w">    </span><span class="err">┌───────┐</span><span class="w">    </span><span class="err">┌───────┐</span><span class="w">    </span><span class="err">┌───────┐</span><span class="w">    </span><span class="err">┌───────┐</span><span class="w">    </span><span class="err">┌───────┐</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">       </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">       </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">       </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">       </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">       </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">       </span><span class="err">│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="nx">Ideas</span><span class="w"> </span><span class="err">│───►│</span><span class="w">  </span><span class="nx">PRD</span><span class="w">  </span><span class="err">│───►│</span><span class="nx">Design</span><span class="w"> </span><span class="err">│───►│</span><span class="w">  </span><span class="nx">QA</span><span class="w">   </span><span class="err">│───►│</span><span class="nx">Launch</span><span class="w"> </span><span class="err">│───►│</span><span class="nx">Monitor</span><span class="err">│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">       </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">       </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w"> </span><span class="nx">Doc</span><span class="w">   </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w"> </span><span class="nx">Test</span><span class="w">  </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">       </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">       </span><span class="err">│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└───────┘</span><span class="w">    </span><span class="err">└───────┘</span><span class="w">    </span><span class="err">└───┬───┘</span><span class="w">    </span><span class="err">└───────┘</span><span class="w">    </span><span class="err">└───────┘</span><span class="w">    </span><span class="err">└───────┘</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                 </span><span class="err">│</span><span class="w">                                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                 </span><span class="err">│</span><span class="w">                                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                </span><span class="err">┌────────────────▼────────────────────────────────────────────────┐</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                </span><span class="err">│</span><span class="w">                   </span><span class="err">★</span><span class="w"> </span><span class="nx">DESIGN</span><span class="w"> </span><span class="nx">DOC</span><span class="w"> </span><span class="nx">IS</span><span class="w"> </span><span class="nx">HERE</span><span class="w"> </span><span class="err">★</span><span class="w">                         </span><span class="err">│</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                </span><span class="err">│</span><span class="w">                                                                  </span><span class="err">│</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                </span><span class="err">│</span><span class="w">  </span><span class="nx">The</span><span class="w"> </span><span class="nx">Design</span><span class="w"> </span><span class="nx">Document</span><span class="w"> </span><span class="nx">bridges</span><span class="w"> </span><span class="nx">PLANNING</span><span class="w"> </span><span class="p">(</span><span class="nx">PRD</span><span class="p">)</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">BUILD</span><span class="w"> </span><span class="nx">phases</span><span class="p">.</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                </span><span class="err">│</span><span class="w">  </span><span class="nx">It</span><span class="w"> </span><span class="nx">translates</span><span class="w"> </span><span class="nx">product</span><span class="w"> </span><span class="nx">requirements</span><span class="w"> </span><span class="nx">into</span><span class="w"> </span><span class="nx">technical</span><span class="w"> </span><span class="nx">solutions</span><span class="p">.</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                </span><span class="err">│</span><span class="w">                                                                  </span><span class="err">│</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                </span><span class="err">│</span><span class="w">  </span><span class="nx">Created</span><span class="w"> </span><span class="nx">AFTER</span><span class="w"> </span><span class="nx">PRD</span><span class="w"> </span><span class="nx">approval</span><span class="p">,</span><span class="w"> </span><span class="nx">BEFORE</span><span class="w"> </span><span class="nx">implementation</span><span class="w"> </span><span class="nx">begins</span><span class="p">.</span><span class="w">      </span><span class="err">│</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                </span><span class="err">└──────────────────────────────────────────────────────────────────┘</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<hr />
+<h3 id="key-stakeholders">Key Stakeholders</h3>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Responsibility</th>
+<th>Involvement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Engineering Lead</strong></td>
+<td>Author and owner of the Design Doc</td>
+<td>Creates, maintains, drives approval</td>
+</tr>
+<tr>
+<td><strong>Software Architect</strong></td>
+<td>Architecture review and guidance</td>
+<td>Reviews, validates patterns</td>
+</tr>
+<tr>
+<td><strong>Product Manager</strong></td>
+<td>Requirement alignment</td>
+<td>Reviews, confirms PRD mapping</td>
+</tr>
+<tr>
+<td><strong>Senior Engineers</strong></td>
+<td>Technical feasibility review</td>
+<td>Reviews, provides feedback</td>
+</tr>
+<tr>
+<td><strong>Security Engineer</strong></td>
+<td>Security review</td>
+<td>Reviews security aspects</td>
+</tr>
+<tr>
+<td><strong>VP Engineering</strong></td>
+<td>Final approval</td>
+<td>Approves</td>
+</tr>
+</tbody>
+</table>
+<h3 id="who-works-on-this-document">Who Works on This Document</h3>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Contributors</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Drafting</strong></td>
+<td>Engineering Lead (primary), Senior Engineers</td>
+</tr>
+<tr>
+<td><strong>Review</strong></td>
+<td>Architecture, Security, Product, QA</td>
+</tr>
+<tr>
+<td><strong>Approval</strong></td>
+<td>VP Engineering, Software Architect</td>
+</tr>
+<tr>
+<td><strong>Maintenance</strong></td>
+<td>Engineering Lead</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="design-document-template_1">Design Document Template</h2>
+<hr />
+<h2 id="1-overview">1. Overview</h2>
+<h3 id="11-document-purpose">1.1 Document Purpose</h3>
+<blockquote>
+<p>[1-2 sentences describing what this design document covers]</p>
+</blockquote>
+<p><strong>Example:</strong></p>
+<blockquote>
+<p>This document describes the technical design for the Hero Mode feature, enabling automated aircraft management when crew becomes incapacitated.</p>
+</blockquote>
+<h3 id="12-related-documents">1.2 Related Documents</h3>
+<table>
+<thead>
+<tr>
+<th>Document</th>
+<th>Link</th>
+<th>Relationship</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PRD</td>
+<td>[PRD-XXXX-YYYY-NNN]</td>
+<td>Parent requirements</td>
+</tr>
+<tr>
+<td>Tech Spec</td>
+<td>[TS-XXXX-YYYY-NNN]</td>
+<td>Implementation details</td>
+</tr>
+<tr>
+<td>API Spec</td>
+<td>[API-XXXX-YYYY-NNN]</td>
+<td>Interface definitions</td>
+</tr>
+</tbody>
+</table>
+<h3 id="13-design-goals">1.3 Design Goals</h3>
+<table>
+<thead>
+<tr>
+<th>Goal</th>
+<th>Description</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[Goal 1]</td>
+<td>[What we're optimizing for]</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>[Goal 2]</td>
+<td>[What we're optimizing for]</td>
+<td>P1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="14-non-goals">1.4 Non-Goals</h3>
+<table>
+<thead>
+<tr>
+<th>Non-Goal</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[What we're NOT designing]</td>
+<td>[Why it's out of scope]</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-system-architecture">2. System Architecture</h2>
+<h3 id="21-system-context">2.1 System Context</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">                              </span><span class="n">SYSTEM</span><span class="w"> </span><span class="n">CONTEXT</span><span class="w"> </span><span class="n">DIAGRAM</span><span class="w">                                  </span><span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                           </span><span class="p">[</span><span class="n">EXTERNAL</span><span class="w"> </span><span class="n">SYSTEM</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w">                                        </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                   </span><span class="err">│</span><span class="w">                                                  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                   </span><span class="err">▼</span><span class="w">                                                  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="p">[</span><span class="n">USER</span><span class="w"> </span><span class="n">TYPE</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="err">───────►</span><span class="w">  </span><span class="err">┌─────────────────┐</span><span class="w">  </span><span class="err">◄───────</span><span class="w"> </span><span class="p">[</span><span class="n">EXTERNAL</span><span class="w"> </span><span class="n">SYSTEM</span><span class="w"> </span><span class="mi">2</span><span class="p">]</span><span class="w">         </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                           </span><span class="err">│</span><span class="w">                 </span><span class="err">│</span><span class="w">                                        </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="p">[</span><span class="n">USER</span><span class="w"> </span><span class="n">TYPE</span><span class="w"> </span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="err">───────►</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">YOUR</span><span class="w"> </span><span class="n">SYSTEM</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="err">◄───────</span><span class="w"> </span><span class="p">[</span><span class="n">EXTERNAL</span><span class="w"> </span><span class="n">SYSTEM</span><span class="w"> </span><span class="mi">3</span><span class="p">]</span><span class="w">         </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                           </span><span class="err">│</span><span class="w">                 </span><span class="err">│</span><span class="w">                                        </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="p">[</span><span class="n">USER</span><span class="w"> </span><span class="n">TYPE</span><span class="w"> </span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="err">───────►</span><span class="w">  </span><span class="err">└─────────────────┘</span><span class="w">  </span><span class="err">◄───────</span><span class="w"> </span><span class="p">[</span><span class="n">DATA</span><span class="w"> </span><span class="n">SOURCE</span><span class="p">]</span><span class="w">               </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                   </span><span class="err">│</span><span class="w">                                                  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                   </span><span class="err">▼</span><span class="w">                                                  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                           </span><span class="p">[</span><span class="n">DOWNSTREAM</span><span class="w"> </span><span class="n">SYSTEM</span><span class="p">]</span><span class="w">                                        </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="n">Legend</span><span class="o">:</span><span class="w">                                                                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">───────►</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Data</span><span class="w"> </span><span class="n">flow</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">Interaction</span><span class="w">                                                 </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="p">[</span><span class="n">Box</span><span class="p">]</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">Actor</span><span class="w">                                                         </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<h3 id="22-high-level-architecture">2.2 High-Level Architecture</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">                            </span><span class="n">HIGH</span><span class="o">-</span><span class="k">LEVEL</span><span class="w"> </span><span class="n">ARCHITECTURE</span><span class="w">                                   </span><span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">┌─────────────────────────────────────────────────────────────────────────────┐</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">                           </span><span class="n">PRESENTATION</span><span class="w"> </span><span class="n">LAYER</span><span class="w">                                 </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="err">┌──────────────┐</span><span class="w">  </span><span class="err">┌──────────────┐</span><span class="w">  </span><span class="err">┌──────────────┐</span><span class="w">  </span><span class="err">┌──────────────┐</span><span class="w">    </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="o">[</span><span class="n">Component1</span><span class="o">]</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="o">[</span><span class="n">Component2</span><span class="o">]</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="o">[</span><span class="n">Component3</span><span class="o">]</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="o">[</span><span class="n">Component4</span><span class="o">]</span><span class="w"> </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="err">└──────────────┘</span><span class="w">  </span><span class="err">└──────────────┘</span><span class="w">  </span><span class="err">└──────────────┘</span><span class="w">  </span><span class="err">└──────────────┘</span><span class="w">    </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└─────────────────────────────────────────────────────────────────────────────┘</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                        </span><span class="err">│</span><span class="w">                                             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                        </span><span class="err">▼</span><span class="w">                                             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">┌─────────────────────────────────────────────────────────────────────────────┐</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">                           </span><span class="n">BUSINESS</span><span class="w"> </span><span class="n">LOGIC</span><span class="w"> </span><span class="n">LAYER</span><span class="w">                               </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="err">┌──────────────┐</span><span class="w">  </span><span class="err">┌──────────────┐</span><span class="w">  </span><span class="err">┌──────────────┐</span><span class="w">                       </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="o">[</span><span class="n">Service1</span><span class="o">]</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="o">[</span><span class="n">Service2</span><span class="o">]</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="o">[</span><span class="n">Service3</span><span class="o">]</span><span class="w">  </span><span class="err">│</span><span class="w">                       </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="err">└──────────────┘</span><span class="w">  </span><span class="err">└──────────────┘</span><span class="w">  </span><span class="err">└──────────────┘</span><span class="w">                       </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└─────────────────────────────────────────────────────────────────────────────┘</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                        </span><span class="err">│</span><span class="w">                                             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                        </span><span class="err">▼</span><span class="w">                                             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">┌─────────────────────────────────────────────────────────────────────────────┐</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">                              </span><span class="k">DATA</span><span class="w"> </span><span class="n">LAYER</span><span class="w">                                      </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="err">┌──────────────┐</span><span class="w">  </span><span class="err">┌──────────────┐</span><span class="w">  </span><span class="err">┌──────────────┐</span><span class="w">                       </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="o">[</span><span class="n">Database</span><span class="o">]</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="o">[</span><span class="n">Cache</span><span class="o">]</span><span class="w">    </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="o">[</span><span class="n">Storage</span><span class="o">]</span><span class="w">   </span><span class="err">│</span><span class="w">                       </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="err">└──────────────┘</span><span class="w">  </span><span class="err">└──────────────┘</span><span class="w">  </span><span class="err">└──────────────┘</span><span class="w">                       </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└─────────────────────────────────────────────────────────────────────────────┘</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<hr />
+<h2 id="3-component-design">3. Component Design</h2>
+<h3 id="31-component-component-name">3.1 Component: [Component Name]</h3>
+<p><strong>Purpose:</strong> [What this component does]</p>
+<p><strong>Responsibilities:</strong>
+- [Responsibility 1]
+- [Responsibility 2]
+- [Responsibility 3]</p>
+<p><strong>Dependencies:</strong>
+- [Dependency 1]
+- [Dependency 2]</p>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">                            </span><span class="n">COMPONENT</span><span class="w"> </span><span class="n">DIAGRAM</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">NAME</span><span class="p">]</span><span class="w">                                 </span><span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">┌─────────────────────────────────────────┐</span><span class="w">                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">            </span><span class="p">[</span><span class="n">COMPONENT</span><span class="w"> </span><span class="n">NAME</span><span class="p">]</span><span class="w">             </span><span class="err">│</span><span class="w">                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">├─────────────────────────────────────────┤</span><span class="w">                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">                                         </span><span class="err">│</span><span class="w">                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">  </span><span class="err">┌─────────────┐</span><span class="w">    </span><span class="err">┌─────────────┐</span><span class="w">    </span><span class="err">│</span><span class="w">                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="p">[</span><span class="n">Module1</span><span class="p">]</span><span class="w">  </span><span class="err">│───►│</span><span class="w">  </span><span class="p">[</span><span class="n">Module2</span><span class="p">]</span><span class="w">  </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">  </span><span class="err">└─────────────┘</span><span class="w">    </span><span class="err">└─────────────┘</span><span class="w">    </span><span class="err">│</span><span class="w">                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">         </span><span class="err">│</span><span class="w">                  </span><span class="err">│</span><span class="w">           </span><span class="err">│</span><span class="w">                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">         </span><span class="err">▼</span><span class="w">                  </span><span class="err">▼</span><span class="w">           </span><span class="err">│</span><span class="w">                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">  </span><span class="err">┌─────────────┐</span><span class="w">    </span><span class="err">┌─────────────┐</span><span class="w">    </span><span class="err">│</span><span class="w">                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="p">[</span><span class="n">Module3</span><span class="p">]</span><span class="w">  </span><span class="err">│◄───│</span><span class="w">  </span><span class="p">[</span><span class="n">Module4</span><span class="p">]</span><span class="w">  </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">  </span><span class="err">└─────────────┘</span><span class="w">    </span><span class="err">└─────────────┘</span><span class="w">    </span><span class="err">│</span><span class="w">                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">                                         </span><span class="err">│</span><span class="w">                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">└─────────────────────────────────────────┘</span><span class="w">                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<h3 id="32-component-interactions">3.2 Component Interactions</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">                           </span><span class="n">COMPONENT</span><span class="w"> </span><span class="n">INTERACTION</span><span class="w"> </span><span class="n">FLOW</span><span class="w">                                 </span><span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="p">[</span><span class="n">Actor</span><span class="p">]</span><span class="w">        </span><span class="p">[</span><span class="n">Component</span><span class="w"> </span><span class="n">A</span><span class="p">]</span><span class="w">      </span><span class="p">[</span><span class="n">Component</span><span class="w"> </span><span class="n">B</span><span class="p">]</span><span class="w">      </span><span class="p">[</span><span class="n">Component</span><span class="w"> </span><span class="n">C</span><span class="p">]</span><span class="w">    </span><span class="p">[</span><span class="n">Database</span><span class="p">]</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">                 </span><span class="err">│</span><span class="w">                  </span><span class="err">│</span><span class="w">                  </span><span class="err">│</span><span class="w">               </span><span class="err">│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">  </span><span class="mf">1.</span><span class="w"> </span><span class="p">[</span><span class="n">Action</span><span class="p">]</span><span class="w">    </span><span class="err">│</span><span class="w">                  </span><span class="err">│</span><span class="w">                  </span><span class="err">│</span><span class="w">               </span><span class="err">│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│────────────────►│</span><span class="w">                  </span><span class="err">│</span><span class="w">                  </span><span class="err">│</span><span class="w">               </span><span class="err">│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">                 </span><span class="err">│</span><span class="w">  </span><span class="mf">2.</span><span class="w"> </span><span class="p">[</span><span class="n">Request</span><span class="p">]</span><span class="w">    </span><span class="err">│</span><span class="w">                  </span><span class="err">│</span><span class="w">               </span><span class="err">│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">                 </span><span class="err">│─────────────────►│</span><span class="w">                  </span><span class="err">│</span><span class="w">               </span><span class="err">│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">                 </span><span class="err">│</span><span class="w">                  </span><span class="err">│</span><span class="w">  </span><span class="mf">3.</span><span class="w"> </span><span class="p">[</span><span class="n">Process</span><span class="p">]</span><span class="w">    </span><span class="err">│</span><span class="w">               </span><span class="err">│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">                 </span><span class="err">│</span><span class="w">                  </span><span class="err">│─────────────────►│</span><span class="w">               </span><span class="err">│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">                 </span><span class="err">│</span><span class="w">                  </span><span class="err">│</span><span class="w">                  </span><span class="err">│</span><span class="w">  </span><span class="mf">4.</span><span class="w"> </span><span class="p">[</span><span class="n">Query</span><span class="p">]</span><span class="w">   </span><span class="err">│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">                 </span><span class="err">│</span><span class="w">                  </span><span class="err">│</span><span class="w">                  </span><span class="err">│──────────────►│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">                 </span><span class="err">│</span><span class="w">                  </span><span class="err">│</span><span class="w">                  </span><span class="err">│</span><span class="w">  </span><span class="mf">5.</span><span class="w"> </span><span class="p">[</span><span class="n">Data</span><span class="p">]</span><span class="w">    </span><span class="err">│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">                 </span><span class="err">│</span><span class="w">                  </span><span class="err">│</span><span class="w">                  </span><span class="err">│◄──────────────│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">                 </span><span class="err">│</span><span class="w">                  </span><span class="err">│</span><span class="w">  </span><span class="mf">6.</span><span class="w"> </span><span class="p">[</span><span class="n">Response</span><span class="p">]</span><span class="w">   </span><span class="err">│</span><span class="w">               </span><span class="err">│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">                 </span><span class="err">│</span><span class="w">                  </span><span class="err">│◄─────────────────│</span><span class="w">               </span><span class="err">│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">                 </span><span class="err">│</span><span class="w">  </span><span class="mf">7.</span><span class="w"> </span><span class="p">[</span><span class="n">Result</span><span class="p">]</span><span class="w">     </span><span class="err">│</span><span class="w">                  </span><span class="err">│</span><span class="w">               </span><span class="err">│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">                 </span><span class="err">│◄─────────────────│</span><span class="w">                  </span><span class="err">│</span><span class="w">               </span><span class="err">│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">  </span><span class="mf">8.</span><span class="w"> </span><span class="p">[</span><span class="n">Display</span><span class="p">]</span><span class="w">   </span><span class="err">│</span><span class="w">                  </span><span class="err">│</span><span class="w">                  </span><span class="err">│</span><span class="w">               </span><span class="err">│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│◄────────────────│</span><span class="w">                  </span><span class="err">│</span><span class="w">                  </span><span class="err">│</span><span class="w">               </span><span class="err">│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">                 </span><span class="err">│</span><span class="w">                  </span><span class="err">│</span><span class="w">                  </span><span class="err">│</span><span class="w">               </span><span class="err">│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<hr />
+<h2 id="4-data-design">4. Data Design</h2>
+<h3 id="41-data-models">4.1 Data Models</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">                              </span><span class="n">ENTITY</span><span class="w"> </span><span class="n">RELATIONSHIP</span><span class="w"> </span><span class="n">DIAGRAM</span><span class="w">                             </span><span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">┌─────────────────┐</span><span class="w">              </span><span class="err">┌─────────────────┐</span><span class="w">                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="p">[</span><span class="n">ENTITY</span><span class="w"> </span><span class="n">A</span><span class="p">]</span><span class="w">    </span><span class="err">│</span><span class="w">              </span><span class="err">│</span><span class="w">   </span><span class="p">[</span><span class="n">ENTITY</span><span class="w"> </span><span class="n">B</span><span class="p">]</span><span class="w">    </span><span class="err">│</span><span class="w">                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├─────────────────┤</span><span class="w">              </span><span class="err">├─────────────────┤</span><span class="w">                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="kt">id</span><span class="o">:</span><span class="w"> </span><span class="n">PK</span><span class="w">          </span><span class="err">│</span><span class="w">      </span><span class="mi">1</span><span class="o">:</span><span class="n">N</span><span class="w">     </span><span class="err">│</span><span class="w"> </span><span class="kt">id</span><span class="o">:</span><span class="w"> </span><span class="n">PK</span><span class="w">          </span><span class="err">│</span><span class="w">                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="n">field1</span><span class="o">:</span><span class="w"> </span><span class="n">string</span><span class="w">  </span><span class="err">│─────────────►│</span><span class="w"> </span><span class="n">entity_a_id</span><span class="o">:</span><span class="w"> </span><span class="n">FK</span><span class="w"> </span><span class="err">│</span><span class="w">                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="n">field2</span><span class="o">:</span><span class="w"> </span><span class="n">number</span><span class="w">  </span><span class="err">│</span><span class="w">              </span><span class="err">│</span><span class="w"> </span><span class="n">field1</span><span class="o">:</span><span class="w"> </span><span class="n">string</span><span class="w">  </span><span class="err">│</span><span class="w">                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="n">created_at</span><span class="o">:</span><span class="w"> </span><span class="n">ts</span><span class="w">  </span><span class="err">│</span><span class="w">              </span><span class="err">│</span><span class="w"> </span><span class="n">field2</span><span class="o">:</span><span class="w"> </span><span class="n">boolean</span><span class="w"> </span><span class="err">│</span><span class="w">                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└─────────────────┘</span><span class="w">              </span><span class="err">└─────────────────┘</span><span class="w">                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w">                                  </span><span class="err">│</span><span class="w">                                        </span><span class="err">│</span>
+<span class="err">│</span><span class="w">          </span><span class="err">│</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">1</span><span class="w">                              </span><span class="err">│</span><span class="w"> </span><span class="n">N</span><span class="o">:</span><span class="n">M</span><span class="w">                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">          </span><span class="err">▼</span><span class="w">                                  </span><span class="err">▼</span><span class="w">                                        </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">┌─────────────────┐</span><span class="w">              </span><span class="err">┌─────────────────┐</span><span class="w">                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="p">[</span><span class="n">ENTITY</span><span class="w"> </span><span class="n">C</span><span class="p">]</span><span class="w">    </span><span class="err">│</span><span class="w">              </span><span class="err">│</span><span class="w">   </span><span class="p">[</span><span class="n">ENTITY</span><span class="w"> </span><span class="n">D</span><span class="p">]</span><span class="w">    </span><span class="err">│</span><span class="w">                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├─────────────────┤</span><span class="w">              </span><span class="err">├─────────────────┤</span><span class="w">                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="kt">id</span><span class="o">:</span><span class="w"> </span><span class="n">PK</span><span class="w">          </span><span class="err">│</span><span class="w">              </span><span class="err">│</span><span class="w"> </span><span class="kt">id</span><span class="o">:</span><span class="w"> </span><span class="n">PK</span><span class="w">          </span><span class="err">│</span><span class="w">                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="n">entity_a_id</span><span class="o">:</span><span class="w"> </span><span class="n">FK</span><span class="w"> </span><span class="err">│</span><span class="w">              </span><span class="err">│</span><span class="w"> </span><span class="n">name</span><span class="o">:</span><span class="w"> </span><span class="n">string</span><span class="w">    </span><span class="err">│</span><span class="w">                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="n">data</span><span class="o">:</span><span class="w"> </span><span class="n">json</span><span class="w">      </span><span class="err">│</span><span class="w">              </span><span class="err">│</span><span class="w"> </span><span class="n">status</span><span class="o">:</span><span class="w"> </span><span class="k">enum</span><span class="w">    </span><span class="err">│</span><span class="w">                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└─────────────────┘</span><span class="w">              </span><span class="err">└─────────────────┘</span><span class="w">                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="n">Legend</span><span class="o">:</span><span class="w"> </span><span class="n">PK</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Primary</span><span class="w"> </span><span class="n">Key</span><span class="p">,</span><span class="w"> </span><span class="n">FK</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Foreign</span><span class="w"> </span><span class="n">Key</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">One</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">Many</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="o">:</span><span class="n">M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Many</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">Many</span><span class="w"> </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<h3 id="42-data-flow">4.2 Data Flow</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">DATA</span><span class="w"> </span><span class="n">FLOW</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">Flow</span><span class="w"> </span><span class="n">Name</span><span class="p">]</span>
+
+<span class="p">[</span><span class="n">Source</span><span class="p">]</span><span class="w"> </span><span class="err">──►</span><span class="w"> </span><span class="p">[</span><span class="n">Transform</span><span class="o">/</span><span class="n">Process</span><span class="p">]</span><span class="w"> </span><span class="err">──►</span><span class="w"> </span><span class="p">[</span><span class="n">Destination</span><span class="p">]</span>
+
+<span class="n">Step</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">Description</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">stage</span><span class="p">]</span>
+<span class="n">Step</span><span class="w"> </span><span class="mi">2</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">Description</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">transformation</span><span class="p">]</span>
+<span class="n">Step</span><span class="w"> </span><span class="mi">3</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">Description</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">final</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="n">state</span><span class="p">]</span>
+</code></pre></div>
+
+<hr />
+<h2 id="5-api-design">5. API Design</h2>
+<h3 id="51-api-endpoints">5.1 API Endpoints</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Endpoint</th>
+<th>Description</th>
+<th>Request</th>
+<th>Response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>/api/v1/[resource]</td>
+<td>[Description]</td>
+<td>-</td>
+<td>[Resource][]</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/api/v1/[resource]</td>
+<td>[Description]</td>
+<td>[CreateDTO]</td>
+<td>[Resource]</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>/api/v1/[resource]/:id</td>
+<td>[Description]</td>
+<td>[UpdateDTO]</td>
+<td>[Resource]</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>/api/v1/[resource]/:id</td>
+<td>[Description]</td>
+<td>-</td>
+<td>204</td>
+</tr>
+</tbody>
+</table>
+<h3 id="52-api-example">5.2 API Example</h3>
+<p><strong>Request:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="err">POST /api/v1/[resource]</span>
+<span class="err">Content-Type: application/json</span>
+
+<span class="err">{</span>
+<span class="err">  &quot;field1&quot;: &quot;value1&quot;,</span>
+<span class="err">  &quot;field2&quot;: 123,</span>
+<span class="err">  &quot;field3&quot;: true</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p><strong>Response:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/json</span>
+
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc-123&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;field1&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;value1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;field2&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">123</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;field3&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;createdAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-12-22T10:00:00Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="6-uiux-design">6. UI/UX Design</h2>
+<h3 id="61-ui-mockup-screen-name">6.1 UI Mockup: [Screen Name]</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">                              </span><span class="n">UI</span><span class="w"> </span><span class="n">MOCKUP</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">SCREEN</span><span class="w"> </span><span class="n">NAME</span><span class="p">]</span><span class="w">                                </span><span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">┌─────────────────────────────────────────────────────────────────────────────┐</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="p">[</span><span class="n">HEADER</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">NAVIGATION</span><span class="w"> </span><span class="n">BAR</span><span class="p">]</span><span class="w">                                    </span><span class="p">[</span><span class="n">User</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="n">Menu</span><span class="p">]</span><span class="w"> </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└─────────────────────────────────────────────────────────────────────────────┘</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">┌───────────────────────┐</span><span class="w">  </span><span class="err">┌──────────────────────────────────────────────────┐</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">                       </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">                                                  </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="p">[</span><span class="n">SIDEBAR</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">NAV</span><span class="p">]</span><span class="w">     </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">              </span><span class="p">[</span><span class="n">MAIN</span><span class="w"> </span><span class="n">CONTENT</span><span class="w"> </span><span class="n">AREA</span><span class="p">]</span><span class="w">                 </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">                       </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">                                                  </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">•</span><span class="w"> </span><span class="p">[</span><span class="n">Nav</span><span class="w"> </span><span class="n">Item</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w">      </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="err">┌──────────────────────────────────────────┐</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">•</span><span class="w"> </span><span class="p">[</span><span class="n">Nav</span><span class="w"> </span><span class="n">Item</span><span class="w"> </span><span class="mi">2</span><span class="p">]</span><span class="w">      </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">                                          </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">•</span><span class="w"> </span><span class="p">[</span><span class="n">Nav</span><span class="w"> </span><span class="n">Item</span><span class="w"> </span><span class="mi">3</span><span class="p">]</span><span class="w">      </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">         </span><span class="p">[</span><span class="n">PRIMARY</span><span class="w"> </span><span class="n">COMPONENT</span><span class="p">]</span><span class="w">              </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">•</span><span class="w"> </span><span class="p">[</span><span class="n">Nav</span><span class="w"> </span><span class="n">Item</span><span class="w"> </span><span class="mi">4</span><span class="p">]</span><span class="w">      </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">                                          </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">                       </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="err">└──────────────────────────────────────────┘</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">                       </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">                                                  </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">                       </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="err">┌─────────────────┐</span><span class="w">  </span><span class="err">┌─────────────────────┐</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">                       </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="p">[</span><span class="n">Secondary</span><span class="w"> </span><span class="n">A</span><span class="p">]</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="p">[</span><span class="n">Secondary</span><span class="w"> </span><span class="n">B</span><span class="p">]</span><span class="w">      </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">                       </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="err">└─────────────────┘</span><span class="w">  </span><span class="err">└─────────────────────┘</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">                       </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">                                                  </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└───────────────────────┘</span><span class="w">  </span><span class="err">└──────────────────────────────────────────────────┘</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">┌─────────────────────────────────────────────────────────────────────────────┐</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="p">[</span><span class="n">STATUS</span><span class="w"> </span><span class="n">BAR</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">FOOTER</span><span class="p">]</span><span class="w">                                           </span><span class="p">[</span><span class="n">Actions</span><span class="p">]</span><span class="w"> </span><span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└─────────────────────────────────────────────────────────────────────────────┘</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<h3 id="62-user-interactions">6.2 User Interactions</h3>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Interaction</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[Element 1]</td>
+<td>Click</td>
+<td>[What happens]</td>
+</tr>
+<tr>
+<td>[Element 2]</td>
+<td>Hover</td>
+<td>[What happens]</td>
+</tr>
+<tr>
+<td>[Element 3]</td>
+<td>Drag</td>
+<td>[What happens]</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="7-security-design">7. Security Design</h2>
+<h3 id="71-authentication-authorization">7.1 Authentication &amp; Authorization</h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Authentication</td>
+<td>[Method: JWT, OAuth2, etc.]</td>
+</tr>
+<tr>
+<td>Authorization</td>
+<td>[Method: RBAC, ABAC, etc.]</td>
+</tr>
+<tr>
+<td>Session Management</td>
+<td>[Approach]</td>
+</tr>
+</tbody>
+</table>
+<h3 id="72-security-considerations">7.2 Security Considerations</h3>
+<table>
+<thead>
+<tr>
+<th>Threat</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[Threat 1]</td>
+<td>[Mitigation approach]</td>
+</tr>
+<tr>
+<td>[Threat 2]</td>
+<td>[Mitigation approach]</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="8-performance-design">8. Performance Design</h2>
+<h3 id="81-performance-requirements">8.1 Performance Requirements</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Target</th>
+<th>Measurement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Response Time</td>
+<td>&lt; [X]ms</td>
+<td>[How measured]</td>
+</tr>
+<tr>
+<td>Throughput</td>
+<td>[X] req/sec</td>
+<td>[How measured]</td>
+</tr>
+<tr>
+<td>Memory Usage</td>
+<td>&lt; [X]MB</td>
+<td>[How measured]</td>
+</tr>
+</tbody>
+</table>
+<h3 id="82-optimization-strategies">8.2 Optimization Strategies</h3>
+<ul>
+<li>[Strategy 1: e.g., Caching]</li>
+<li>[Strategy 2: e.g., Lazy loading]</li>
+<li>[Strategy 3: e.g., Connection pooling]</li>
+</ul>
+<hr />
+<h2 id="9-reliability-design">9. Reliability Design</h2>
+<h3 id="91-failure-modes">9.1 Failure Modes</h3>
+<table>
+<thead>
+<tr>
+<th>Failure Mode</th>
+<th>Detection</th>
+<th>Recovery</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[Failure 1]</td>
+<td>[How detected]</td>
+<td>[Recovery action]</td>
+</tr>
+<tr>
+<td>[Failure 2]</td>
+<td>[How detected]</td>
+<td>[Recovery action]</td>
+</tr>
+</tbody>
+</table>
+<h3 id="92-error-handling">9.2 Error Handling</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">ERROR</span><span class="w"> </span><span class="n">HANDLING</span><span class="w"> </span><span class="n">FLOW</span>
+
+<span class="p">[</span><span class="n">Error</span><span class="w"> </span><span class="n">Occurs</span><span class="p">]</span><span class="w"> </span><span class="err">──►</span><span class="w"> </span><span class="p">[</span><span class="n">Log</span><span class="w"> </span><span class="n">Error</span><span class="p">]</span><span class="w"> </span><span class="err">──►</span><span class="w"> </span><span class="p">[</span><span class="n">Classify</span><span class="w"> </span><span class="n">Error</span><span class="p">]</span><span class="w"> </span><span class="err">──►</span><span class="w"> </span><span class="p">[</span><span class="n">Handle</span><span class="o">/</span><span class="n">Retry</span><span class="o">/</span><span class="n">Escalate</span><span class="p">]</span>
+<span class="w">                        </span><span class="err">│</span><span class="w">                                        </span><span class="err">│</span>
+<span class="w">                        </span><span class="err">▼</span><span class="w">                                        </span><span class="err">▼</span>
+<span class="w">                  </span><span class="p">[</span><span class="n">Monitoring</span><span class="p">]</span><span class="w">                            </span><span class="p">[</span><span class="n">User</span><span class="w"> </span><span class="n">Notification</span><span class="p">]</span>
+</code></pre></div>
+
+<hr />
+<h2 id="10-testing-strategy">10. Testing Strategy</h2>
+<h3 id="101-test-levels">10.1 Test Levels</h3>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Scope</th>
+<th>Tools</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unit</td>
+<td>[What's tested]</td>
+<td>[Testing tools]</td>
+</tr>
+<tr>
+<td>Integration</td>
+<td>[What's tested]</td>
+<td>[Testing tools]</td>
+</tr>
+<tr>
+<td>E2E</td>
+<td>[What's tested]</td>
+<td>[Testing tools]</td>
+</tr>
+</tbody>
+</table>
+<h3 id="102-test-cases">10.2 Test Cases</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Description</th>
+<th>Expected Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TC-001</td>
+<td>[Test case]</td>
+<td>[Expected outcome]</td>
+</tr>
+<tr>
+<td>TC-002</td>
+<td>[Test case]</td>
+<td>[Expected outcome]</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="11-deployment-rollout">11. Deployment &amp; Rollout</h2>
+<h3 id="111-deployment-architecture">11.1 Deployment Architecture</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">DEPLOYMENT</span><span class="w"> </span><span class="n">ARCHITECTURE</span>
+
+<span class="err">┌─────────────┐</span><span class="w">    </span><span class="err">┌─────────────┐</span><span class="w">    </span><span class="err">┌─────────────┐</span>
+<span class="err">│</span><span class="w">   </span><span class="o">[</span><span class="n">Stage</span><span class="o">]</span><span class="w">   </span><span class="err">│───►│</span><span class="w">   </span><span class="o">[</span><span class="n">Stage</span><span class="o">]</span><span class="w">   </span><span class="err">│───►│</span><span class="w">   </span><span class="o">[</span><span class="n">Stage</span><span class="o">]</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Development</span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">   </span><span class="n">Staging</span><span class="w">   </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">  </span><span class="n">Production</span><span class="w"> </span><span class="err">│</span>
+<span class="err">└─────────────┘</span><span class="w">    </span><span class="err">└─────────────┘</span><span class="w">    </span><span class="err">└─────────────┘</span>
+</code></pre></div>
+
+<h3 id="112-rollout-strategy">11.2 Rollout Strategy</h3>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Description</th>
+<th>Rollback Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phase 1</td>
+<td>[Description]</td>
+<td>[When to rollback]</td>
+</tr>
+<tr>
+<td>Phase 2</td>
+<td>[Description]</td>
+<td>[When to rollback]</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="12-open-questions">12. Open Questions</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Question</th>
+<th>Owner</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q1</td>
+<td>[Question]</td>
+<td>[Owner]</td>
+<td>Open</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="13-appendix">13. Appendix</h2>
+<h3 id="131-glossary">13.1 Glossary</h3>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[Term 1]</td>
+<td>[Definition]</td>
+</tr>
+</tbody>
+</table>
+<h3 id="132-references">13.2 References</h3>
+<ul>
+<li>[Reference 1]</li>
+<li>[Reference 2]</li>
+</ul>
+<h3 id="133-change-log">13.3 Change Log</h3>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Date</th>
+<th>Author</th>
+<th>Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.1.0</td>
+<td>[Date]</td>
+<td>[Author]</td>
+<td>Initial draft</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<div align="center">
+
+<img src="file:///home/manava/atcs-ng/docs/hanaML-Template-7C3AED.png" alt="hanaML" style="max-height: 40px;">
+
+*This template is maintained by the Engineering Team.*
+
+</div>
+    <div class="footer">
+        <span class="badge">hanaML</span>
+        <p>Generated on 2025-12-22 17:09:28</p>
+    </div>
+</body>
+</html>

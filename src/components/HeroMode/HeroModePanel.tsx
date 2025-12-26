@@ -11,20 +11,16 @@ import {
 } from 'lucide-react';
 import { CloudTTS, HeroModeTheme } from '../../audio';
 import { useUIStore } from '../../store';
+import { 
+  HERO_COMMANDS, 
+  HERO_DIALOGUE, 
+  HeroPhase, 
+  HeroCommand 
+} from '../../demo/scenarios/hero-mode-config';
 
 interface HeroModePanelProps {
   hijackedFlightId: string;
   onComplete: (success: boolean) => void;
-}
-
-type HeroPhase = 'intro' | 'contact' | 'vectors' | 'approach' | 'landing' | 'success' | 'failure';
-
-interface HeroCommand {
-  id: string;
-  label: string;
-  command: string;
-  correct: boolean;
-  phase: HeroPhase;
 }
 
 export function HeroModePanel({
@@ -54,9 +50,9 @@ export function HeroModePanel({
     if (phase === 'intro') {
       // Sarah's distress call - Australian accent with radio effect
       setTimeout(() => {
-        setSarahMessage("Mayday mayday! This is Qantas 8. We've... we've regained control. I fought him off! I'm Sarah, a passenger. The pilots are unconscious. I have 489 people on this A380. Please, you have to help us!");
+        setSarahMessage(HERO_DIALOGUE.intro);
         CloudTTS.speakSarah(
-          "Mayday mayday! This is Qantas 8. We've regained control. I fought him off! I'm Sarah, a passenger. The pilots are unconscious. I have 489 people on this A380. Please, you have to help us!",
+          HERO_DIALOGUE.intro,
           () => {
             setPhase('contact');
           }
@@ -89,7 +85,7 @@ export function HeroModePanel({
     if (distance <= 5 && altitude <= 3000 && phase === 'landing') {
       setPhase('success');
       CloudTTS.speakSarah(
-        "We made it! We're on the ground! Thank you! Oh god, thank you so much!",
+        HERO_DIALOGUE.landing.success,
         () => onComplete(true)
       );
     }
@@ -121,8 +117,8 @@ export function HeroModePanel({
       switch (command.phase) {
         case 'contact':
           setTimeout(() => {
-            setSarahMessage("Copy that! I'm looking at the instruments... there's so many buttons...");
-            CloudTTS.speakSarah("Copy that! I'm looking at the instruments... there's so many buttons...", () => {
+            setSarahMessage(HERO_DIALOGUE.contact.success);
+            CloudTTS.speakSarah(HERO_DIALOGUE.contact.success, () => {
               setPhase('vectors');
             });
           }, 2000);
@@ -130,8 +126,8 @@ export function HeroModePanel({
 
         case 'vectors':
           setTimeout(() => {
-            setSarahMessage("Turning now. I found the autopilot heading dial. Is this right?");
-            CloudTTS.speakSarah("Turning now. I found the autopilot heading dial. Is this right?", () => {
+            setSarahMessage(HERO_DIALOGUE.vectors.success);
+            CloudTTS.speakSarah(HERO_DIALOGUE.vectors.success, () => {
               setPhase('approach');
             });
           }, 2000);
@@ -140,8 +136,8 @@ export function HeroModePanel({
         case 'approach':
           setAltitude(a => Math.max(3000, a - 5000));
           setTimeout(() => {
-            setSarahMessage("Descending... the runway lights! I can see them! Oh my god, I can see JFK!");
-            CloudTTS.speakSarah("Descending... the runway lights! I can see them! I can see JFK!", () => {
+            setSarahMessage(HERO_DIALOGUE.approach.success);
+            CloudTTS.speakSarah(HERO_DIALOGUE.approach.success, () => {
               setPhase('landing');
             });
           }, 2000);
@@ -156,46 +152,13 @@ export function HeroModePanel({
       }
     } else {
       // Wrong command - Sarah gets confused
-      setSarahMessage("Wait, what? I don't understand! Please, you have to be more clear!");
-      CloudTTS.speakSarah("Wait, what? I don't understand! Please, you have to be more clear!");
+      setSarahMessage(HERO_DIALOGUE.contact.failure);
+      CloudTTS.speakSarah(HERO_DIALOGUE.contact.failure);
     }
   }, [addCommandLog]);
 
-  // Commands for each phase - memoized for stability
-  const phaseCommands = useMemo((): HeroCommand[] => {
-    switch (phase) {
-      case 'contact':
-        return [
-          { id: 'c1', label: 'Stay Calm', command: 'remain calm, help is on the way', correct: true, phase: 'contact' },
-          { id: 'c2', label: 'Squawk 7500', command: 'squawk 7500', correct: false, phase: 'contact' },
-          { id: 'c3', label: 'Identify Location', command: 'say position and altitude', correct: false, phase: 'contact' },
-        ];
-
-      case 'vectors':
-        return [
-          { id: 'v1', label: 'Turn to JFK', command: 'turn left heading 250, direct JFK', correct: true, phase: 'vectors' },
-          { id: 'v2', label: 'Hold Position', command: 'maintain present heading', correct: false, phase: 'vectors' },
-          { id: 'v3', label: 'Turn Away', command: 'turn right heading 090', correct: false, phase: 'vectors' },
-        ];
-
-      case 'approach':
-        return [
-          { id: 'a1', label: 'Begin Descent', command: 'descend to 10,000, expect ILS approach runway 31L', correct: true, phase: 'approach' },
-          { id: 'a2', label: 'Maintain Altitude', command: 'maintain flight level 350', correct: false, phase: 'approach' },
-          { id: 'a3', label: 'Speed Up', command: 'increase speed to 400 knots', correct: false, phase: 'approach' },
-        ];
-
-      case 'landing':
-        return [
-          { id: 'l1', label: 'Final Approach', command: 'cleared ILS runway 31L, gear down, flaps full', correct: true, phase: 'landing' },
-          { id: 'l2', label: 'Go Around', command: 'go around, climb to 3000', correct: false, phase: 'landing' },
-          { id: 'l3', label: 'Hold Short', command: 'hold short of runway', correct: false, phase: 'landing' },
-        ];
-
-      default:
-        return [];
-    }
-  }, [phase]);
+  // Commands for each phase
+  const phaseCommands = useMemo(() => HERO_COMMANDS[phase] || [], [phase]);
 
   // Auto-play: Controller E97 automatically issues commands with proper ATC terminology
   useEffect(() => {

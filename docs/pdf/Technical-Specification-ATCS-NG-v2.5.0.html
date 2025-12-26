@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Specification</title>
+    <style>
+/* hanaML Purple Theme - PDF Stylesheet */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --primary: #7C3AED;
+  --primary-dark: #5B21B6;
+  --primary-light: #A78BFA;
+  --background: #1a1a2e;
+  --background-light: #16213e;
+  --surface: #0f3460;
+  --text-primary: #E5E7EB;
+  --text-secondary: #9CA3AF;
+  --border: #374151;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --info: #3B82F6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 11pt;
+  line-height: 1.6;
+  color: #1F2937;
+  background: #ffffff;
+  margin: 0;
+  padding: 40px 60px;
+}
+
+/* Page Header */
+@page {
+  size: A4;
+  margin: 20mm 15mm 25mm 15mm;
+  @top-center {
+    content: "hanaML Documentation";
+    font-size: 9pt;
+    color: #7C3AED;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-size: 9pt;
+    color: #6B7280;
+  }
+}
+
+/* Cover Page Styling */
+.cover-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12pt;
+  margin-bottom: 20px;
+}
+
+/* Headings */
+h1 {
+  font-size: 28pt;
+  font-weight: 700;
+  color: #7C3AED;
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid #7C3AED;
+  page-break-after: avoid;
+}
+
+h2 {
+  font-size: 18pt;
+  font-weight: 600;
+  color: #1F2937;
+  margin-top: 32px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #E5E7EB;
+  page-break-after: avoid;
+}
+
+h3 {
+  font-size: 14pt;
+  font-weight: 600;
+  color: #374151;
+  margin-top: 24px;
+  margin-bottom: 10px;
+  page-break-after: avoid;
+}
+
+h4 {
+  font-size: 12pt;
+  font-weight: 600;
+  color: #4B5563;
+  margin-top: 20px;
+  margin-bottom: 8px;
+  page-break-after: avoid;
+}
+
+h5, h6 {
+  font-size: 11pt;
+  font-weight: 600;
+  color: #6B7280;
+  margin-top: 16px;
+  margin-bottom: 6px;
+}
+
+/* Paragraphs */
+p {
+  margin: 0 0 12px 0;
+  text-align: justify;
+}
+
+/* Links */
+a {
+  color: #7C3AED;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Lists */
+ul, ol {
+  margin: 0 0 16px 0;
+  padding-left: 24px;
+}
+
+li {
+  margin-bottom: 6px;
+}
+
+li > ul, li > ol {
+  margin-top: 6px;
+  margin-bottom: 0;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 10pt;
+  page-break-inside: avoid;
+}
+
+thead {
+  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+  color: white;
+}
+
+th {
+  padding: 12px 10px;
+  text-align: left;
+  font-weight: 600;
+  border: 1px solid #7C3AED;
+}
+
+td {
+  padding: 10px;
+  border: 1px solid #E5E7EB;
+  vertical-align: top;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #F9FAFB;
+}
+
+tbody tr:hover {
+  background-color: #F3F4F6;
+}
+
+/* Code Blocks */
+pre {
+  background: #1F2937;
+  color: #E5E7EB;
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 9pt;
+  line-height: 1.5;
+  margin: 16px 0;
+  border-left: 4px solid #7C3AED;
+  page-break-inside: avoid;
+}
+
+code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 9pt;
+  background: #F3F4F6;
+  color: #7C3AED;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+/* Blockquotes */
+blockquote {
+  margin: 16px 0;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(91, 33, 182, 0.08) 100%);
+  border-left: 4px solid #7C3AED;
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: #4B5563;
+}
+
+blockquote p {
+  margin: 0;
+}
+
+/* Horizontal Rule */
+hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, #7C3AED 0%, #A78BFA 50%, #7C3AED 100%);
+  margin: 32px 0;
+}
+
+/* ASCII Art Boxes - preserve formatting */
+pre.ascii-art {
+  background: #FAFAFA;
+  color: #1F2937;
+  border: 2px solid #E5E7EB;
+  border-left: 4px solid #7C3AED;
+  font-size: 8pt;
+  line-height: 1.4;
+}
+
+/* Status Indicators */
+.status-completed, .status-done {
+  color: #10B981;
+  font-weight: 600;
+}
+
+.status-in-progress, .status-wip {
+  color: #F59E0B;
+  font-weight: 600;
+}
+
+.status-pending, .status-todo {
+  color: #6B7280;
+  font-weight: 600;
+}
+
+.status-blocked, .status-critical {
+  color: #EF4444;
+  font-weight: 600;
+}
+
+/* Priority Badges */
+.priority-p0 {
+  display: inline-block;
+  background: #EF4444;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9pt;
+  font-weight: 600;
+}
+
+.priority-p1 {
+  display: inline-block;
+  background: #F59E0B;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9pt;
+  font-weight: 600;
+}
+
+.priority-p2 {
+  display: inline-block;
+  background: #3B82F6;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9pt;
+  font-weight: 600;
+}
+
+/* Document Info Box */
+.doc-info {
+  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.doc-info table {
+  background: transparent;
+}
+
+.doc-info th, .doc-info td {
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Callout Boxes */
+.callout {
+  padding: 16px;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+
+.callout-info {
+  background: #EFF6FF;
+  border-left: 4px solid #3B82F6;
+}
+
+.callout-warning {
+  background: #FFFBEB;
+  border-left: 4px solid #F59E0B;
+}
+
+.callout-success {
+  background: #ECFDF5;
+  border-left: 4px solid #10B981;
+}
+
+.callout-error {
+  background: #FEF2F2;
+  border-left: 4px solid #EF4444;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 2px solid #E5E7EB;
+  color: #6B7280;
+  font-size: 9pt;
+}
+
+.footer .badge {
+  display: inline-block;
+  background: #7C3AED;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 9pt;
+}
+
+/* Page Breaks */
+.page-break {
+  page-break-after: always;
+}
+
+.no-break {
+  page-break-inside: avoid;
+}
+
+/* Print-specific */
+@media print {
+  body {
+    padding: 0;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  a {
+    color: #7C3AED;
+  }
+
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    color: #6B7280;
+  }
+}
+
+/* Table of Contents */
+.toc {
+  background: #F9FAFB;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.toc h2 {
+  margin-top: 0;
+  color: #7C3AED;
+  border-bottom: 2px solid #7C3AED;
+}
+
+.toc ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.toc li {
+  padding: 4px 0;
+  border-bottom: 1px dotted #E5E7EB;
+}
+
+.toc a {
+  color: #374151;
+}
+
+.toc a:hover {
+  color: #7C3AED;
+}
+
+/* Metrics/Dashboard Style */
+.metric-card {
+  display: inline-block;
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 8px;
+  text-align: center;
+  min-width: 120px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.metric-value {
+  font-size: 24pt;
+  font-weight: 700;
+  color: #7C3AED;
+}
+
+.metric-label {
+  font-size: 10pt;
+  color: #6B7280;
+  text-transform: uppercase;
+}
+
+/* Section Numbers */
+h2::before {
+  color: #7C3AED;
+  font-weight: 700;
+}
+
+/* Checkbox styling for checklists */
+input[type="checkbox"] {
+  accent-color: #7C3AED;
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+}
+
+/* Definition Lists */
+dl {
+  margin: 16px 0;
+}
+
+dt {
+  font-weight: 600;
+  color: #374151;
+  margin-top: 12px;
+}
+
+dd {
+  margin-left: 20px;
+  color: #4B5563;
+}
+
+    </style>
+</head>
+<body>
+<h1 id="technical-specification">Technical Specification</h1>
+<div align="center">
+
+<img src="file:///home/manava/atcs-ng/docs/hanaML-Template-7C3AED.png" alt="hanaML" style="max-height: 40px;">
+
+**ATCS-NG: Next Generation Air Traffic Control System**
+
+| Document ID | Version | Status | Classification |
+|-------------|---------|--------|----------------|
+| TS-ATCS-2024-001 | 2.5.0 | Approved | Internal |
+
+| Author | Reviewers | Approvers |
+|--------|-----------|-----------|
+| Engineering Team | Tech Lead, Security | VP Engineering |
+
+| Created | Last Updated | Review Cycle |
+|---------|--------------|--------------|
+| 2024-10-15 | 2024-12-22 | Per Release |
+
+</div>
+
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-overview">Overview</a></li>
+<li><a href="#2-technology-stack">Technology Stack</a></li>
+<li><a href="#3-component-specifications">Component Specifications</a></li>
+<li><a href="#4-interface-definitions">Interface Definitions</a></li>
+<li><a href="#5-data-schemas">Data Schemas</a></li>
+<li><a href="#6-error-handling">Error Handling</a></li>
+<li><a href="#7-logging--observability">Logging &amp; Observability</a></li>
+<li><a href="#8-configuration">Configuration</a></li>
+<li><a href="#9-build--deployment">Build &amp; Deployment</a></li>
+<li><a href="#10-appendix">Appendix</a></li>
+</ol>
+<hr />
+<h2 id="1-overview">1. Overview</h2>
+<h3 id="11-purpose">1.1 Purpose</h3>
+<p>This Technical Specification provides detailed implementation guidance for ATCS-NG v2.5.0. It serves as the authoritative reference for developers implementing, maintaining, or extending the system.</p>
+<h3 id="12-scope">1.2 Scope</h3>
+<p>This document covers:
+- UI Client (React SPA)
+- Demo System (scenarios, TTS, controls)
+- Audio System (Cloud TTS integration)
+- State Management (Demo and UI state)</p>
+<hr />
+<h2 id="2-technology-stack">2. Technology Stack</h2>
+<h3 id="21-core-technologies">2.1 Core Technologies</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">                              </span><span class="n">TECHNOLOGY</span><span class="w"> </span><span class="n">STACK</span><span class="w">                                        </span><span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">FRONTEND</span><span class="w">                                                                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">────────</span><span class="w">                                                                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">┌─────────────────────────────────────────────────────────────────────────────┐</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Technology</span><span class="w">           </span><span class="err">│</span><span class="w">  </span><span class="n">Version</span><span class="w">     </span><span class="err">│</span><span class="w">  </span><span class="n">Purpose</span><span class="w">                            </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">─────────────────────────────────────────────────────────────────────────</span><span class="w">  </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">React</span><span class="w">                </span><span class="err">│</span><span class="w">  </span><span class="mf">18.2</span><span class="o">.</span><span class="mi">0</span><span class="w">      </span><span class="err">│</span><span class="w">  </span><span class="n">UI</span><span class="w"> </span><span class="n">framework</span><span class="w">                       </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">TypeScript</span><span class="w">           </span><span class="err">│</span><span class="w">  </span><span class="mf">5.3</span><span class="o">.</span><span class="mi">3</span><span class="w">       </span><span class="err">│</span><span class="w">  </span><span class="n">Type</span><span class="w"> </span><span class="n">safety</span><span class="w">                        </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Vite</span><span class="w">                 </span><span class="err">│</span><span class="w">  </span><span class="mf">7.3</span><span class="o">.</span><span class="mi">0</span><span class="w">       </span><span class="err">│</span><span class="w">  </span><span class="n">Build</span><span class="w"> </span><span class="k">tool</span><span class="w">                         </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Three</span><span class="o">.</span><span class="n">js</span><span class="w">             </span><span class="err">│</span><span class="w">  </span><span class="mf">0.169</span><span class="o">.</span><span class="mi">0</span><span class="w">     </span><span class="err">│</span><span class="w">  </span><span class="mi">3</span><span class="n">D</span><span class="w"> </span><span class="n">rendering</span><span class="w">                       </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">React</span><span class="w"> </span><span class="n">Three</span><span class="w"> </span><span class="n">Fiber</span><span class="w">    </span><span class="err">│</span><span class="w">  </span><span class="mf">8.17</span><span class="o">.</span><span class="mi">0</span><span class="w">      </span><span class="err">│</span><span class="w">  </span><span class="n">React</span><span class="w"> </span><span class="n">Three</span><span class="o">.</span><span class="n">js</span><span class="w"> </span><span class="n">wrapper</span><span class="w">             </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Framer</span><span class="w"> </span><span class="n">Motion</span><span class="w">        </span><span class="err">│</span><span class="w">  </span><span class="mf">11.15</span><span class="o">.</span><span class="mi">0</span><span class="w">     </span><span class="err">│</span><span class="w">  </span><span class="n">Animations</span><span class="w">                         </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Zustand</span><span class="w">              </span><span class="err">│</span><span class="w">  </span><span class="mf">5.0</span><span class="o">.</span><span class="mi">0</span><span class="w">       </span><span class="err">│</span><span class="w">  </span><span class="n">State</span><span class="w"> </span><span class="n">management</span><span class="w">                   </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Lucide</span><span class="w"> </span><span class="n">React</span><span class="w">         </span><span class="err">│</span><span class="w">  </span><span class="mf">0.468</span><span class="o">.</span><span class="mi">0</span><span class="w">     </span><span class="err">│</span><span class="w">  </span><span class="n">Icons</span><span class="w">                              </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">React</span><span class="w"> </span><span class="n">Map</span><span class="w"> </span><span class="n">GL</span><span class="w">         </span><span class="err">│</span><span class="w">  </span><span class="mf">7.1</span><span class="o">.</span><span class="mi">0</span><span class="w">       </span><span class="err">│</span><span class="w">  </span><span class="n">Map</span><span class="w"> </span><span class="n">rendering</span><span class="w">                      </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">└─────────────────────────────────────────────────────────────────────────────┘</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">INFRASTRUCTURE</span><span class="w">                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">──────────────</span><span class="w">                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">┌─────────────────────────────────────────────────────────────────────────────┐</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Technology</span><span class="w">           </span><span class="err">│</span><span class="w">  </span><span class="n">Service</span><span class="w">              </span><span class="err">│</span><span class="w">  </span><span class="n">Purpose</span><span class="w">                   </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">─────────────────────────────────────────────────────────────────────────</span><span class="w">  </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Docker</span><span class="w">               </span><span class="err">│</span><span class="w">  </span><span class="n">Nginx</span><span class="w"> </span><span class="n">Alpine</span><span class="w">         </span><span class="err">│</span><span class="w">  </span><span class="n">Container</span><span class="w"> </span><span class="n">runtime</span><span class="w">         </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Google</span><span class="w"> </span><span class="n">Cloud</span><span class="w"> </span><span class="n">Run</span><span class="w">     </span><span class="err">│</span><span class="w">  </span><span class="n">us</span><span class="o">-</span><span class="n">central1</span><span class="w">          </span><span class="err">│</span><span class="w">  </span><span class="n">Serverless</span><span class="w"> </span><span class="n">hosting</span><span class="w">        </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Cloud</span><span class="w"> </span><span class="n">Storage</span><span class="w">        </span><span class="err">│</span><span class="w">  </span><span class="n">Artifact</span><span class="w"> </span><span class="n">Registry</span><span class="w">    </span><span class="err">│</span><span class="w">  </span><span class="n">Container</span><span class="w"> </span><span class="n">images</span><span class="w">          </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Cloud</span><span class="w"> </span><span class="n">TTS</span><span class="w">            </span><span class="err">│</span><span class="w">  </span><span class="n">Chirp3</span><span class="o">-</span><span class="n">HD</span><span class="w"> </span><span class="n">voices</span><span class="w">     </span><span class="err">│</span><span class="w">  </span><span class="n">Voice</span><span class="w"> </span><span class="n">synthesis</span><span class="w">           </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Cloud</span><span class="w"> </span><span class="n">Logging</span><span class="w">        </span><span class="err">│</span><span class="w">  </span><span class="n">Structured</span><span class="w"> </span><span class="n">logs</span><span class="w">      </span><span class="err">│</span><span class="w">  </span><span class="n">Observability</span><span class="w">             </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">└─────────────────────────────────────────────────────────────────────────────┘</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<h3 id="22-development-environment">2.2 Development Environment</h3>
+<div class="codehilite"><pre><span></span><code>┌─────────────────────────────────────────────────────────────────────────────────────┐
+│<span class="w">                              </span><span class="nv">DEVELOPMENT</span><span class="w"> </span><span class="nv">ENVIRONMENT</span><span class="w">                                 </span>│
+├─────────────────────────────────────────────────────────────────────────────────────┤
+│<span class="w">                                                                                      </span>│
+│<span class="w">  </span><span class="nv">REQUIREMENTS</span><span class="w">                                                                        </span>│
+│<span class="w">  </span>────────────<span class="w">                                                                        </span>│
+│<span class="w">                                                                                      </span>│
+│<span class="w">  </span>•<span class="w"> </span><span class="nv">Node</span>.<span class="nv">js</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">20</span>.<span class="nv">x</span><span class="w">                                                                   </span>│
+│<span class="w">  </span>•<span class="w"> </span><span class="nv">npm</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">10</span>.<span class="nv">x</span><span class="w">                                                                       </span>│
+│<span class="w">  </span>•<span class="w"> </span><span class="nv">Git</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">2</span>.<span class="nv">x</span><span class="w">                                                                        </span>│
+│<span class="w">  </span>•<span class="w"> </span><span class="nv">Docker</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">24</span>.<span class="nv">x</span><span class="w"> </span><span class="ss">(</span><span class="k">for</span><span class="w"> </span><span class="nv">container</span><span class="w"> </span><span class="nv">builds</span><span class="ss">)</span><span class="w">                                             </span>│
+│<span class="w">  </span>•<span class="w"> </span><span class="nv">Google</span><span class="w"> </span><span class="nv">Cloud</span><span class="w"> </span><span class="nv">SDK</span><span class="w"> </span><span class="ss">(</span><span class="k">for</span><span class="w"> </span><span class="nv">deployment</span><span class="ss">)</span><span class="w">                                                 </span>│
+│<span class="w">                                                                                      </span>│
+│<span class="w">  </span><span class="nv">QUICK</span><span class="w"> </span><span class="nv">START</span><span class="w">                                                                         </span>│
+│<span class="w">  </span>───────────<span class="w">                                                                         </span>│
+│<span class="w">                                                                                      </span>│
+│<span class="w">  </span>#<span class="w"> </span><span class="nv">Clone</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">install</span><span class="w">                                                                 </span>│
+│<span class="w">  </span><span class="nv">git</span><span class="w"> </span><span class="nv">clone</span><span class="w"> </span><span class="nv">https</span>:<span class="o">//</span><span class="nv">github</span>.<span class="nv">com</span><span class="o">/</span><span class="nv">org</span><span class="o">/</span><span class="nv">atcs</span><span class="o">-</span><span class="nv">ng</span>.<span class="nv">git</span><span class="w">                                        </span>│
+│<span class="w">  </span><span class="nv">cd</span><span class="w"> </span><span class="nv">atcs</span><span class="o">-</span><span class="nv">ng</span><span class="w">                                                                          </span>│
+│<span class="w">  </span><span class="nv">npm</span><span class="w"> </span><span class="nv">install</span><span class="w">                                                                         </span>│
+│<span class="w">                                                                                      </span>│
+│<span class="w">  </span>#<span class="w"> </span><span class="nv">Development</span><span class="w"> </span><span class="nv">server</span><span class="w">                                                                </span>│
+│<span class="w">  </span><span class="nv">npm</span><span class="w"> </span><span class="nv">run</span><span class="w"> </span><span class="nv">dev</span><span class="w">                                                                         </span>│
+│<span class="w">                                                                                      </span>│
+│<span class="w">  </span>#<span class="w"> </span><span class="nv">Production</span><span class="w"> </span><span class="nv">build</span><span class="w">                                                                  </span>│
+│<span class="w">  </span><span class="nv">npm</span><span class="w"> </span><span class="nv">run</span><span class="w"> </span><span class="nv">build</span><span class="w">                                                                       </span>│
+│<span class="w">                                                                                      </span>│
+│<span class="w">  </span>#<span class="w"> </span><span class="nv">Type</span><span class="w"> </span><span class="nv">checking</span><span class="w">                                                                     </span>│
+│<span class="w">  </span><span class="nv">npx</span><span class="w"> </span><span class="nv">tsc</span><span class="w"> </span><span class="o">--</span><span class="nv">noEmit</span><span class="w">                                                                    </span>│
+│<span class="w">                                                                                      </span>│
+│<span class="w">  </span><span class="nv">NPM</span><span class="w"> </span><span class="nv">SCRIPTS</span><span class="w">                                                                         </span>│
+│<span class="w">  </span>───────────<span class="w">                                                                         </span>│
+│<span class="w">                                                                                      </span>│
+│<span class="w">  </span>┌──────────────────┬─────────────────────────────────────────────────────────┐<span class="w">     </span>│
+│<span class="w">  </span>│<span class="w">  </span><span class="nv">Script</span><span class="w">          </span>│<span class="w">  </span><span class="nv">Description</span><span class="w">                                            </span>│<span class="w">     </span>│
+│<span class="w">  </span>├──────────────────┼─────────────────────────────────────────────────────────┤<span class="w">     </span>│
+│<span class="w">  </span>│<span class="w">  </span><span class="nv">dev</span><span class="w">             </span>│<span class="w">  </span><span class="nv">Start</span><span class="w"> </span><span class="nv">development</span><span class="w"> </span><span class="nv">server</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">HMR</span><span class="w">                      </span>│<span class="w">     </span>│
+│<span class="w">  </span>│<span class="w">  </span><span class="nv">build</span><span class="w">           </span>│<span class="w">  </span><span class="nv">TypeScript</span><span class="w"> </span><span class="nv">compile</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nv">Vite</span><span class="w"> </span><span class="nv">production</span><span class="w"> </span><span class="nv">build</span><span class="w">             </span>│<span class="w">     </span>│
+│<span class="w">  </span>│<span class="w">  </span><span class="nv">preview</span><span class="w">         </span>│<span class="w">  </span><span class="nv">Preview</span><span class="w"> </span><span class="nv">production</span><span class="w"> </span><span class="nv">build</span><span class="w"> </span><span class="nv">locally</span><span class="w">                       </span>│<span class="w">     </span>│
+│<span class="w">  </span>│<span class="w">  </span><span class="nv">lint</span><span class="w">            </span>│<span class="w">  </span><span class="nv">Run</span><span class="w"> </span><span class="nv">ESLint</span><span class="w">                                             </span>│<span class="w">     </span>│
+│<span class="w">  </span>│<span class="w">  </span><span class="nv">test</span><span class="w">            </span>│<span class="w">  </span><span class="nv">Run</span><span class="w"> </span><span class="nv">test</span><span class="w"> </span><span class="nv">suite</span><span class="w">                                         </span>│<span class="w">     </span>│
+│<span class="w">  </span>└──────────────────┴─────────────────────────────────────────────────────────┘<span class="w">     </span>│
+│<span class="w">                                                                                      </span>│
+└─────────────────────────────────────────────────────────────────────────────────────┘
+</code></pre></div>
+
+<hr />
+<h2 id="3-component-specifications">3. Component Specifications</h2>
+<h3 id="31-demo-system-components">3.1 Demo System Components</h3>
+<h4 id="311-demoprovider">3.1.1 DemoProvider</h4>
+<div class="codehilite"><pre><span></span><code><span class="cm">/**</span>
+<span class="cm"> * DemoProvider - Main demo context provider</span>
+<span class="cm"> *</span>
+<span class="cm"> * Location: src/demo/DemoProvider.tsx</span>
+<span class="cm"> *</span>
+<span class="cm"> * Responsibilities:</span>
+<span class="cm"> * - Manages demo state via useReducer</span>
+<span class="cm"> * - Provides demo actions (start, pause, next, etc.)</span>
+<span class="cm"> * - Handles scenario event processing</span>
+<span class="cm"> * - Controls auto-advance timing</span>
+<span class="cm"> */</span>
+
+<span class="kd">interface</span><span class="w"> </span><span class="nx">DemoContextValue</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// State</span>
+<span class="w">  </span><span class="nx">state</span><span class="o">:</span><span class="w"> </span><span class="kt">DemoState</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">currentStep</span><span class="o">:</span><span class="w"> </span><span class="kt">ScenarioStep</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">totalSteps</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">progress</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">scenarios</span><span class="o">:</span><span class="w"> </span><span class="kt">Scenario</span><span class="p">[];</span>
+
+<span class="w">  </span><span class="c1">// Actions</span>
+<span class="w">  </span><span class="nx">openMenu</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">closeDemo</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">startScenario</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">scenarioId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">startTour</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">nextStep</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">prevStep</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">pause</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">resume</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">togglePresenterMode</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">completeInteraction</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Helpers</span>
+<span class="w">  </span><span class="nx">isSpotlighted</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">target</span><span class="o">:</span><span class="w"> </span><span class="kt">SpotlightTarget</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="kt">boolean</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">canInteract</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">targetId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="kt">boolean</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>State Machine:</strong></p>
+<div class="codehilite"><pre><span></span><code>┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                          DEMO STATE TRANSITIONS                                      │
+├─────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                      │
+│   Action              │  Current State   │  Next State     │  Side Effects          │
+│  ─────────────────────────────────────────────────────────────────────────────────  │
+│   OPEN_MENU           │  any             │  menu           │  isActive = true       │
+│   CLOSE_DEMO          │  any             │  idle           │  Reset to initial      │
+│   START_SCENARIO      │  menu            │  playing        │  Load scenario data    │
+│   START_TOUR          │  menu            │  playing        │  Load first scenario   │
+│   NEXT_STEP           │  playing         │  playing        │  Advance step index    │
+│   NEXT_STEP (last)    │  playing         │  completed      │  Mark scenario done    │
+│   PREV_STEP           │  playing         │  playing        │  Decrement step index  │
+│   PAUSE               │  playing         │  paused         │  Clear timers          │
+│   RESUME              │  paused          │  playing        │  Restart timers        │
+│                                                                                      │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+</code></pre></div>
+
+<h4 id="312-democontroller-reducer">3.1.2 DemoController (Reducer)</h4>
+<div class="codehilite"><pre><span></span><code><span class="cm">/**</span>
+<span class="cm"> * DemoController - Pure reducer for demo state</span>
+<span class="cm"> *</span>
+<span class="cm"> * Location: src/demo/DemoController.ts</span>
+<span class="cm"> *</span>
+<span class="cm"> * Pure function: (state, action) =&gt; newState</span>
+<span class="cm"> * No side effects - all async handled in provider</span>
+<span class="cm"> */</span>
+
+<span class="c1">// Initial state</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">initialDemoState</span><span class="o">:</span><span class="w"> </span><span class="kt">DemoState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">isActive</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">mode</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;menu&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">presenterMode</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">currentScenario</span><span class="o">:</span><span class="w"> </span><span class="kt">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">currentStepIndex</span><span class="o">:</span><span class="w"> </span><span class="kt">0</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">isTourMode</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">tourScenarioIndex</span><span class="o">:</span><span class="w"> </span><span class="kt">0</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">tracks</span><span class="o">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">  </span><span class="nx">alerts</span><span class="o">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">  </span><span class="nx">predictions</span><span class="o">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">  </span><span class="nx">pendingInteraction</span><span class="o">:</span><span class="w"> </span><span class="kt">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">interactionCompleted</span><span class="o">:</span><span class="w"> </span><span class="kt">false</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="c1">// Reducer function signature</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">demoReducer</span><span class="p">(</span><span class="nx">state</span><span class="o">:</span><span class="w"> </span><span class="kt">DemoState</span><span class="p">,</span><span class="w"> </span><span class="nx">action</span><span class="o">:</span><span class="w"> </span><span class="kt">DemoAction</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nx">DemoState</span><span class="p">;</span>
+
+<span class="c1">// Helper functions</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">getCurrentStep</span><span class="p">(</span><span class="nx">state</span><span class="o">:</span><span class="w"> </span><span class="kt">DemoState</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nx">ScenarioStep</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">getTotalSteps</span><span class="p">(</span><span class="nx">state</span><span class="o">:</span><span class="w"> </span><span class="kt">DemoState</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">getProgress</span><span class="p">(</span><span class="nx">state</span><span class="o">:</span><span class="w"> </span><span class="kt">DemoState</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w"> </span><span class="c1">// 0-100</span>
+</code></pre></div>
+
+<h4 id="313-narratorpanel">3.1.3 NarratorPanel</h4>
+<div class="codehilite"><pre><span></span><code><span class="cm">/**</span>
+<span class="cm"> * NarratorPanel - Demo narration overlay</span>
+<span class="cm"> *</span>
+<span class="cm"> * Location: src/demo/components/NarratorPanel.tsx</span>
+<span class="cm"> *</span>
+<span class="cm"> * Responsibilities:</span>
+<span class="cm"> * - Displays current narrative text</span>
+<span class="cm"> * - Controls TTS playback</span>
+<span class="cm"> * - Manages auto-advance after TTS completes</span>
+<span class="cm"> * - Provides playback controls (play/pause/skip)</span>
+<span class="cm"> */</span>
+
+<span class="c1">// Key behaviors:</span>
+<span class="c1">// 1. On step change: Speak narrative via CloudTTS</span>
+<span class="c1">// 2. After TTS: Speak ATC command if present</span>
+<span class="c1">// 3. After all audio: Auto-advance to next step</span>
+<span class="c1">// 4. Fallback timer: Advance even if TTS fails</span>
+
+<span class="c1">// TTS character detection</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">detectCharacterFromNarrative</span><span class="p">(</span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nx">CharacterVoice</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Returns: &#39;narrator&#39; | &#39;atc&#39; | &#39;captain_sharma&#39; | &#39;fa_priya&#39; | etc.</span>
+<span class="w">  </span><span class="c1">// Based on text patterns like &quot;Captain Sharma:&quot; or &quot;ATC:&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="314-atccommanddisplay">3.1.4 ATCCommandDisplay</h4>
+<div class="codehilite"><pre><span></span><code><span class="cm">/**</span>
+<span class="cm"> * ATCCommandDisplay - &quot;YOU:&quot; typing effect for ATC commands</span>
+<span class="cm"> *</span>
+<span class="cm"> * Location: src/demo/components/ATCCommandDisplay.tsx</span>
+<span class="cm"> *</span>
+<span class="cm"> * Responsibilities:</span>
+<span class="cm"> * - Displays ATC commands with typing effect</span>
+<span class="cm"> * - Triggers TTS for ATC voice after typing</span>
+<span class="cm"> * - Shows status (TYPING... / TRANSMITTING)</span>
+<span class="cm"> */</span>
+
+<span class="kd">interface</span><span class="w"> </span><span class="nx">ATCCommandDisplayProps</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">command</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">onComplete</span><span class="o">?:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Typing speed: 40ms per character</span>
+<span class="c1">// After typing: CloudTTS.speakATC(command, onComplete)</span>
+</code></pre></div>
+
+<h3 id="32-audio-system-components">3.2 Audio System Components</h3>
+<h4 id="321-cloudtts">3.2.1 CloudTTS</h4>
+<div class="codehilite"><pre><span></span><code><span class="cm">/**</span>
+<span class="cm"> * CloudTTS - Google Cloud Text-to-Speech integration</span>
+<span class="cm"> *</span>
+<span class="cm"> * Location: src/audio/CloudTTS.ts</span>
+<span class="cm"> *</span>
+<span class="cm"> * Responsibilities:</span>
+<span class="cm"> * - Synthesize text to speech via Google Cloud TTS API</span>
+<span class="cm"> * - Map characters to appropriate voices</span>
+<span class="cm"> * - Apply radio effects for ATC voice</span>
+<span class="cm"> * - Handle browser fallback</span>
+<span class="cm"> */</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nx">CloudTTS</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Singleton pattern for global audio management</span>
+<span class="w">  </span><span class="k">private</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="nx">instance</span><span class="o">:</span><span class="w"> </span><span class="kt">CloudTTS</span><span class="p">;</span>
+<span class="w">  </span><span class="k">private</span><span class="w"> </span><span class="nx">audioContext</span><span class="o">:</span><span class="w"> </span><span class="kt">AudioContext</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">  </span><span class="k">private</span><span class="w"> </span><span class="nx">useBrowserFallback</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Main speak method</span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="nx">speak</span><span class="p">(</span>
+<span class="w">    </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">character</span><span class="o">:</span><span class="w"> </span><span class="kt">CharacterVoice</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">onComplete</span><span class="o">?:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span>
+<span class="w">  </span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// ATC-specific with radio effects</span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="nx">speakATC</span><span class="p">(</span>
+<span class="w">    </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">onComplete</span><span class="o">?:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span>
+<span class="w">  </span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Control methods</span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="nx">cancel</span><span class="p">()</span><span class="o">:</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="nx">setBrowserFallback</span><span class="p">(</span><span class="nx">enabled</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="nx">forceInit</span><span class="p">()</span><span class="o">:</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Voice configuration</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">VOICE_CONFIG</span><span class="o">:</span><span class="w"> </span><span class="kt">Record</span><span class="o">&lt;</span><span class="nx">CharacterVoice</span><span class="p">,</span><span class="w"> </span><span class="nx">VoiceSettings</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">narrator</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">languageCode</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;en-US&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;en-US-Chirp3-HD&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">pitch</span><span class="o">:</span><span class="w"> </span><span class="kt">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">speakingRate</span><span class="o">:</span><span class="w"> </span><span class="kt">1.0</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">atc</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">languageCode</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;en-US&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;en-US-Chirp3-HD&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">pitch</span><span class="o">:</span><span class="w"> </span><span class="o">-</span><span class="mf">2</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">speakingRate</span><span class="o">:</span><span class="w"> </span><span class="kt">1.1</span><span class="p">,</span>
+<span class="w">    </span><span class="c1">// Radio effect applied</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">captain_sharma</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">languageCode</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;en-IN&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;en-IN-Chirp3-HD&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">pitch</span><span class="o">:</span><span class="w"> </span><span class="o">-</span><span class="mf">1</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">speakingRate</span><span class="o">:</span><span class="w"> </span><span class="kt">0.95</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="c1">// ... more voices</span>
+<span class="p">};</span>
+</code></pre></div>
+
+<h3 id="33-visualization-components">3.3 Visualization Components</h3>
+<h4 id="331-radarmap">3.3.1 RadarMap</h4>
+<div class="codehilite"><pre><span></span><code><span class="cm">/**</span>
+<span class="cm"> * RadarMap - 2D radar display</span>
+<span class="cm"> *</span>
+<span class="cm"> * Location: src/components/Map/RadarMap.tsx</span>
+<span class="cm"> *</span>
+<span class="cm"> * Dependencies:</span>
+<span class="cm"> * - react-map-gl (Mapbox GL JS wrapper)</span>
+<span class="cm"> * - maplibre-gl (rendering engine)</span>
+<span class="cm"> */</span>
+
+<span class="kd">interface</span><span class="w"> </span><span class="nx">RadarMapProps</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">tracks</span><span class="o">:</span><span class="w"> </span><span class="kt">Track</span><span class="p">[];</span>
+<span class="w">  </span><span class="nx">selectedTrackId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">onSelectTrack</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">trackId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">showDataBlocks</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">showTrails</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Map configuration</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">MAP_CONFIG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">center</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="mf">42.3601</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">71.0589</span><span class="p">],</span><span class="w"> </span><span class="c1">// Boston</span>
+<span class="w">  </span><span class="nx">zoom</span><span class="o">:</span><span class="w"> </span><span class="kt">8</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">style</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;dark&#39;</span><span class="p">,</span><span class="w"> </span><span class="c1">// Custom dark theme</span>
+<span class="w">  </span><span class="nx">projection</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;mercator&#39;</span><span class="p">,</span>
+<span class="p">};</span>
+</code></pre></div>
+
+<h4 id="332-scene3d">3.3.2 Scene3D</h4>
+<div class="codehilite"><pre><span></span><code><span class="cm">/**</span>
+<span class="cm"> * Scene3D - 3D visualization</span>
+<span class="cm"> *</span>
+<span class="cm"> * Location: src/components/Scene3D/Scene3D.tsx</span>
+<span class="cm"> *</span>
+<span class="cm"> * Dependencies:</span>
+<span class="cm"> * - @react-three/fiber</span>
+<span class="cm"> * - @react-three/drei</span>
+<span class="cm"> * - three.js</span>
+<span class="cm"> */</span>
+
+<span class="kd">interface</span><span class="w"> </span><span class="nx">Scene3DProps</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">tracks</span><span class="o">:</span><span class="w"> </span><span class="kt">Track</span><span class="p">[];</span>
+<span class="w">  </span><span class="nx">selectedTrackId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">onSelectTrack</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">trackId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">mapCenter</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="kt">number</span><span class="p">,</span><span class="w"> </span><span class="kt">number</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="c1">// 3D coordinate conversion</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">latLonToScene</span><span class="p">(</span><span class="nx">lat</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">,</span><span class="w"> </span><span class="nx">lon</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">,</span><span class="w"> </span><span class="nx">center</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="kt">number</span><span class="p">,</span><span class="w"> </span><span class="kt">number</span><span class="p">])</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="kt">number</span><span class="p">,</span><span class="w"> </span><span class="kt">number</span><span class="p">,</span><span class="w"> </span><span class="kt">number</span><span class="p">]</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Convert lat/lon to Three.js coordinates</span>
+<span class="w">  </span><span class="c1">// Scale: 1 unit = 1 nautical mile</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="4-interface-definitions">4. Interface Definitions</h2>
+<h3 id="41-typescript-interfaces">4.1 TypeScript Interfaces</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">// ─────────────────────────────────────────────────────────────────────────────</span>
+<span class="c1">// TRACK INTERFACE</span>
+<span class="c1">// ─────────────────────────────────────────────────────────────────────────────</span>
+
+<span class="kd">interface</span><span class="w"> </span><span class="nx">Track</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Core identification</span>
+<span class="w">  </span><span class="nx">trackId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">callsign</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Position &amp; movement</span>
+<span class="w">  </span><span class="nx">latitudeDeg</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">longitudeDeg</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">altitudeFt</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">headingDeg</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">speedKt</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">verticalRateFpm</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Quality &amp; metadata</span>
+<span class="w">  </span><span class="nx">confidence</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">sequence</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">updatedAt</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Aircraft info</span>
+<span class="w">  </span><span class="nx">airline?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">aircraftType?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">countryCode?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">souls?</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Transponder</span>
+<span class="w">  </span><span class="nx">squawkCode?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">transponderActive?</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Visual state</span>
+<span class="w">  </span><span class="nx">visualState</span><span class="o">?:</span><span class="w"> </span><span class="s1">&#39;normal&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;hijacked&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;hero&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;crashed&#39;</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">dataCorruption?</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Autopilot status (v2.5+)</span>
+<span class="w">  </span><span class="nx">autopilotStatus</span><span class="o">?:</span><span class="w"> </span><span class="s1">&#39;engaged&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;disengaged&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;manual&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;remote_guided&#39;</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">autopilotMode?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Emergency status (v2.5+)</span>
+<span class="w">  </span><span class="nx">emergencyType</span><span class="o">?:</span><span class="w"> </span><span class="s1">&#39;hijack&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;medical&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;mechanical&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;fuel&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;fire&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;incapacitated_crew&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// ─────────────────────────────────────────────────────────────────────────────</span>
+<span class="c1">// ALERT INTERFACE</span>
+<span class="c1">// ─────────────────────────────────────────────────────────────────────────────</span>
+
+<span class="kd">interface</span><span class="w"> </span><span class="nx">Alert</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">alertId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">severity</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;CRITICAL&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;WARNING&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;INFO&#39;</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">alertType</span><span class="o">:</span><span class="w"> </span><span class="kt">AlertType</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">message</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">involvedFlightIds</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">[];</span>
+<span class="w">  </span><span class="nx">sectorId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">timestamp</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">acknowledged</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">type</span><span class="w"> </span><span class="nx">AlertType</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;CONFLICT_PREDICTED&#39;</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;DEVIATION_DETECTED&#39;</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;EMERGENCY_DECLARED&#39;</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;WEATHER_HAZARD&#39;</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;LOSS_OF_SEPARATION&#39;</span><span class="p">;</span>
+
+<span class="c1">// ─────────────────────────────────────────────────────────────────────────────</span>
+<span class="c1">// PREDICTION INTERFACE</span>
+<span class="c1">// ─────────────────────────────────────────────────────────────────────────────</span>
+
+<span class="kd">interface</span><span class="w"> </span><span class="nx">Prediction</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">predictionType</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;CONFLICT&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;DEVIATION&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;WEATHER&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;FUEL&#39;</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">involvedFlights</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">[];</span>
+<span class="w">  </span><span class="nx">probability</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">predictedTime</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">description</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// ─────────────────────────────────────────────────────────────────────────────</span>
+<span class="c1">// SCENARIO INTERFACES</span>
+<span class="c1">// ─────────────────────────────────────────────────────────────────────────────</span>
+
+<span class="kd">interface</span><span class="w"> </span><span class="nx">Scenario</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">description</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">icon</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">duration</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">initialState</span><span class="o">:</span><span class="w"> </span><span class="kt">ScenarioInitialState</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">steps</span><span class="o">:</span><span class="w"> </span><span class="kt">ScenarioStep</span><span class="p">[];</span>
+<span class="p">}</span>
+
+<span class="kd">interface</span><span class="w"> </span><span class="nx">ScenarioStep</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">narrative</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">atcCommand?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">spotlight?</span><span class="o">:</span><span class="w"> </span><span class="kt">SpotlightTarget</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">autoAdvance?</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">interaction?</span><span class="o">:</span><span class="w"> </span><span class="kt">InteractionSpec</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">events?</span><span class="o">:</span><span class="w"> </span><span class="kt">ScenarioEvent</span><span class="p">[];</span>
+<span class="p">}</span>
+
+<span class="kd">interface</span><span class="w"> </span><span class="nx">ScenarioEvent</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">delay</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;updateTrack&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;addAlert&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;removeAlert&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;addPrediction&#39;</span><span class="w"> </span><span class="o">|</span>
+<span class="w">        </span><span class="s1">&#39;updatePrediction&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;removePrediction&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;triggerHeroMode&#39;</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">payload</span><span class="o">:</span><span class="w"> </span><span class="kt">Record</span><span class="o">&lt;</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">any</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">type</span><span class="w"> </span><span class="nx">SpotlightTarget</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;component&#39;</span><span class="p">;</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;track&#39;</span><span class="p">;</span><span class="w"> </span><span class="nx">trackId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;alert&#39;</span><span class="p">;</span><span class="w"> </span><span class="nx">alertId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;prediction&#39;</span><span class="p">;</span><span class="w"> </span><span class="nx">predictionId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;flight&#39;</span><span class="p">;</span><span class="w"> </span><span class="nx">callsign</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">};</span>
+
+<span class="c1">// ─────────────────────────────────────────────────────────────────────────────</span>
+<span class="c1">// DEMO STATE INTERFACE</span>
+<span class="c1">// ─────────────────────────────────────────────────────────────────────────────</span>
+
+<span class="kd">interface</span><span class="w"> </span><span class="nx">DemoState</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">isActive</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">mode</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;menu&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;playing&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;paused&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;completed&#39;</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">presenterMode</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">currentScenario</span><span class="o">:</span><span class="w"> </span><span class="kt">Scenario</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">currentStepIndex</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">isTourMode</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">tourScenarioIndex</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">tracks</span><span class="o">:</span><span class="w"> </span><span class="kt">Track</span><span class="p">[];</span>
+<span class="w">  </span><span class="nx">alerts</span><span class="o">:</span><span class="w"> </span><span class="kt">Alert</span><span class="p">[];</span>
+<span class="w">  </span><span class="nx">predictions</span><span class="o">:</span><span class="w"> </span><span class="kt">Prediction</span><span class="p">[];</span>
+<span class="w">  </span><span class="nx">pendingInteraction</span><span class="o">:</span><span class="w"> </span><span class="kt">InteractionSpec</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">interactionCompleted</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">type</span><span class="w"> </span><span class="nx">DemoAction</span><span class="w"> </span><span class="o">=</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;OPEN_MENU&#39;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;CLOSE_DEMO&#39;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;START_SCENARIO&#39;</span><span class="p">;</span><span class="w"> </span><span class="nx">scenario</span><span class="o">:</span><span class="w"> </span><span class="kt">Scenario</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;START_TOUR&#39;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;NEXT_STEP&#39;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;PREV_STEP&#39;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;PAUSE&#39;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;RESUME&#39;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;TOGGLE_PRESENTER_MODE&#39;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;UPDATE_TRACKS&#39;</span><span class="p">;</span><span class="w"> </span><span class="nx">tracks</span><span class="o">:</span><span class="w"> </span><span class="kt">Track</span><span class="p">[]</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;UPDATE_ALERTS&#39;</span><span class="p">;</span><span class="w"> </span><span class="nx">alerts</span><span class="o">:</span><span class="w"> </span><span class="kt">Alert</span><span class="p">[]</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;UPDATE_PREDICTIONS&#39;</span><span class="p">;</span><span class="w"> </span><span class="nx">predictions</span><span class="o">:</span><span class="w"> </span><span class="kt">Prediction</span><span class="p">[]</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;COMPLETE_INTERACTION&#39;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;SET_STATE&#39;</span><span class="p">;</span><span class="w"> </span><span class="nx">state</span><span class="o">:</span><span class="w"> </span><span class="kt">Partial</span><span class="o">&lt;</span><span class="nx">DemoState</span><span class="o">&gt;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;SCENARIO_COMPLETE&#39;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;TOUR_NEXT_SCENARIO&#39;</span><span class="w"> </span><span class="p">};</span>
+</code></pre></div>
+
+<h3 id="42-ui-store-interface">4.2 UI Store Interface</h3>
+<div class="codehilite"><pre><span></span><code><span class="cm">/**</span>
+<span class="cm"> * UI Store - Zustand store for UI state</span>
+<span class="cm"> *</span>
+<span class="cm"> * Location: src/store/index.ts</span>
+<span class="cm"> */</span>
+
+<span class="kd">interface</span><span class="w"> </span><span class="nx">UIStore</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// View settings</span>
+<span class="w">  </span><span class="nx">viewMode</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;2d&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;3d&#39;</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">setViewMode</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">mode</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;2d&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;3d&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Hero mode</span>
+<span class="w">  </span><span class="nx">heroModeActive</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">setHeroModeActive</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">active</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Application mode</span>
+<span class="w">  </span><span class="nx">appMode</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;demo&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;live&#39;</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">setAppMode</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">mode</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;demo&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;live&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">liveOnly</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">setLiveOnly</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">liveOnly</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Audio settings</span>
+<span class="w">  </span><span class="nx">narrationEnabled</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">setNarrationEnabled</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">enabled</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Command logging</span>
+<span class="w">  </span><span class="nx">commandLog</span><span class="o">:</span><span class="w"> </span><span class="kt">CommandLogEntry</span><span class="p">[];</span>
+<span class="w">  </span><span class="nx">addCommandLog</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">entry</span><span class="o">:</span><span class="w"> </span><span class="kt">Omit</span><span class="o">&lt;</span><span class="nx">CommandLogEntry</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;id&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;timestamp&#39;</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">clearCommandLog</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">interface</span><span class="w"> </span><span class="nx">CommandLogEntry</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">callsign</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">command</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;heading&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;altitude&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;speed&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;squawk&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;frequency&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;hold&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;other&#39;</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">timestamp</span><span class="o">:</span><span class="w"> </span><span class="kt">Date</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="5-data-schemas">5. Data Schemas</h2>
+<h3 id="51-scenario-schema">5.1 Scenario Schema</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Scenario file structure (TypeScript object)</span>
+<span class="c1"># Location: src/demo/scenarios/*.ts</span>
+
+<span class="nt">Scenario</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w">                    </span><span class="c1"># Unique identifier (kebab-case)</span>
+<span class="w">  </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w">                 </span><span class="c1"># Display title</span>
+<span class="w">  </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w">           </span><span class="c1"># Brief description</span>
+<span class="w">  </span><span class="nt">icon</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w">                  </span><span class="c1"># Lucide icon name</span>
+<span class="w">  </span><span class="nt">duration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">number</span><span class="w">              </span><span class="c1"># Estimated duration in minutes</span>
+
+<span class="w">  </span><span class="nt">initialState</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">tracks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Track[]</span><span class="w">             </span><span class="c1"># Starting aircraft positions</span>
+<span class="w">    </span><span class="nt">alerts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Alert[]</span><span class="w">             </span><span class="c1"># Starting alerts (usually empty)</span>
+<span class="w">    </span><span class="nt">predictions</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Prediction[]</span><span class="w">   </span><span class="c1"># Starting predictions (usually empty)</span>
+
+<span class="w">  </span><span class="nt">steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ScenarioStep[]</span><span class="w">         </span><span class="c1"># Ordered list of demo steps</span>
+
+<span class="nt">ScenarioStep</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w">                    </span><span class="c1"># Step identifier (scenario-id-step-name)</span>
+<span class="w">  </span><span class="nt">narrative</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w">             </span><span class="c1"># Text to display and speak</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">atcCommand?</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span><span class="w">           </span><span class="c1"># Optional ATC command to show/speak</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">spotlight?</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SpotlightTarget</span><span class="w">   </span><span class="c1"># What to highlight</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">autoAdvance?</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">number</span><span class="w">          </span><span class="c1"># Milliseconds before auto-advancing</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">interaction?</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">InteractionSpec</span><span class="w"> </span><span class="c1"># Required user interaction</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">events?</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ScenarioEvent[]</span><span class="w">      </span><span class="c1"># Data changes during step</span>
+</code></pre></div>
+
+<h3 id="52-voice-configuration-schema">5.2 Voice Configuration Schema</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Voice configuration for Cloud TTS</span>
+<span class="c1">// Location: src/audio/CloudTTS.ts</span>
+
+<span class="kd">interface</span><span class="w"> </span><span class="nx">VoiceSettings</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">languageCode</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w">         </span><span class="c1">// BCP-47 language code</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w">                 </span><span class="c1">// Google Cloud TTS voice name</span>
+<span class="w">  </span><span class="nx">pitch</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w">                </span><span class="c1">// Pitch adjustment (-20 to 20)</span>
+<span class="w">  </span><span class="nx">speakingRate</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w">         </span><span class="c1">// Speed (0.25 to 4.0)</span>
+<span class="w">  </span><span class="nx">ssmlGender</span><span class="o">?:</span><span class="w"> </span><span class="s1">&#39;MALE&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;FEMALE&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;NEUTRAL&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Supported voice configurations</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">SUPPORTED_VOICES</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="s1">&#39;en-US&#39;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;en-US-Chirp3-HD&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;en-US-Chirp3-HD-F&#39;</span><span class="p">],</span>
+<span class="w">  </span><span class="s1">&#39;en-GB&#39;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;en-GB-Chirp3-HD&#39;</span><span class="p">],</span>
+<span class="w">  </span><span class="s1">&#39;en-AU&#39;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;en-AU-Chirp3-HD&#39;</span><span class="p">],</span>
+<span class="w">  </span><span class="s1">&#39;en-IN&#39;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;en-IN-Chirp3-HD&#39;</span><span class="p">],</span>
+<span class="w">  </span><span class="s1">&#39;nb-NO&#39;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;nb-NO-Chirp3-HD&#39;</span><span class="p">],</span>
+<span class="w">  </span><span class="s1">&#39;sv-SE&#39;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;sv-SE-Chirp3-HD&#39;</span><span class="p">],</span>
+<span class="p">};</span>
+</code></pre></div>
+
+<hr />
+<h2 id="6-error-handling">6. Error Handling</h2>
+<h3 id="61-error-handling-strategy">6.1 Error Handling Strategy</h3>
+<div class="codehilite"><pre><span></span><code>┌─────────────────────────────────────────────────────────────────────────────────────┐
+│<span class="w">                              </span><span class="nv">ERROR</span><span class="w"> </span><span class="nv">HANDLING</span><span class="w"> </span><span class="nv">STRATEGY</span><span class="w">                                 </span>│
+├─────────────────────────────────────────────────────────────────────────────────────┤
+│<span class="w">                                                                                      </span>│
+│<span class="w">  </span><span class="nv">ERROR</span><span class="w"> </span><span class="nv">CATEGORIES</span><span class="w">                                                                    </span>│
+│<span class="w">  </span>────────────────<span class="w">                                                                    </span>│
+│<span class="w">                                                                                      </span>│
+│<span class="w">  </span>┌─────────────────────────────────────────────────────────────────────────────┐<span class="w">    </span>│
+│<span class="w">  </span>│<span class="w">                                                                              </span>│<span class="w">    </span>│
+│<span class="w">  </span>│<span class="w">   </span><span class="nv">Category</span><span class="w">          </span>│<span class="w">  </span><span class="nv">Example</span><span class="w">                    </span>│<span class="w">  </span><span class="nv">Handling</span><span class="w">              </span>│<span class="w">    </span>│
+│<span class="w">  </span>│<span class="w">  </span>─────────────────────────────────────────────────────────────────────────<span class="w">  </span>│<span class="w">    </span>│
+│<span class="w">  </span>│<span class="w">   </span><span class="nv">Network</span><span class="w"> </span><span class="nv">Error</span><span class="w">     </span>│<span class="w">  </span><span class="nv">API</span><span class="w"> </span><span class="nv">unreachable</span><span class="w">            </span>│<span class="w">  </span><span class="nv">Retry</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nv">fallback</span><span class="w">      </span>│<span class="w">    </span>│
+│<span class="w">  </span>│<span class="w">   </span><span class="nv">TTS</span><span class="w"> </span><span class="nv">Error</span><span class="w">         </span>│<span class="w">  </span><span class="nv">Cloud</span><span class="w"> </span><span class="nv">TTS</span><span class="w"> </span><span class="nv">fails</span><span class="w">            </span>│<span class="w">  </span><span class="nv">Browser</span><span class="w"> </span><span class="nv">TTS</span><span class="w"> </span><span class="nv">fallback</span><span class="w">  </span>│<span class="w">    </span>│
+│<span class="w">  </span>│<span class="w">   </span><span class="nv">Audio</span><span class="w"> </span><span class="nv">Error</span><span class="w">       </span>│<span class="w">  </span><span class="nv">AudioContext</span><span class="w"> </span><span class="nv">blocked</span><span class="w">       </span>│<span class="w">  </span><span class="k">Show</span><span class="w"> </span><span class="nv">manual</span><span class="w"> </span><span class="nv">button</span><span class="w">    </span>│<span class="w">    </span>│
+│<span class="w">  </span>│<span class="w">   </span><span class="nv">Render</span><span class="w"> </span><span class="nv">Error</span><span class="w">      </span>│<span class="w">  </span><span class="mi">3</span><span class="nv">D</span><span class="w"> </span><span class="nv">scene</span><span class="w"> </span><span class="nv">fails</span><span class="w">             </span>│<span class="w">  </span><span class="nv">Fall</span><span class="w"> </span><span class="nv">back</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="mi">2</span><span class="nv">D</span><span class="w">       </span>│<span class="w">    </span>│
+│<span class="w">  </span>│<span class="w">   </span><span class="nv">State</span><span class="w"> </span><span class="nv">Error</span><span class="w">       </span>│<span class="w">  </span><span class="nv">Invalid</span><span class="w"> </span><span class="nv">reducer</span><span class="w"> </span><span class="nv">action</span><span class="w">     </span>│<span class="w">  </span><span class="nv">Log</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nv">ignore</span><span class="w">          </span>│<span class="w">    </span>│
+│<span class="w">  </span>│<span class="w">   </span><span class="nv">Data</span><span class="w"> </span><span class="nv">Error</span><span class="w">        </span>│<span class="w">  </span><span class="nv">Malformed</span><span class="w"> </span><span class="nv">track</span><span class="w"> </span><span class="nv">data</span><span class="w">       </span>│<span class="w">  </span><span class="nv">Skip</span><span class="w"> </span><span class="nv">invalid</span><span class="w"> </span><span class="nv">entries</span><span class="w">  </span>│<span class="w">    </span>│
+│<span class="w">  </span>│<span class="w">                                                                              </span>│<span class="w">    </span>│
+│<span class="w">  </span>└─────────────────────────────────────────────────────────────────────────────┘<span class="w">    </span>│
+│<span class="w">                                                                                      </span>│
+│<span class="w">  </span><span class="nv">RECOVERY</span><span class="w"> </span><span class="nv">PATTERNS</span><span class="w">                                                                   </span>│
+│<span class="w">  </span>─────────────────<span class="w">                                                                   </span>│
+│<span class="w">                                                                                      </span>│
+│<span class="w">  </span><span class="mi">1</span>.<span class="w"> </span><span class="nv">TTS</span><span class="w"> </span><span class="nv">Failure</span><span class="w"> </span><span class="nv">Recovery</span>:<span class="w">                                                            </span>│
+│<span class="w">     </span>┌──────────┐<span class="w">     </span>┌──────────┐<span class="w">     </span>┌──────────┐<span class="w">     </span>┌──────────┐<span class="w">               </span>│
+│<span class="w">     </span>│<span class="w"> </span><span class="nv">Cloud</span><span class="w"> </span><span class="nv">TTS</span>│────►│<span class="w"> </span><span class="nv">Error</span>?<span class="w">   </span>│────►│<span class="w"> </span><span class="nv">Browser</span><span class="w">  </span>│────►│<span class="w"> </span><span class="nv">Fallback</span><span class="w"> </span>│<span class="w">               </span>│
+│<span class="w">     </span>│<span class="w"> </span><span class="nv">Request</span><span class="w">  </span>│<span class="w"> </span><span class="nv">No</span><span class="w">  </span>│<span class="w">          </span>│<span class="w"> </span><span class="nv">Yes</span><span class="w"> </span>│<span class="w"> </span><span class="nv">TTS</span><span class="w">      </span>│<span class="w"> </span><span class="nv">No</span><span class="w">  </span>│<span class="w"> </span><span class="nv">Timer</span><span class="w">    </span>│<span class="w">               </span>│
+│<span class="w">     </span>└──────────┘<span class="w">     </span>└──────────┘<span class="w">     </span>└──────────┘<span class="w">     </span>└──────────┘<span class="w">               </span>│
+│<span class="w">           </span>│<span class="w">                                                   </span>│<span class="w">                     </span>│
+│<span class="w">           </span>▼<span class="w">                                                   </span>▼<span class="w">                     </span>│
+│<span class="w">     </span>┌──────────┐<span class="w">                                        </span>┌──────────┐<span class="w">               </span>│
+│<span class="w">     </span>│<span class="w"> </span><span class="nv">Play</span><span class="w">     </span>│<span class="w">                                        </span>│<span class="w"> </span><span class="nv">Auto</span><span class="w">     </span>│<span class="w">               </span>│
+│<span class="w">     </span>│<span class="w"> </span><span class="nv">Audio</span><span class="w">    </span>│<span class="w">                                        </span>│<span class="w"> </span><span class="nv">Advance</span><span class="w">  </span>│<span class="w">               </span>│
+│<span class="w">     </span>└──────────┘<span class="w">                                        </span>└──────────┘<span class="w">               </span>│
+│<span class="w">                                                                                      </span>│
+│<span class="w">  </span><span class="mi">2</span>.<span class="w"> </span><span class="nv">Demo</span><span class="w"> </span><span class="nv">Interruption</span><span class="w"> </span><span class="nv">Recovery</span>:<span class="w">                                                      </span>│
+│<span class="w">     </span>•<span class="w"> </span><span class="nv">Fixed</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">v2</span>.<span class="mi">5</span>:<span class="w"> </span><span class="nv">Removed</span><span class="w"> </span><span class="nv">setTimeout</span><span class="w"> </span><span class="nv">that</span><span class="w"> </span><span class="nv">called</span><span class="w"> </span><span class="nv">openMenu</span><span class="ss">()</span><span class="w">                      </span>│
+│<span class="w">     </span>•<span class="w"> </span><span class="nv">Demo</span><span class="w"> </span><span class="nv">menu</span><span class="w"> </span><span class="nv">only</span><span class="w"> </span><span class="nv">opens</span><span class="w"> </span><span class="nv">on</span><span class="w"> </span><span class="nv">mount</span><span class="w"> </span><span class="nv">or</span><span class="w"> </span><span class="nv">explicit</span><span class="w"> </span><span class="nv">button</span><span class="w"> </span><span class="nv">click</span><span class="w">                        </span>│
+│<span class="w">     </span>•<span class="w"> </span><span class="nv">Clicking</span><span class="w"> </span><span class="nv">on</span><span class="w"> </span><span class="nv">map</span><span class="o">/</span><span class="nv">radar</span><span class="w"> </span><span class="nv">no</span><span class="w"> </span><span class="nv">longer</span><span class="w"> </span><span class="nv">interrupts</span><span class="w"> </span><span class="nv">demo</span><span class="w">                               </span>│
+│<span class="w">                                                                                      </span>│
+│<span class="w">  </span><span class="mi">3</span>.<span class="w"> </span><span class="nv">Audio</span><span class="w"> </span><span class="nv">Context</span><span class="w"> </span><span class="nv">Recovery</span>:<span class="w">                                                          </span>│
+│<span class="w">     </span>•<span class="w"> </span><span class="nv">AudioContext</span><span class="w"> </span><span class="nv">requires</span><span class="w"> </span><span class="nv">user</span><span class="w"> </span><span class="nv">gesture</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">start</span><span class="w">                                    </span>│
+│<span class="w">     </span>•<span class="w"> </span><span class="nv">VoiceNotification</span>.<span class="nv">forceInit</span><span class="ss">()</span><span class="w"> </span><span class="nv">called</span><span class="w"> </span><span class="nv">on</span><span class="w"> </span><span class="nv">first</span><span class="w"> </span><span class="nv">interaction</span><span class="w">                     </span>│
+│<span class="w">     </span>•<span class="w"> </span><span class="s2">&quot;Audio not working?&quot;</span><span class="w"> </span><span class="nv">button</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">manual</span><span class="w"> </span><span class="nv">fallback</span><span class="w"> </span><span class="nv">toggle</span><span class="w">                        </span>│
+│<span class="w">                                                                                      </span>│
+└─────────────────────────────────────────────────────────────────────────────────────┘
+</code></pre></div>
+
+<h3 id="62-error-codes">6.2 Error Codes</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Error code enumeration</span>
+<span class="kd">enum</span><span class="w"> </span><span class="nx">ErrorCode</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Network errors (1xxx)</span>
+<span class="w">  </span><span class="nx">NETWORK_ERROR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1000</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">API_TIMEOUT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1001</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">API_RATE_LIMITED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1002</span><span class="p">,</span>
+
+<span class="w">  </span><span class="c1">// TTS errors (2xxx)</span>
+<span class="w">  </span><span class="nx">TTS_INIT_FAILED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2000</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">TTS_SYNTHESIS_FAILED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2001</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">TTS_AUDIO_BLOCKED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2002</span><span class="p">,</span>
+
+<span class="w">  </span><span class="c1">// State errors (3xxx)</span>
+<span class="w">  </span><span class="nx">INVALID_ACTION</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3000</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">INVALID_STATE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3001</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">SCENARIO_NOT_FOUND</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3002</span><span class="p">,</span>
+
+<span class="w">  </span><span class="c1">// Render errors (4xxx)</span>
+<span class="w">  </span><span class="nx">WEBGL_NOT_SUPPORTED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">4000</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">THREE_INIT_FAILED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">4001</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">MAP_LOAD_FAILED</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">4002</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="7-logging-observability">7. Logging &amp; Observability</h2>
+<h3 id="71-logging-standards">7.1 Logging Standards</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Logging format</span>
+<span class="c1">// All logs prefixed with component identifier</span>
+
+<span class="c1">// Demo system logs</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;[Demo] Starting scenario:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">scenarioId</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;[Demo] Step advanced to:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">stepIndex</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;[Demo] TTS fallback timer fired for step:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">stepId</span><span class="p">);</span>
+
+<span class="c1">// Audio system logs</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;[CloudTTS] Speaking:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">text</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">50</span><span class="p">));</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;[CloudTTS] Audio playback started&#39;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;[CloudTTS] Using browser fallback&#39;</span><span class="p">);</span>
+
+<span class="c1">// Voice notification logs</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;[Voice] Initialized on user interaction&#39;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;[Voice] Fallback disabled during demo&#39;</span><span class="p">);</span>
+
+<span class="c1">// Error logs</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;[CloudTTS] Synthesis failed:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">warn</span><span class="p">(</span><span class="s1">&#39;[Demo] Invalid action received:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">action</span><span class="p">);</span>
+</code></pre></div>
+
+<h3 id="72-metrics-collection">7.2 Metrics Collection</h3>
+<div class="codehilite"><pre><span></span><code>┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                              METRICS COLLECTION                                      │
+├─────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                      │
+│  KEY METRICS                                                                         │
+│  ───────────                                                                         │
+│                                                                                      │
+│  ┌─────────────────────────────────────────────────────────────────────────────┐    │
+│  │                                                                              │    │
+│  │   Metric                    │  Type     │  Collection Point                │    │
+│  │  ─────────────────────────────────────────────────────────────────────────  │    │
+│  │   demo_started              │  Counter  │  START_SCENARIO dispatch         │    │
+│  │   demo_completed            │  Counter  │  Mode changes to &#39;completed&#39;     │    │
+│  │   demo_abandoned            │  Counter  │  CLOSE_DEMO before completion    │    │
+│  │   step_duration_ms          │  Histogram│  Time between steps              │    │
+│  │   tts_success_rate          │  Gauge    │  TTS success / total requests    │    │
+│  │   tts_latency_ms            │  Histogram│  Time to first audio byte        │    │
+│  │   hero_mode_completion      │  Counter  │  Hero mode success/failure       │    │
+│  │   3d_scene_fps              │  Gauge    │  requestAnimationFrame timing    │    │
+│  │                                                                              │    │
+│  └─────────────────────────────────────────────────────────────────────────────┘    │
+│                                                                                      │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+</code></pre></div>
+
+<hr />
+<h2 id="8-configuration">8. Configuration</h2>
+<h3 id="81-environment-variables">8.1 Environment Variables</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">                              </span><span class="n">ENVIRONMENT</span><span class="w"> </span><span class="n">VARIABLES</span><span class="w">                                   </span><span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">BUILD</span><span class="o">-</span><span class="n">TIME</span><span class="w"> </span><span class="n">VARIABLES</span><span class="w"> </span><span class="p">(</span><span class="n">Vite</span><span class="p">)</span><span class="w">                                                         </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">───────────────────────────</span><span class="w">                                                         </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">┌─────────────────────────────────────────────────────────────────────────────┐</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Variable</span><span class="w">                  </span><span class="err">│</span><span class="w">  </span><span class="n">Default</span><span class="w">              </span><span class="err">│</span><span class="w">  </span><span class="n">Description</span><span class="w">          </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">─────────────────────────────────────────────────────────────────────────</span><span class="w">  </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">VITE_API_URL</span><span class="w">              </span><span class="err">│</span><span class="w">  </span><span class="o">/</span><span class="n">api</span><span class="w">                 </span><span class="err">│</span><span class="w">  </span><span class="n">API</span><span class="w"> </span><span class="n">base</span><span class="w"> </span><span class="n">URL</span><span class="w">         </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">VITE_MAPBOX_TOKEN</span><span class="w">         </span><span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w">                    </span><span class="err">│</span><span class="w">  </span><span class="n">Mapbox</span><span class="w"> </span><span class="n">API</span><span class="w"> </span><span class="n">token</span><span class="w">     </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">VITE_GCP_PROJECT_ID</span><span class="w">       </span><span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w">                    </span><span class="err">│</span><span class="w">  </span><span class="n">GCP</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="n">ID</span><span class="w">       </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">└─────────────────────────────────────────────────────────────────────────────┘</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">RUNTIME</span><span class="w"> </span><span class="n">VARIABLES</span><span class="w"> </span><span class="p">(</span><span class="n">Cloud</span><span class="w"> </span><span class="n">Run</span><span class="p">)</span><span class="w">                                                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">─────────────────────────────</span><span class="w">                                                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">┌─────────────────────────────────────────────────────────────────────────────┐</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Variable</span><span class="w">                  </span><span class="err">│</span><span class="w">  </span><span class="n">Default</span><span class="w">              </span><span class="err">│</span><span class="w">  </span><span class="n">Description</span><span class="w">          </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">─────────────────────────────────────────────────────────────────────────</span><span class="w">  </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">PORT</span><span class="w">                      </span><span class="err">│</span><span class="w">  </span><span class="mi">8080</span><span class="w">                 </span><span class="err">│</span><span class="w">  </span><span class="n">Server</span><span class="w"> </span><span class="n">port</span><span class="w">          </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">API_GATEWAY_URL</span><span class="w">           </span><span class="err">│</span><span class="w">  </span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">8080</span><span class="err">│</span><span class="w">  </span><span class="n">Backend</span><span class="w"> </span><span class="n">API</span><span class="w"> </span><span class="n">URL</span><span class="w">      </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">GOOGLE_APPLICATION_CREDS</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w">                    </span><span class="err">│</span><span class="w">  </span><span class="n">GCP</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="n">account</span><span class="w">  </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">└─────────────────────────────────────────────────────────────────────────────┘</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">URL</span><span class="w"> </span><span class="n">PARAMETERS</span><span class="w">                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">──────────────</span><span class="w">                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">┌─────────────────────────────────────────────────────────────────────────────┐</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Parameter</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="n">Values</span><span class="w">                    </span><span class="err">│</span><span class="w">  </span><span class="n">Effect</span><span class="w">                        </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">─────────────────────────────────────────────────────────────────────────</span><span class="w">  </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">demo</span><span class="w">        </span><span class="err">│</span><span class="w">  </span><span class="n">tour</span><span class="p">,</span><span class="w"> </span><span class="n">showcase</span><span class="o">-</span><span class="n">demo</span><span class="p">,</span><span class="w"> </span><span class="n">etc</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="n">Auto</span><span class="o">-</span><span class="n">start</span><span class="w"> </span><span class="n">specific</span><span class="w"> </span><span class="n">demo</span><span class="w">      </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">nodemo</span><span class="w">      </span><span class="err">│</span><span class="w">  </span><span class="bp">true</span><span class="w">                      </span><span class="err">│</span><span class="w">  </span><span class="n">Skip</span><span class="w"> </span><span class="n">demo</span><span class="w"> </span><span class="n">menu</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="nb">load</span><span class="w">        </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">└─────────────────────────────────────────────────────────────────────────────┘</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<h3 id="82-feature-flags">8.2 Feature Flags</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">// Feature flags (hardcoded for v2.5, configurable in v3.0)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">FEATURE_FLAGS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">CLOUD_TTS_ENABLED</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">BROWSER_TTS_FALLBACK</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">HERO_MODE_ENABLED</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">ATC_COMMAND_DISPLAY</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">AUTOPILOT_STATUS</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">THREE_D_SCENE</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span>
+<span class="p">};</span>
+</code></pre></div>
+
+<hr />
+<h2 id="9-build-deployment">9. Build &amp; Deployment</h2>
+<h3 id="91-build-process">9.1 Build Process</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">                              </span><span class="n">BUILD</span><span class="w"> </span><span class="n">PROCESS</span><span class="w">                                           </span><span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">PRODUCTION</span><span class="w"> </span><span class="n">BUILD</span><span class="w"> </span><span class="n">PIPELINE</span><span class="w">                                                           </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">─────────────────────────</span><span class="w">                                                           </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">┌─────────┐</span><span class="w">   </span><span class="err">┌─────────┐</span><span class="w">   </span><span class="err">┌─────────┐</span><span class="w">   </span><span class="err">┌─────────┐</span><span class="w">   </span><span class="err">┌─────────┐</span><span class="w">              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">tsc</span><span class="w">   </span><span class="err">│──►│</span><span class="w">  </span><span class="n">vite</span><span class="w">   </span><span class="err">│──►│</span><span class="w"> </span><span class="k">rollup</span><span class="w">  </span><span class="err">│──►│</span><span class="w"> </span><span class="n">minify</span><span class="w">  </span><span class="err">│──►│</span><span class="w"> </span><span class="k">output</span><span class="w">  </span><span class="err">│</span><span class="w">              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="n">compile</span><span class="w"> </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="n">build</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="n">bundle</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="n">terser</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">  </span><span class="n">dist</span><span class="o">/</span><span class="w">  </span><span class="err">│</span><span class="w">              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">└─────────┘</span><span class="w">   </span><span class="err">└─────────┘</span><span class="w">   </span><span class="err">└─────────┘</span><span class="w">   </span><span class="err">└─────────┘</span><span class="w">   </span><span class="err">└─────────┘</span><span class="w">              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">BUILD</span><span class="w"> </span><span class="n">COMMANDS</span><span class="w">                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">──────────────</span><span class="w">                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">#</span><span class="w"> </span><span class="n">Type</span><span class="w"> </span><span class="k">check</span><span class="w">                                                                        </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">npx</span><span class="w"> </span><span class="n">tsc</span><span class="w"> </span><span class="c1">--noEmit                                                                    │</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">#</span><span class="w"> </span><span class="n">Production</span><span class="w"> </span><span class="n">build</span><span class="w">                                                                  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">npm</span><span class="w"> </span><span class="n">run</span><span class="w"> </span><span class="n">build</span><span class="w">                                                                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">#</span><span class="w"> </span><span class="k">Output</span><span class="w"> </span><span class="k">structure</span><span class="w">                                                                  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">dist</span><span class="o">/</span><span class="w">                                                                               </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">├──</span><span class="w"> </span><span class="k">index</span><span class="p">.</span><span class="n">html</span><span class="w">              </span><span class="err">#</span><span class="w"> </span><span class="n">Entry</span><span class="w"> </span><span class="n">point</span><span class="w">                                           </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">├──</span><span class="w"> </span><span class="n">assets</span><span class="o">/</span><span class="w">                                                                         </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="k">index</span><span class="o">-[</span><span class="n">hash</span><span class="o">]</span><span class="p">.</span><span class="n">js</span><span class="w">     </span><span class="err">#</span><span class="w"> </span><span class="n">Main</span><span class="w"> </span><span class="n">bundle</span><span class="w"> </span><span class="p">(</span><span class="o">~</span><span class="mf">1.7</span><span class="n">MB</span><span class="p">)</span><span class="w">                                 </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="k">index</span><span class="o">-[</span><span class="n">hash</span><span class="o">]</span><span class="p">.</span><span class="n">css</span><span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="n">Styles</span><span class="w"> </span><span class="p">(</span><span class="o">~</span><span class="mi">21</span><span class="n">KB</span><span class="p">)</span><span class="w">                                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">└──</span><span class="w"> </span><span class="n">fonts</span><span class="o">/</span><span class="w">                  </span><span class="err">#</span><span class="w"> </span><span class="n">Web</span><span class="w"> </span><span class="n">fonts</span><span class="w">                                             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">DOCKER</span><span class="w"> </span><span class="n">BUILD</span><span class="w">                                                                        </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">────────────</span><span class="w">                                                                        </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">#</span><span class="w"> </span><span class="k">Local</span><span class="w"> </span><span class="n">build</span><span class="w">                                                                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">docker</span><span class="w"> </span><span class="n">build</span><span class="w"> </span><span class="o">-</span><span class="n">t</span><span class="w"> </span><span class="n">atcs</span><span class="o">-</span><span class="n">ng</span><span class="o">-</span><span class="n">ui</span><span class="w"> </span><span class="p">.</span><span class="w">                                                        </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">#</span><span class="w"> </span><span class="n">Cloud</span><span class="w"> </span><span class="n">Build</span><span class="w">                                                                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">gcloud</span><span class="w"> </span><span class="n">builds</span><span class="w"> </span><span class="n">submit</span><span class="w"> </span><span class="c1">--tag us-central1-docker.pkg.dev/PROJECT/atcs-ng-repo/ui      │</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<h3 id="92-deployment-process">9.2 Deployment Process</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">                              </span><span class="n">DEPLOYMENT</span><span class="w"> </span><span class="n">PROCESS</span><span class="w">                                      </span><span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">CLOUD</span><span class="w"> </span><span class="n">RUN</span><span class="w"> </span><span class="n">DEPLOYMENT</span><span class="w">                                                                </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">────────────────────</span><span class="w">                                                                </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="p">#</span><span class="w"> </span><span class="n">Deploy</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">Cloud</span><span class="w"> </span><span class="n">Run</span><span class="w">                                                               </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">gcloud</span><span class="w"> </span><span class="n">run</span><span class="w"> </span><span class="n">deploy</span><span class="w"> </span><span class="n">ui</span><span class="o">-</span><span class="n">client</span><span class="w"> </span><span class="err">\</span><span class="w">                                                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">    </span><span class="o">--</span><span class="n">image</span><span class="w"> </span><span class="n">us</span><span class="o">-</span><span class="n">central1</span><span class="o">-</span><span class="n">docker</span><span class="p">.</span><span class="n">pkg</span><span class="p">.</span><span class="n">dev</span><span class="o">/</span><span class="n">PROJECT</span><span class="o">/</span><span class="n">atcs</span><span class="o">-</span><span class="n">ng</span><span class="o">-</span><span class="n">repo</span><span class="o">/</span><span class="n">ui</span><span class="o">-</span><span class="nl">client:</span><span class="n">latest</span><span class="w"> </span><span class="err">\</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">    </span><span class="o">--</span><span class="n">region</span><span class="w"> </span><span class="n">us</span><span class="o">-</span><span class="n">central1</span><span class="w"> </span><span class="err">\</span><span class="w">                                                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">    </span><span class="o">--</span><span class="n">project</span><span class="w"> </span><span class="n">PROJECT</span><span class="w"> </span><span class="err">\</span><span class="w">                                                               </span><span class="err">│</span>
+<span class="err">│</span><span class="w">    </span><span class="o">--</span><span class="n">allow</span><span class="o">-</span><span class="n">unauthenticated</span><span class="w"> </span><span class="err">\</span><span class="w">                                                         </span><span class="err">│</span>
+<span class="err">│</span><span class="w">    </span><span class="o">--</span><span class="n">port</span><span class="w"> </span><span class="mh">8080</span><span class="w">                                                                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">CONFIGURATION</span><span class="w">                                                                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">─────────────</span><span class="w">                                                                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">┌─────────────────────────────────────────────────────────────────────────────┐</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Setting</span><span class="w">                   </span><span class="err">│</span><span class="w">  </span><span class="n">Value</span><span class="w">                </span><span class="err">│</span><span class="w">  </span><span class="n">Rationale</span><span class="w">            </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">─────────────────────────────────────────────────────────────────────────</span><span class="w">  </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">CPU</span><span class="w">                       </span><span class="err">│</span><span class="w">  </span><span class="mh">1</span><span class="w">                    </span><span class="err">│</span><span class="w">  </span><span class="n">Sufficient</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">SPA</span><span class="w">   </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Memory</span><span class="w">                    </span><span class="err">│</span><span class="w">  </span><span class="mh">512</span><span class="n">Mi</span><span class="w">                </span><span class="err">│</span><span class="w">  </span><span class="n">Nginx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">static</span><span class="w">       </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Min</span><span class="w"> </span><span class="n">instances</span><span class="w">             </span><span class="err">│</span><span class="w">  </span><span class="mh">0</span><span class="w">                    </span><span class="err">│</span><span class="w">  </span><span class="n">Scale</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">zero</span><span class="w">        </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Max</span><span class="w"> </span><span class="n">instances</span><span class="w">             </span><span class="err">│</span><span class="w">  </span><span class="mh">10</span><span class="w">                   </span><span class="err">│</span><span class="w">  </span><span class="n">Handle</span><span class="w"> </span><span class="n">traffic</span><span class="w">       </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Concurrency</span><span class="w">               </span><span class="err">│</span><span class="w">  </span><span class="mh">80</span><span class="w">                   </span><span class="err">│</span><span class="w">  </span><span class="n">Default</span><span class="w">              </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Request</span><span class="w"> </span><span class="n">timeout</span><span class="w">           </span><span class="err">│</span><span class="w">  </span><span class="mh">60</span><span class="n">s</span><span class="w">                  </span><span class="err">│</span><span class="w">  </span><span class="n">Default</span><span class="w">              </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">└─────────────────────────────────────────────────────────────────────────────┘</span><span class="w">    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">NGINX</span><span class="w"> </span><span class="n">CONFIGURATION</span><span class="w">                                                                 </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">───────────────────</span><span class="w">                                                                 </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="p">#</span><span class="w"> </span><span class="n">Key</span><span class="w"> </span><span class="n">nginx</span><span class="p">.</span><span class="n">conf</span><span class="w"> </span><span class="n">settings</span><span class="w">                                                           </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">server</span><span class="w"> </span><span class="p">{</span><span class="w">                                                                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">    </span><span class="n">listen</span><span class="w"> </span><span class="mh">8080</span><span class="p">;</span><span class="w">                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">    </span><span class="n">root</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">html</span><span class="p">;</span><span class="w">                                                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">    </span><span class="p">#</span><span class="w"> </span><span class="n">SPA</span><span class="w"> </span><span class="n">routing</span><span class="w">                                                                     </span><span class="err">│</span>
+<span class="err">│</span><span class="w">    </span><span class="n">location</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">{</span><span class="w">                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="n">try_files</span><span class="w"> </span><span class="n">$uri</span><span class="w"> </span><span class="n">$uri</span><span class="o">/</span><span class="w"> </span><span class="o">/</span><span class="n">index</span><span class="p">.</span><span class="n">html</span><span class="p">;</span><span class="w">                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">    </span><span class="p">}</span><span class="w">                                                                                 </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">    </span><span class="p">#</span><span class="w"> </span><span class="n">Cache</span><span class="w"> </span><span class="n">static</span><span class="w"> </span><span class="n">assets</span><span class="w">                                                             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">    </span><span class="n">location</span><span class="w"> </span><span class="o">/</span><span class="n">assets</span><span class="o">/</span><span class="w"> </span><span class="p">{</span><span class="w">                                                               </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="n">expires</span><span class="w"> </span><span class="mh">1</span><span class="n">y</span><span class="p">;</span><span class="w">                                                                     </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="n">add_header</span><span class="w"> </span><span class="n">Cache</span><span class="o">-</span><span class="n">Control</span><span class="w"> </span><span class="s">&quot;public, immutable&quot;</span><span class="p">;</span><span class="w">                                   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">    </span><span class="p">}</span><span class="w">                                                                                 </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">    </span><span class="p">#</span><span class="w"> </span><span class="n">API</span><span class="w"> </span><span class="n">proxy</span><span class="w"> </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="n">needed</span><span class="p">)</span><span class="w">                                                           </span><span class="err">│</span>
+<span class="err">│</span><span class="w">    </span><span class="n">location</span><span class="w"> </span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="w"> </span><span class="p">{</span><span class="w">                                                                  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="n">proxy_pass</span><span class="w"> </span><span class="n">$API_GATEWAY_URL</span><span class="p">;</span><span class="w">                                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">    </span><span class="p">}</span><span class="w">                                                                                 </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="p">}</span><span class="w">                                                                                   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<hr />
+<h2 id="10-appendix">10. Appendix</h2>
+<h3 id="101-directory-structure">10.1 Directory Structure</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">src</span><span class="o">/</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">App</span><span class="o">.</span><span class="n">tsx</span><span class="w">                      </span><span class="c1"># Main app component</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">main</span><span class="o">.</span><span class="n">tsx</span><span class="w">                     </span><span class="c1"># Entry point</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">vite</span><span class="o">-</span><span class="n">env</span><span class="o">.</span><span class="n">d</span><span class="o">.</span><span class="n">ts</span><span class="w">               </span><span class="c1"># Vite type declarations</span>
+<span class="err">│</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">components</span><span class="o">/</span><span class="w">                  </span><span class="c1"># UI components</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">Map</span><span class="o">/</span><span class="w">                    </span><span class="c1"># 2D radar map</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">Scene3D</span><span class="o">/</span><span class="w">                </span><span class="c1"># 3D visualization</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">FlightStrips</span><span class="o">/</span><span class="w">           </span><span class="c1"># Flight strip bay</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">Alerts</span><span class="o">/</span><span class="w">                 </span><span class="c1"># Alert panel</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">Predictions</span><span class="o">/</span><span class="w">            </span><span class="c1"># AI predictions</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">Controls</span><span class="o">/</span><span class="w">               </span><span class="c1"># View controls</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">ModeToggle</span><span class="o">.</span><span class="n">tsx</span><span class="w">      </span><span class="c1"># DEMO/LIVE toggle</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">ViewModeToggle</span><span class="o">.</span><span class="n">tsx</span><span class="w">  </span><span class="c1"># 2D/3D toggle</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">TimeSlider</span><span class="o">.</span><span class="n">tsx</span><span class="w">      </span><span class="c1"># Time control</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">Widgets</span><span class="o">/</span><span class="w">                </span><span class="c1"># Status widgets</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">Header</span><span class="o">.</span><span class="n">tsx</span><span class="w">              </span><span class="c1"># App header</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">StatusBar</span><span class="o">.</span><span class="n">tsx</span><span class="w">           </span><span class="c1"># Status bar</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="o">...</span>
+<span class="err">│</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">demo</span><span class="o">/</span><span class="w">                        </span><span class="c1"># Demo system</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">index</span><span class="o">.</span><span class="n">ts</span><span class="w">                </span><span class="c1"># Exports</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">DemoProvider</span><span class="o">.</span><span class="n">tsx</span><span class="w">        </span><span class="c1"># Context provider</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">DemoController</span><span class="o">.</span><span class="n">ts</span><span class="w">       </span><span class="c1"># State reducer</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">components</span><span class="o">/</span><span class="w">             </span><span class="c1"># Demo overlays</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">DemoMenuModal</span><span class="o">.</span><span class="n">tsx</span><span class="w">   </span><span class="c1"># Scenario menu</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">NarratorPanel</span><span class="o">.</span><span class="n">tsx</span><span class="w">   </span><span class="c1"># Narration display</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">SpotlightOverlay</span><span class="o">.</span><span class="n">tsx</span><span class="c1"># Element highlighting</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">ATCCommandDisplay</span><span class="o">.</span><span class="n">tsx</span><span class="c1"># &quot;YOU:&quot; typing</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">hooks</span><span class="o">/</span><span class="w">                  </span><span class="c1"># Demo hooks</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">useDemoData</span><span class="o">.</span><span class="n">ts</span><span class="w">      </span><span class="c1"># Merge demo + live data</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">scenarios</span><span class="o">/</span><span class="w">              </span><span class="c1"># Demo scenarios</span>
+<span class="err">│</span><span class="w">       </span><span class="err">├──</span><span class="w"> </span><span class="n">index</span><span class="o">.</span><span class="n">ts</span><span class="w">            </span><span class="c1"># Scenario registry</span>
+<span class="err">│</span><span class="w">       </span><span class="err">├──</span><span class="w"> </span><span class="n">types</span><span class="o">.</span><span class="n">ts</span><span class="w">            </span><span class="c1"># Type definitions</span>
+<span class="err">│</span><span class="w">       </span><span class="err">└──</span><span class="w"> </span><span class="n">showcase</span><span class="o">-</span><span class="n">demo</span><span class="o">.</span><span class="n">ts</span><span class="w">    </span><span class="c1"># Main crisis demo</span>
+<span class="err">│</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">audio</span><span class="o">/</span><span class="w">                       </span><span class="c1"># Audio system</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">index</span><span class="o">.</span><span class="n">ts</span><span class="w">                </span><span class="c1"># Exports</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">CloudTTS</span><span class="o">.</span><span class="n">ts</span><span class="w">             </span><span class="c1"># Google Cloud TTS</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">VoiceNotification</span><span class="o">.</span><span class="n">ts</span><span class="w">    </span><span class="c1"># Browser TTS fallback</span>
+<span class="err">│</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">hooks</span><span class="o">/</span><span class="w">                       </span><span class="c1"># Custom React hooks</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">useTrackStream</span><span class="o">.</span><span class="n">ts</span><span class="w">       </span><span class="c1"># Track data stream</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">useAlerts</span><span class="o">.</span><span class="n">ts</span><span class="w">            </span><span class="c1"># Alert management</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">usePredictions</span><span class="o">.</span><span class="n">ts</span><span class="w">       </span><span class="c1"># Prediction data</span>
+<span class="err">│</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">store</span><span class="o">/</span><span class="w">                       </span><span class="c1"># State management</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">index</span><span class="o">.</span><span class="n">ts</span><span class="w">                </span><span class="c1"># Zustand store</span>
+<span class="err">│</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">types</span><span class="o">/</span><span class="w">                       </span><span class="c1"># TypeScript types</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">index</span><span class="o">.</span><span class="n">ts</span><span class="w">                </span><span class="c1"># Core type definitions</span>
+<span class="err">│</span>
+<span class="err">└──</span><span class="w"> </span><span class="n">styles</span><span class="o">/</span><span class="w">                      </span><span class="c1"># Global styles</span>
+<span class="w">    </span><span class="err">└──</span><span class="w"> </span><span class="n">globals</span><span class="o">.</span><span class="n">css</span><span class="w">             </span><span class="c1"># CSS variables, fonts</span>
+</code></pre></div>
+
+<h3 id="102-key-file-locations">10.2 Key File Locations</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>File Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Main App</td>
+<td><code>src/App.tsx</code></td>
+</tr>
+<tr>
+<td>Demo Provider</td>
+<td><code>src/demo/DemoProvider.tsx</code></td>
+</tr>
+<tr>
+<td>Demo Reducer</td>
+<td><code>src/demo/DemoController.ts</code></td>
+</tr>
+<tr>
+<td>Showcase Scenario</td>
+<td><code>src/demo/scenarios/showcase-demo.ts</code></td>
+</tr>
+<tr>
+<td>Cloud TTS</td>
+<td><code>src/audio/CloudTTS.ts</code></td>
+</tr>
+<tr>
+<td>UI Store</td>
+<td><code>src/store/index.ts</code></td>
+</tr>
+<tr>
+<td>Type Definitions</td>
+<td><code>src/types/index.ts</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="103-related-documents">10.3 Related Documents</h3>
+<ul>
+<li><a href="./product-requirements-document.md">Product Requirements Document</a></li>
+<li><a href="./design-document.md">Design Document</a></li>
+<li><a href="./release-plan.md">Release Plan</a></li>
+</ul>
+<hr />
+<div align="center">
+
+<img src="file:///home/manava/atcs-ng/docs/hanaML-Template-7C3AED.png" alt="hanaML" style="max-height: 40px;">
+
+*This document is maintained by the Engineering Team and updated per release.*
+
+</div>
+    <div class="footer">
+        <span class="badge">hanaML</span>
+        <p>Generated on 2025-12-22 17:09:17</p>
+    </div>
+</body>
+</html>

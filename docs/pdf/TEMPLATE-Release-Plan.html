@@ -1,0 +1,1575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Release Plan - Template</title>
+    <style>
+/* hanaML Purple Theme - PDF Stylesheet */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --primary: #7C3AED;
+  --primary-dark: #5B21B6;
+  --primary-light: #A78BFA;
+  --background: #1a1a2e;
+  --background-light: #16213e;
+  --surface: #0f3460;
+  --text-primary: #E5E7EB;
+  --text-secondary: #9CA3AF;
+  --border: #374151;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --info: #3B82F6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 11pt;
+  line-height: 1.6;
+  color: #1F2937;
+  background: #ffffff;
+  margin: 0;
+  padding: 40px 60px;
+}
+
+/* Page Header */
+@page {
+  size: A4;
+  margin: 20mm 15mm 25mm 15mm;
+  @top-center {
+    content: "hanaML Documentation";
+    font-size: 9pt;
+    color: #7C3AED;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-size: 9pt;
+    color: #6B7280;
+  }
+}
+
+/* Cover Page Styling */
+.cover-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12pt;
+  margin-bottom: 20px;
+}
+
+/* Headings */
+h1 {
+  font-size: 28pt;
+  font-weight: 700;
+  color: #7C3AED;
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid #7C3AED;
+  page-break-after: avoid;
+}
+
+h2 {
+  font-size: 18pt;
+  font-weight: 600;
+  color: #1F2937;
+  margin-top: 32px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #E5E7EB;
+  page-break-after: avoid;
+}
+
+h3 {
+  font-size: 14pt;
+  font-weight: 600;
+  color: #374151;
+  margin-top: 24px;
+  margin-bottom: 10px;
+  page-break-after: avoid;
+}
+
+h4 {
+  font-size: 12pt;
+  font-weight: 600;
+  color: #4B5563;
+  margin-top: 20px;
+  margin-bottom: 8px;
+  page-break-after: avoid;
+}
+
+h5, h6 {
+  font-size: 11pt;
+  font-weight: 600;
+  color: #6B7280;
+  margin-top: 16px;
+  margin-bottom: 6px;
+}
+
+/* Paragraphs */
+p {
+  margin: 0 0 12px 0;
+  text-align: justify;
+}
+
+/* Links */
+a {
+  color: #7C3AED;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Lists */
+ul, ol {
+  margin: 0 0 16px 0;
+  padding-left: 24px;
+}
+
+li {
+  margin-bottom: 6px;
+}
+
+li > ul, li > ol {
+  margin-top: 6px;
+  margin-bottom: 0;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 10pt;
+  page-break-inside: avoid;
+}
+
+thead {
+  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+  color: white;
+}
+
+th {
+  padding: 12px 10px;
+  text-align: left;
+  font-weight: 600;
+  border: 1px solid #7C3AED;
+}
+
+td {
+  padding: 10px;
+  border: 1px solid #E5E7EB;
+  vertical-align: top;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #F9FAFB;
+}
+
+tbody tr:hover {
+  background-color: #F3F4F6;
+}
+
+/* Code Blocks */
+pre {
+  background: #1F2937;
+  color: #E5E7EB;
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 9pt;
+  line-height: 1.5;
+  margin: 16px 0;
+  border-left: 4px solid #7C3AED;
+  page-break-inside: avoid;
+}
+
+code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 9pt;
+  background: #F3F4F6;
+  color: #7C3AED;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+/* Blockquotes */
+blockquote {
+  margin: 16px 0;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(91, 33, 182, 0.08) 100%);
+  border-left: 4px solid #7C3AED;
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: #4B5563;
+}
+
+blockquote p {
+  margin: 0;
+}
+
+/* Horizontal Rule */
+hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, #7C3AED 0%, #A78BFA 50%, #7C3AED 100%);
+  margin: 32px 0;
+}
+
+/* ASCII Art Boxes - preserve formatting */
+pre.ascii-art {
+  background: #FAFAFA;
+  color: #1F2937;
+  border: 2px solid #E5E7EB;
+  border-left: 4px solid #7C3AED;
+  font-size: 8pt;
+  line-height: 1.4;
+}
+
+/* Status Indicators */
+.status-completed, .status-done {
+  color: #10B981;
+  font-weight: 600;
+}
+
+.status-in-progress, .status-wip {
+  color: #F59E0B;
+  font-weight: 600;
+}
+
+.status-pending, .status-todo {
+  color: #6B7280;
+  font-weight: 600;
+}
+
+.status-blocked, .status-critical {
+  color: #EF4444;
+  font-weight: 600;
+}
+
+/* Priority Badges */
+.priority-p0 {
+  display: inline-block;
+  background: #EF4444;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9pt;
+  font-weight: 600;
+}
+
+.priority-p1 {
+  display: inline-block;
+  background: #F59E0B;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9pt;
+  font-weight: 600;
+}
+
+.priority-p2 {
+  display: inline-block;
+  background: #3B82F6;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9pt;
+  font-weight: 600;
+}
+
+/* Document Info Box */
+.doc-info {
+  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.doc-info table {
+  background: transparent;
+}
+
+.doc-info th, .doc-info td {
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Callout Boxes */
+.callout {
+  padding: 16px;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+
+.callout-info {
+  background: #EFF6FF;
+  border-left: 4px solid #3B82F6;
+}
+
+.callout-warning {
+  background: #FFFBEB;
+  border-left: 4px solid #F59E0B;
+}
+
+.callout-success {
+  background: #ECFDF5;
+  border-left: 4px solid #10B981;
+}
+
+.callout-error {
+  background: #FEF2F2;
+  border-left: 4px solid #EF4444;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 2px solid #E5E7EB;
+  color: #6B7280;
+  font-size: 9pt;
+}
+
+.footer .badge {
+  display: inline-block;
+  background: #7C3AED;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 9pt;
+}
+
+/* Page Breaks */
+.page-break {
+  page-break-after: always;
+}
+
+.no-break {
+  page-break-inside: avoid;
+}
+
+/* Print-specific */
+@media print {
+  body {
+    padding: 0;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  a {
+    color: #7C3AED;
+  }
+
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    color: #6B7280;
+  }
+}
+
+/* Table of Contents */
+.toc {
+  background: #F9FAFB;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.toc h2 {
+  margin-top: 0;
+  color: #7C3AED;
+  border-bottom: 2px solid #7C3AED;
+}
+
+.toc ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.toc li {
+  padding: 4px 0;
+  border-bottom: 1px dotted #E5E7EB;
+}
+
+.toc a {
+  color: #374151;
+}
+
+.toc a:hover {
+  color: #7C3AED;
+}
+
+/* Metrics/Dashboard Style */
+.metric-card {
+  display: inline-block;
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 8px;
+  text-align: center;
+  min-width: 120px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.metric-value {
+  font-size: 24pt;
+  font-weight: 700;
+  color: #7C3AED;
+}
+
+.metric-label {
+  font-size: 10pt;
+  color: #6B7280;
+  text-transform: uppercase;
+}
+
+/* Section Numbers */
+h2::before {
+  color: #7C3AED;
+  font-weight: 700;
+}
+
+/* Checkbox styling for checklists */
+input[type="checkbox"] {
+  accent-color: #7C3AED;
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+}
+
+/* Definition Lists */
+dl {
+  margin: 16px 0;
+}
+
+dt {
+  font-weight: 600;
+  color: #374151;
+  margin-top: 12px;
+}
+
+dd {
+  margin-left: 20px;
+  color: #4B5563;
+}
+
+    </style>
+</head>
+<body>
+<h1 id="release-plan-template">Release Plan - Template</h1>
+<div align="center">
+
+<img src="file:///home/manava/atcs-ng/docs/hanaML-Template-7C3AED.png" alt="hanaML" style="max-height: 40px;">
+
+**[PROJECT NAME] v[X.X.X]**
+
+| Document ID | Version | Status | Classification |
+|-------------|---------|--------|----------------|
+| RP-XXXX-YYYY-NNN | 0.0.0 | Draft | Internal |
+
+</div>
+
+<hr />
+<h2 id="template-guide">Template Guide</h2>
+<h3 id="purpose-of-this-document">Purpose of This Document</h3>
+<p>The <strong>Release Plan</strong> defines the <strong>WHEN</strong> and <strong>HOW</strong> of launching a product or feature. It serves as the coordination document for:</p>
+<ul>
+<li><strong>Timeline</strong>: When will each phase occur?</li>
+<li><strong>Rollout Strategy</strong>: How will we deploy to users?</li>
+<li><strong>Risk Management</strong>: What could go wrong and how do we handle it?</li>
+<li><strong>Success Criteria</strong>: How do we know the release succeeded?</li>
+<li><strong>Communication</strong>: Who needs to know what and when?</li>
+</ul>
+<blockquote>
+<p><strong>Key Insight</strong>: A good Release Plan ensures all teams are aligned and prepared, minimizing surprises and enabling quick response to issues.</p>
+</blockquote>
+<hr />
+<h3 id="how-to-use-this-template">How to Use This Template</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">                              </span><span class="n">HOW</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="k">USE</span><span class="w"> </span><span class="n">THIS</span><span class="w"> </span><span class="n">TEMPLATE</span><span class="w">                                </span><span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">STEP</span><span class="w"> </span><span class="mi">1</span><span class="err">:</span><span class="w"> </span><span class="n">COPY</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">RENAME</span><span class="w">                                                               </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">─────────────────────</span><span class="w">                                                               </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Copy</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="k">file</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">rename</span><span class="w"> </span><span class="nl">it</span><span class="p">:</span><span class="w">                                                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="nf">Format</span><span class="err">:</span><span class="w"> </span><span class="n">RP</span><span class="o">-[</span><span class="n">PROJECT</span><span class="o">]-[</span><span class="n">VERSION</span><span class="o">]-[</span><span class="n">DATE</span><span class="o">]</span><span class="p">.</span><span class="n">md</span><span class="w">                                         </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="nl">Example</span><span class="p">:</span><span class="w"> </span><span class="n">RP</span><span class="o">-</span><span class="n">ATCS</span><span class="o">-</span><span class="n">v2</span><span class="mf">.5.0</span><span class="o">-</span><span class="mf">20241222.</span><span class="n">md</span><span class="w">                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">STEP</span><span class="w"> </span><span class="mi">2</span><span class="err">:</span><span class="w"> </span><span class="n">COORDINATE</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="n">STAKEHOLDERS</span><span class="w">                                                </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">───────────────────────────────────</span><span class="w">                                                 </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Gather</span><span class="w"> </span><span class="k">input</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">Engineering</span><span class="p">,</span><span class="w"> </span><span class="n">QA</span><span class="p">,</span><span class="w"> </span><span class="n">DevOps</span><span class="p">,</span><span class="w"> </span><span class="n">Support</span><span class="p">,</span><span class="w"> </span><span class="n">Marketing</span><span class="p">.</span><span class="w">                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Align</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">dates</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">responsibilities</span><span class="p">.</span><span class="w">                                                </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">STEP</span><span class="w"> </span><span class="mi">3</span><span class="err">:</span><span class="w"> </span><span class="n">FILL</span><span class="w"> </span><span class="ow">IN</span><span class="w"> </span><span class="n">DETAILS</span><span class="w">                                                             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">──────────────────────</span><span class="w">                                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Complete</span><span class="w"> </span><span class="ow">all</span><span class="w"> </span><span class="n">sections</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="k">specific</span><span class="w"> </span><span class="n">dates</span><span class="p">,</span><span class="w"> </span><span class="n">owners</span><span class="p">,</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">criteria</span><span class="p">.</span><span class="w">                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="k">Include</span><span class="w"> </span><span class="k">rollback</span><span class="w"> </span><span class="n">procedures</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">escalation</span><span class="w"> </span><span class="n">paths</span><span class="p">.</span><span class="w">                                   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">STEP</span><span class="w"> </span><span class="mi">4</span><span class="err">:</span><span class="w"> </span><span class="n">REVIEW</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">APPROVE</span><span class="w">                                                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">─────────────────────</span><span class="w">                                                               </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="k">Get</span><span class="w"> </span><span class="nf">sign</span><span class="o">-</span><span class="k">off</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="ow">all</span><span class="w"> </span><span class="n">stakeholders</span><span class="w"> </span><span class="k">before</span><span class="w"> </span><span class="k">release</span><span class="w"> </span><span class="n">begins</span><span class="p">.</span><span class="w">                           </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Ensure</span><span class="w"> </span><span class="n">everyone</span><span class="w"> </span><span class="n">has</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">copy</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">approved</span><span class="w"> </span><span class="k">plan</span><span class="p">.</span><span class="w">                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">STEP</span><span class="w"> </span><span class="mi">5</span><span class="err">:</span><span class="w"> </span><span class="k">EXECUTE</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="k">UPDATE</span><span class="w">                                                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">────────────────────────</span><span class="w">                                                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="k">Use</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">checklists</span><span class="w"> </span><span class="n">during</span><span class="w"> </span><span class="k">release</span><span class="p">.</span><span class="w">                                                  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="k">Update</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nc">real</span><span class="o">-</span><span class="nc">time</span><span class="w"> </span><span class="n">during</span><span class="w"> </span><span class="n">launch</span><span class="p">.</span><span class="w">                                           </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<hr />
+<h3 id="product-lifecycle-position">Product Lifecycle Position</h3>
+<div class="codehilite"><pre><span></span><code>┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                              PRODUCT LIFECYCLE POSITION                              │
+├─────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                      │
+│    IDEATION      PLANNING       BUILD         TEST        RELEASE      OPERATE      │
+│       │             │             │             │            │            │          │
+│       ▼             ▼             ▼             ▼            ▼            ▼          │
+│   ┌───────┐    ┌───────┐    ┌───────┐    ┌───────┐    ┌───────┐    ┌───────┐       │
+│   │       │    │       │    │       │    │       │    │       │    │       │       │
+│   │ Ideas │───►│  PRD  │───►│Design │───►│  QA   │───►│Launch │───►│Monitor│       │
+│   │       │    │       │    │ Doc   │    │ Test  │    │       │    │       │       │
+│   └───────┘    └───────┘    └───────┘    └───────┘    └───┬───┘    └───────┘       │
+│                                                           │                          │
+│                                                           │                          │
+│                ┌──────────────────────────────────────────▼──────────────────────┐  │
+│                │                   ★ RELEASE PLAN IS HERE ★                       │  │
+│                │                                                                  │  │
+│                │  The Release Plan is created during TEST phase and executed     │  │
+│                │  during RELEASE. It coordinates all launch activities.          │  │
+│                │                                                                  │  │
+│                │  Created AFTER development complete, BEFORE deployment begins.  │  │
+│                └──────────────────────────────────────────────────────────────────┘  │
+│                                                                                      │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+</code></pre></div>
+
+<hr />
+<h3 id="key-stakeholders">Key Stakeholders</h3>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Responsibility</th>
+<th>Involvement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Release Manager</strong></td>
+<td>Author and owner of Release Plan</td>
+<td>Coordinates all activities</td>
+</tr>
+<tr>
+<td><strong>Engineering Lead</strong></td>
+<td>Technical readiness</td>
+<td>Confirms code complete, deployment ready</td>
+</tr>
+<tr>
+<td><strong>QA Lead</strong></td>
+<td>Quality validation</td>
+<td>Confirms testing complete, no blockers</td>
+</tr>
+<tr>
+<td><strong>DevOps Engineer</strong></td>
+<td>Deployment execution</td>
+<td>Performs deployments, monitors infra</td>
+</tr>
+<tr>
+<td><strong>Support Lead</strong></td>
+<td>User impact management</td>
+<td>Prepares support team, monitors tickets</td>
+</tr>
+<tr>
+<td><strong>Product Manager</strong></td>
+<td>Business readiness</td>
+<td>Coordinates marketing, comms</td>
+</tr>
+<tr>
+<td><strong>VP Engineering</strong></td>
+<td>Final approval</td>
+<td>Go/no-go decision</td>
+</tr>
+</tbody>
+</table>
+<h3 id="who-works-on-this-document">Who Works on This Document</h3>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Contributors</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Drafting</strong></td>
+<td>Release Manager (primary), with input from all stakeholders</td>
+</tr>
+<tr>
+<td><strong>Review</strong></td>
+<td>All stakeholders listed above</td>
+</tr>
+<tr>
+<td><strong>Approval</strong></td>
+<td>VP Engineering, VP Product</td>
+</tr>
+<tr>
+<td><strong>Execution</strong></td>
+<td>Release Manager coordinates; all stakeholders execute</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="release-plan-template_1">Release Plan Template</h2>
+<hr />
+<h2 id="1-release-overview">1. Release Overview</h2>
+<h3 id="11-release-summary">1.1 Release Summary</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Release Name</strong></td>
+<td>[Project Name] v[X.X.X]</td>
+</tr>
+<tr>
+<td><strong>Release Type</strong></td>
+<td>Major / Minor / Patch / Hotfix</td>
+</tr>
+<tr>
+<td><strong>Target Date</strong></td>
+<td>[YYYY-MM-DD]</td>
+</tr>
+<tr>
+<td><strong>Release Manager</strong></td>
+<td>[Name]</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-release-description">1.2 Release Description</h3>
+<blockquote>
+<p>[2-3 sentences describing what this release includes and why it matters]</p>
+</blockquote>
+<p><strong>Example:</strong></p>
+<blockquote>
+<p>This release introduces the Hero Mode feature for automated aircraft management during crew incapacitation scenarios. It also includes Google Cloud TTS integration for improved audio narration.</p>
+</blockquote>
+<h3 id="13-key-features">1.3 Key Features</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Description</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[Feature 1]</td>
+<td>[Brief description]</td>
+<td>[User impact]</td>
+</tr>
+<tr>
+<td>[Feature 2]</td>
+<td>[Brief description]</td>
+<td>[User impact]</td>
+</tr>
+<tr>
+<td>[Feature 3]</td>
+<td>[Brief description]</td>
+<td>[User impact]</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-release-timeline">2. Release Timeline</h2>
+<h3 id="21-milestone-schedule">2.1 Milestone Schedule</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">                              </span><span class="k">RELEASE</span><span class="w"> </span><span class="n">TIMELINE</span><span class="w">                                        </span><span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="o">[</span><span class="n">DATE</span><span class="o">]</span><span class="w">        </span><span class="o">[</span><span class="n">DATE</span><span class="o">]</span><span class="w">        </span><span class="o">[</span><span class="n">DATE</span><span class="o">]</span><span class="w">        </span><span class="o">[</span><span class="n">DATE</span><span class="o">]</span><span class="w">        </span><span class="o">[</span><span class="n">DATE</span><span class="o">]</span><span class="w">        </span><span class="o">[</span><span class="n">DATE</span><span class="o">]</span><span class="w">      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">             </span><span class="err">│</span><span class="w">             </span><span class="err">│</span><span class="w">             </span><span class="err">│</span><span class="w">             </span><span class="err">│</span><span class="w">             </span><span class="err">│</span><span class="w">         </span><span class="err">│</span>
+<span class="err">│</span><span class="w">      </span><span class="err">▼</span><span class="w">             </span><span class="err">▼</span><span class="w">             </span><span class="err">▼</span><span class="w">             </span><span class="err">▼</span><span class="w">             </span><span class="err">▼</span><span class="w">             </span><span class="err">▼</span><span class="w">         </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">┌──────┐</span><span class="w">    </span><span class="err">┌──────┐</span><span class="w">    </span><span class="err">┌──────┐</span><span class="w">    </span><span class="err">┌──────┐</span><span class="w">    </span><span class="err">┌──────┐</span><span class="w">    </span><span class="err">┌──────┐</span><span class="w">            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="n">Code</span><span class="w"> </span><span class="err">│───►│</span><span class="w"> </span><span class="n">Code</span><span class="w"> </span><span class="err">│───►│</span><span class="w">  </span><span class="n">QA</span><span class="w">  </span><span class="err">│───►│</span><span class="w"> </span><span class="n">UAT</span><span class="w">  </span><span class="err">│───►│</span><span class="n">Launch</span><span class="err">│───►│</span><span class="w"> </span><span class="n">Post</span><span class="w"> </span><span class="err">│</span><span class="w">            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="n">Freeze</span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="n">Review</span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w"> </span><span class="n">Test</span><span class="w"> </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">      </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w"> </span><span class="nf">Day</span><span class="w">  </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="n">Launch</span><span class="err">│</span><span class="w">            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──────┘</span><span class="w">    </span><span class="err">└──────┘</span><span class="w">    </span><span class="err">└──────┘</span><span class="w">    </span><span class="err">└──────┘</span><span class="w">    </span><span class="err">└──────┘</span><span class="w">    </span><span class="err">└──────┘</span><span class="w">            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<h3 id="22-detailed-milestones">2.2 Detailed Milestones</h3>
+<table>
+<thead>
+<tr>
+<th>Milestone</th>
+<th>Target Date</th>
+<th>Owner</th>
+<th>Status</th>
+<th>Exit Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Code Freeze</td>
+<td>[Date]</td>
+<td>[Name]</td>
+<td>🔲</td>
+<td>All features merged to release branch</td>
+</tr>
+<tr>
+<td>Code Review Complete</td>
+<td>[Date]</td>
+<td>[Name]</td>
+<td>🔲</td>
+<td>All PRs approved</td>
+</tr>
+<tr>
+<td>QA Sign-off</td>
+<td>[Date]</td>
+<td>[Name]</td>
+<td>🔲</td>
+<td>All test cases passed, no P0/P1 bugs</td>
+</tr>
+<tr>
+<td>UAT Complete</td>
+<td>[Date]</td>
+<td>[Name]</td>
+<td>🔲</td>
+<td>Stakeholder approval</td>
+</tr>
+<tr>
+<td>Staging Deploy</td>
+<td>[Date]</td>
+<td>[Name]</td>
+<td>🔲</td>
+<td>Staging environment validated</td>
+</tr>
+<tr>
+<td>Production Deploy</td>
+<td>[Date]</td>
+<td>[Name]</td>
+<td>🔲</td>
+<td>Production deployment complete</td>
+</tr>
+<tr>
+<td>Release Announcement</td>
+<td>[Date]</td>
+<td>[Name]</td>
+<td>🔲</td>
+<td>Users notified</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-rollout-strategy">3. Rollout Strategy</h2>
+<h3 id="31-deployment-approach">3.1 Deployment Approach</h3>
+<div class="codehilite"><pre><span></span><code>┌─────────────────────────────────────────────────────────────────────────────────────┐
+│<span class="w">                              </span><span class="nv">ROLLOUT</span><span class="w"> </span><span class="nv">STRATEGY</span><span class="w">                                        </span>│
+├─────────────────────────────────────────────────────────────────────────────────────┤
+│<span class="w">                                                                                      </span>│
+│<span class="w">   </span><span class="nv">Choose</span><span class="w"> </span><span class="nv">your</span><span class="w"> </span><span class="nv">rollout</span><span class="w"> </span><span class="nv">approach</span>:<span class="w">                                                      </span>│
+│<span class="w">                                                                                      </span>│
+│<span class="w">   </span>[<span class="w"> </span>]<span class="w"> </span><span class="nv">BIG</span><span class="w"> </span><span class="nv">BANG</span><span class="w">                                                                       </span>│
+│<span class="w">       </span><span class="nv">Deploy</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">all</span><span class="w"> </span><span class="nv">users</span><span class="w"> </span><span class="nv">at</span><span class="w"> </span><span class="nv">once</span><span class="w">                                                    </span>│
+│<span class="w">       </span>┌────────────────────────────────────────────────┐<span class="w">                            </span>│
+│<span class="w">       </span>│<span class="w">                   </span><span class="mi">100</span><span class="o">%</span><span class="w"> </span><span class="nv">Users</span><span class="w">                    </span>│<span class="w">                            </span>│
+│<span class="w">       </span>│<span class="w">                  </span>┌──────────┐<span class="w">                   </span>│<span class="w">                            </span>│
+│<span class="w">       </span>│<span class="w"> </span>─────────────────│<span class="w">  </span><span class="nv">Deploy</span><span class="w">  </span>│<span class="w">                   </span>│<span class="w">                            </span>│
+│<span class="w">       </span>│<span class="w">                  </span>└──────────┘<span class="w">                   </span>│<span class="w">                            </span>│
+│<span class="w">       </span>└────────────────────────────────────────────────┘<span class="w">                            </span>│
+│<span class="w">                                                                                      </span>│
+│<span class="w">   </span>[<span class="w"> </span>]<span class="w"> </span><span class="nv">PHASED</span><span class="w"> </span><span class="nv">ROLLOUT</span><span class="w">                                                                 </span>│
+│<span class="w">       </span><span class="nv">Deploy</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">increasing</span><span class="w"> </span><span class="nv">percentages</span><span class="w"> </span><span class="nv">over</span><span class="w"> </span><span class="nv">time</span><span class="w">                                     </span>│
+│<span class="w">       </span>┌────────────────────────────────────────────────┐<span class="w">                            </span>│
+│<span class="w">       </span>│<span class="w">  </span><span class="mi">5</span><span class="o">%</span><span class="w">   </span>│<span class="w">   </span><span class="mi">25</span><span class="o">%</span><span class="w">   </span>│<span class="w">    </span><span class="mi">50</span><span class="o">%</span><span class="w">    </span>│<span class="w">      </span><span class="mi">100</span><span class="o">%</span><span class="w">        </span>│<span class="w">                            </span>│
+│<span class="w">       </span>│───────│─────────│───────────│──────────────────│<span class="w">                            </span>│
+│<span class="w">       </span>│<span class="w"> </span><span class="nv">Day</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span>│<span class="w">  </span><span class="nv">Day</span><span class="w"> </span><span class="mi">3</span><span class="w">  </span>│<span class="w">   </span><span class="nv">Day</span><span class="w"> </span><span class="mi">5</span><span class="w">   </span>│<span class="w">      </span><span class="nv">Day</span><span class="w"> </span><span class="mi">7</span><span class="w">       </span>│<span class="w">                            </span>│
+│<span class="w">       </span>└────────────────────────────────────────────────┘<span class="w">                            </span>│
+│<span class="w">                                                                                      </span>│
+│<span class="w">   </span>[<span class="w"> </span>]<span class="w"> </span><span class="nv">CANARY</span><span class="w"> </span><span class="nv">RELEASE</span><span class="w">                                                                 </span>│
+│<span class="w">       </span><span class="nv">Deploy</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">small</span><span class="w"> </span><span class="nv">group</span><span class="w"> </span><span class="nv">first</span>,<span class="w"> </span><span class="nv">monitor</span>,<span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="nv">expand</span><span class="w">                              </span>│
+│<span class="w">       </span>┌────────────────────────────────────────────────┐<span class="w">                            </span>│
+│<span class="w">       </span>│<span class="w"> </span>┌─────┐<span class="w">                 </span>┌───────────────────┐<span class="w">  </span>│<span class="w">                            </span>│
+│<span class="w">       </span>│<span class="w"> </span>│<span class="nv">Canary</span>│<span class="w"> </span>──►<span class="w"> </span><span class="nv">Monitor</span><span class="w"> </span>──►│<span class="w">    </span><span class="nv">Full</span><span class="w"> </span><span class="nv">Release</span><span class="w">    </span>│<span class="w">  </span>│<span class="w">                            </span>│
+│<span class="w">       </span>│<span class="w"> </span>│<span class="w"> </span><span class="mi">1</span><span class="o">%</span><span class="w">  </span>│<span class="w">                 </span>│<span class="w">       </span><span class="mi">100</span><span class="o">%</span><span class="w">        </span>│<span class="w">  </span>│<span class="w">                            </span>│
+│<span class="w">       </span>│<span class="w"> </span>└─────┘<span class="w">                 </span>└───────────────────┘<span class="w">  </span>│<span class="w">                            </span>│
+│<span class="w">       </span>└────────────────────────────────────────────────┘<span class="w">                            </span>│
+│<span class="w">                                                                                      </span>│
+└─────────────────────────────────────────────────────────────────────────────────────┘
+</code></pre></div>
+
+<h3 id="32-rollout-phases">3.2 Rollout Phases</h3>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Target</th>
+<th>Duration</th>
+<th>Success Criteria</th>
+<th>Rollback Trigger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phase 1</td>
+<td>[X]% of users</td>
+<td>[Duration]</td>
+<td>[Metrics to meet]</td>
+<td>[When to rollback]</td>
+</tr>
+<tr>
+<td>Phase 2</td>
+<td>[X]% of users</td>
+<td>[Duration]</td>
+<td>[Metrics to meet]</td>
+<td>[When to rollback]</td>
+</tr>
+<tr>
+<td>Phase 3</td>
+<td>100% of users</td>
+<td>[Duration]</td>
+<td>[Metrics to meet]</td>
+<td>[When to rollback]</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-success-criteria">4. Success Criteria</h2>
+<h3 id="41-go-live-criteria">4.1 Go-Live Criteria</h3>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Criterion</th>
+<th>Threshold</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Quality</td>
+<td>Zero P0 bugs</td>
+<td>0</td>
+<td>🔲</td>
+</tr>
+<tr>
+<td>Quality</td>
+<td>Zero P1 bugs</td>
+<td>0</td>
+<td>🔲</td>
+</tr>
+<tr>
+<td>Performance</td>
+<td>Response time</td>
+<td>&lt; [X]ms</td>
+<td>🔲</td>
+</tr>
+<tr>
+<td>Performance</td>
+<td>Error rate</td>
+<td>&lt; [X]%</td>
+<td>🔲</td>
+</tr>
+<tr>
+<td>Security</td>
+<td>Security scan</td>
+<td>Pass</td>
+<td>🔲</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42-post-launch-success-metrics">4.2 Post-Launch Success Metrics</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Target</th>
+<th>Measurement Period</th>
+<th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[Metric 1]</td>
+<td>[Target]</td>
+<td>[Period]</td>
+<td>[Owner]</td>
+</tr>
+<tr>
+<td>[Metric 2]</td>
+<td>[Target]</td>
+<td>[Period]</td>
+<td>[Owner]</td>
+</tr>
+<tr>
+<td>[Metric 3]</td>
+<td>[Target]</td>
+<td>[Period]</td>
+<td>[Owner]</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-risk-assessment">5. Risk Assessment</h2>
+<h3 id="51-risk-matrix">5.1 Risk Matrix</h3>
+<div class="codehilite"><pre><span></span><code>┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                              RISK ASSESSMENT MATRIX                                  │
+├─────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                      │
+│         │                         IMPACT                                             │
+│         │     Low          Medium          High          Critical                    │
+│  L   ───┼───────────────────────────────────────────────────────────                │
+│  I   H  │   Monitor        Mitigate       Mitigate       Escalate                   │
+│  K   i  │                                                                            │
+│  E   g  │                                                                            │
+│  L   h  │                                                                            │
+│  I  ────┼───────────────────────────────────────────────────────────                │
+│  H   M  │   Accept         Monitor        Mitigate       Mitigate                   │
+│  O   e  │                                                                            │
+│  O   d  │                                                                            │
+│  D  ────┼───────────────────────────────────────────────────────────                │
+│      L  │   Accept         Accept         Monitor        Mitigate                   │
+│      o  │                                                                            │
+│      w  │                                                                            │
+│     ────┴───────────────────────────────────────────────────────────                │
+│                                                                                      │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+</code></pre></div>
+
+<h3 id="52-identified-risks">5.2 Identified Risks</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Risk</th>
+<th>Likelihood</th>
+<th>Impact</th>
+<th>Mitigation</th>
+<th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td>[Risk description]</td>
+<td>Low/Med/High</td>
+<td>Low/Med/High</td>
+<td>[Mitigation plan]</td>
+<td>[Owner]</td>
+</tr>
+<tr>
+<td>R2</td>
+<td>[Risk description]</td>
+<td>Low/Med/High</td>
+<td>Low/Med/High</td>
+<td>[Mitigation plan]</td>
+<td>[Owner]</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>[Risk description]</td>
+<td>Low/Med/High</td>
+<td>Low/Med/High</td>
+<td>[Mitigation plan]</td>
+<td>[Owner]</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="6-rollback-plan">6. Rollback Plan</h2>
+<h3 id="61-rollback-triggers">6.1 Rollback Triggers</h3>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Threshold</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Error rate spike</td>
+<td>&gt; [X]% for [Y] minutes</td>
+<td>Initiate rollback</td>
+</tr>
+<tr>
+<td>Critical bug</td>
+<td>Any P0 bug</td>
+<td>Assess for rollback</td>
+</tr>
+<tr>
+<td>Performance degradation</td>
+<td>&gt; [X]ms response time</td>
+<td>Initiate rollback</td>
+</tr>
+<tr>
+<td>User reports</td>
+<td>&gt; [X] critical issues</td>
+<td>Assess for rollback</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-rollback-procedure">6.2 Rollback Procedure</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">                              </span><span class="k">ROLLBACK</span><span class="w"> </span><span class="k">PROCEDURE</span><span class="w">                                      </span><span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="n">STEP</span><span class="w"> </span><span class="mi">1</span><span class="err">:</span><span class="w"> </span><span class="n">DECISION</span><span class="w"> </span><span class="p">(</span><span class="mi">5</span><span class="w"> </span><span class="nf">min</span><span class="p">)</span><span class="w">                                                           </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">─────────────────────────</span><span class="w">                                                          </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">☐</span><span class="w"> </span><span class="k">Release</span><span class="w"> </span><span class="n">Manager</span><span class="w"> </span><span class="n">confirms</span><span class="w"> </span><span class="k">rollback</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">needed</span><span class="w">                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">☐</span><span class="w"> </span><span class="n">VP</span><span class="w"> </span><span class="n">Engineering</span><span class="w"> </span><span class="n">approves</span><span class="w"> </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="n">available</span><span class="p">)</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">delegate</span><span class="w">                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">☐</span><span class="w"> </span><span class="n">Notify</span><span class="w"> </span><span class="n">stakeholders</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="k">rollback</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">starting</span><span class="w">                                   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="n">STEP</span><span class="w"> </span><span class="mi">2</span><span class="err">:</span><span class="w"> </span><span class="k">EXECUTE</span><span class="w"> </span><span class="p">(</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span><span class="w"> </span><span class="nf">min</span><span class="p">)</span><span class="w">                                                        </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">──────────────────────────</span><span class="w">                                                         </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">☐</span><span class="w"> </span><span class="n">DevOps</span><span class="w"> </span><span class="n">executes</span><span class="w"> </span><span class="k">rollback</span><span class="w"> </span><span class="nl">command</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="n">command</span><span class="o">]</span><span class="w">                                     </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">☐</span><span class="w"> </span><span class="n">Verify</span><span class="w"> </span><span class="n">previous</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">running</span><span class="w">                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">☐</span><span class="w"> </span><span class="n">Verify</span><span class="w"> </span><span class="k">database</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">compatible</span><span class="w"> </span><span class="p">(</span><span class="ow">or</span><span class="w"> </span><span class="n">run</span><span class="w"> </span><span class="n">down</span><span class="o">-</span><span class="n">migration</span><span class="p">)</span><span class="w">                           </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="n">STEP</span><span class="w"> </span><span class="mi">3</span><span class="err">:</span><span class="w"> </span><span class="n">VALIDATE</span><span class="w"> </span><span class="p">(</span><span class="mi">10</span><span class="w"> </span><span class="nf">min</span><span class="p">)</span><span class="w">                                                          </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">─────────────────────────</span><span class="w">                                                          </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">☐</span><span class="w"> </span><span class="n">Run</span><span class="w"> </span><span class="n">smoke</span><span class="w"> </span><span class="n">tests</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">rolled</span><span class="o">-</span><span class="n">back</span><span class="w"> </span><span class="n">version</span><span class="w">                                          </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">☐</span><span class="w"> </span><span class="k">Check</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="n">rates</span><span class="w"> </span><span class="n">returning</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">normal</span><span class="w">                                           </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">☐</span><span class="w"> </span><span class="n">Verify</span><span class="w"> </span><span class="k">user</span><span class="o">-</span><span class="n">facing</span><span class="w"> </span><span class="n">functionality</span><span class="w">                                                </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="n">STEP</span><span class="w"> </span><span class="mi">4</span><span class="err">:</span><span class="w"> </span><span class="n">COMMUNICATE</span><span class="w"> </span><span class="p">(</span><span class="mi">5</span><span class="w"> </span><span class="nf">min</span><span class="p">)</span><span class="w">                                                        </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">──────────────────────────</span><span class="w">                                                         </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">☐</span><span class="w"> </span><span class="n">Notify</span><span class="w"> </span><span class="n">stakeholders</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="k">rollback</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">complete</span><span class="w">                                   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">☐</span><span class="w"> </span><span class="k">Update</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="n">page</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="n">communication</span><span class="w">                                         </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">☐</span><span class="w"> </span><span class="n">Schedule</span><span class="w"> </span><span class="n">post</span><span class="o">-</span><span class="n">mortem</span><span class="w">                                                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="n">TOTAL</span><span class="w"> </span><span class="n">EXPECTED</span><span class="w"> </span><span class="nc">TIME</span><span class="err">:</span><span class="w"> </span><span class="mi">30</span><span class="o">-</span><span class="mi">35</span><span class="w"> </span><span class="n">minutes</span><span class="w">                                                 </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<h3 id="63-rollback-commands">6.3 Rollback Commands</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Example rollback commands - replace with actual commands</span>
+
+<span class="c1"># Option 1: Revert to previous container image</span>
+<span class="o">[</span>deployment-command<span class="o">]</span><span class="w"> </span>--image<span class="o">=[</span>previous-image-tag<span class="o">]</span>
+
+<span class="c1"># Option 2: Revert deployment</span>
+<span class="o">[</span>deployment-command<span class="o">]</span><span class="w"> </span>rollback<span class="w"> </span>--revision<span class="o">=[</span>previous-revision<span class="o">]</span>
+
+<span class="c1"># Option 3: Traffic shift (for canary/blue-green)</span>
+<span class="o">[</span>routing-command<span class="o">]</span><span class="w"> </span>--route-to<span class="o">=[</span>previous-version<span class="o">]</span>
+</code></pre></div>
+
+<hr />
+<h2 id="7-checklists">7. Checklists</h2>
+<h3 id="71-pre-launch-checklist">7.1 Pre-Launch Checklist</h3>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Item</th>
+<th>Owner</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Code</strong></td>
+<td>All features merged</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td><strong>Code</strong></td>
+<td>All code reviews complete</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td><strong>Code</strong></td>
+<td>Version number updated</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td><strong>Testing</strong></td>
+<td>All unit tests passing</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td><strong>Testing</strong></td>
+<td>All integration tests passing</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td><strong>Testing</strong></td>
+<td>QA sign-off received</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td><strong>Testing</strong></td>
+<td>UAT complete</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td><strong>Security</strong></td>
+<td>Security scan passed</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td><strong>Security</strong></td>
+<td>Secrets rotated if needed</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td><strong>Infrastructure</strong></td>
+<td>Staging deployment successful</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td><strong>Infrastructure</strong></td>
+<td>Monitoring dashboards ready</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td><strong>Infrastructure</strong></td>
+<td>Alerts configured</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td><strong>Documentation</strong></td>
+<td>Release notes written</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td><strong>Documentation</strong></td>
+<td>User documentation updated</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td><strong>Support</strong></td>
+<td>Support team briefed</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td><strong>Communication</strong></td>
+<td>Stakeholders notified of timeline</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<h3 id="72-launch-day-checklist">7.2 Launch Day Checklist</h3>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Item</th>
+<th>Owner</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T-60m</td>
+<td>Final go/no-go meeting</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>T-30m</td>
+<td>All stakeholders on standby</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>T-15m</td>
+<td>Backup verified</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>T-0</td>
+<td>Deploy initiated</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>T+5m</td>
+<td>Deployment complete</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>T+10m</td>
+<td>Smoke tests passed</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>T+15m</td>
+<td>Monitoring checked - all green</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>T+30m</td>
+<td>First batch of user feedback reviewed</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>T+60m</td>
+<td>No critical issues - proceed with rollout</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>T+4h</td>
+<td>Extended monitoring complete</td>
+<td>[Owner]</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<h3 id="73-post-launch-checklist">7.3 Post-Launch Checklist</h3>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Owner</th>
+<th>Due</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Monitor error rates for 24 hours</td>
+<td>[Owner]</td>
+<td>[Date]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Review user feedback</td>
+<td>[Owner]</td>
+<td>[Date]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Update documentation if needed</td>
+<td>[Owner]</td>
+<td>[Date]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Send release announcement</td>
+<td>[Owner]</td>
+<td>[Date]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Schedule retrospective</td>
+<td>[Owner]</td>
+<td>[Date]</td>
+<td>☐</td>
+</tr>
+<tr>
+<td>Archive release artifacts</td>
+<td>[Owner]</td>
+<td>[Date]</td>
+<td>☐</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="8-monitoring-support">8. Monitoring &amp; Support</h2>
+<h3 id="81-monitoring-plan">8.1 Monitoring Plan</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Dashboard</th>
+<th>Alert Threshold</th>
+<th>Escalation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Error rate</td>
+<td>[Dashboard link]</td>
+<td>&gt; [X]%</td>
+<td>Page on-call</td>
+</tr>
+<tr>
+<td>Response time</td>
+<td>[Dashboard link]</td>
+<td>&gt; [X]ms</td>
+<td>Page on-call</td>
+</tr>
+<tr>
+<td>CPU utilization</td>
+<td>[Dashboard link]</td>
+<td>&gt; [X]%</td>
+<td>Notify DevOps</td>
+</tr>
+<tr>
+<td>Memory usage</td>
+<td>[Dashboard link]</td>
+<td>&gt; [X]%</td>
+<td>Notify DevOps</td>
+</tr>
+</tbody>
+</table>
+<h3 id="82-on-call-schedule">8.2 On-Call Schedule</h3>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Primary</th>
+<th>Backup</th>
+<th>Contact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DevOps</td>
+<td>[Name]</td>
+<td>[Name]</td>
+<td>[Contact info]</td>
+</tr>
+<tr>
+<td>Engineering</td>
+<td>[Name]</td>
+<td>[Name]</td>
+<td>[Contact info]</td>
+</tr>
+<tr>
+<td>Support</td>
+<td>[Name]</td>
+<td>[Name]</td>
+<td>[Contact info]</td>
+</tr>
+</tbody>
+</table>
+<h3 id="83-escalation-path">8.3 Escalation Path</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">ESCALATION</span><span class="w"> </span><span class="n">PATH</span>
+
+<span class="p">[</span><span class="n">L1</span><span class="w"> </span><span class="n">Support</span><span class="p">]</span><span class="w"> </span><span class="err">──►</span><span class="w"> </span><span class="p">[</span><span class="n">Engineering</span><span class="w"> </span><span class="n">On</span><span class="o">-</span><span class="n">Call</span><span class="p">]</span><span class="w"> </span><span class="err">──►</span><span class="w"> </span><span class="p">[</span><span class="n">Engineering</span><span class="w"> </span><span class="n">Lead</span><span class="p">]</span><span class="w"> </span><span class="err">──►</span><span class="w"> </span><span class="p">[</span><span class="n">VP</span><span class="w"> </span><span class="n">Engineering</span><span class="p">]</span>
+<span class="w">     </span><span class="err">│</span><span class="w">                   </span><span class="err">│</span><span class="w">                        </span><span class="err">│</span><span class="w">                     </span><span class="err">│</span>
+<span class="w">     </span><span class="err">└──</span><span class="w"> </span><span class="mi">15</span><span class="w"> </span><span class="n">min</span><span class="w"> </span><span class="err">─────────┘</span><span class="w">                       </span><span class="err">└──</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="n">min</span><span class="w"> </span><span class="err">────────────┘</span>
+<span class="w">                         </span><span class="err">└──</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="n">min</span><span class="w"> </span><span class="err">─────────────┘</span>
+
+<span class="n">P0</span><span class="w"> </span><span class="n">Issues</span><span class="o">:</span><span class="w"> </span><span class="n">Skip</span><span class="w"> </span><span class="n">directly</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">Engineering</span><span class="w"> </span><span class="n">Lead</span>
+</code></pre></div>
+
+<hr />
+<h2 id="9-communication-plan">9. Communication Plan</h2>
+<h3 id="91-internal-communication">9.1 Internal Communication</h3>
+<table>
+<thead>
+<tr>
+<th>Audience</th>
+<th>Channel</th>
+<th>Message</th>
+<th>Timing</th>
+<th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Engineering</td>
+<td>[Channel]</td>
+<td>Release starting</td>
+<td>T-15m</td>
+<td>[Owner]</td>
+</tr>
+<tr>
+<td>All hands</td>
+<td>[Channel]</td>
+<td>Release complete</td>
+<td>T+30m</td>
+<td>[Owner]</td>
+</tr>
+<tr>
+<td>Leadership</td>
+<td>[Channel]</td>
+<td>Status update</td>
+<td>T+1h</td>
+<td>[Owner]</td>
+</tr>
+</tbody>
+</table>
+<h3 id="92-external-communication">9.2 External Communication</h3>
+<table>
+<thead>
+<tr>
+<th>Audience</th>
+<th>Channel</th>
+<th>Message</th>
+<th>Timing</th>
+<th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Users</td>
+<td>[Channel]</td>
+<td>Scheduled maintenance</td>
+<td>T-24h</td>
+<td>[Owner]</td>
+</tr>
+<tr>
+<td>Users</td>
+<td>[Channel]</td>
+<td>Release notes</td>
+<td>T+1h</td>
+<td>[Owner]</td>
+</tr>
+<tr>
+<td>Users</td>
+<td>[Channel]</td>
+<td>Feature announcement</td>
+<td>T+24h</td>
+<td>[Owner]</td>
+</tr>
+</tbody>
+</table>
+<h3 id="93-communication-templates">9.3 Communication Templates</h3>
+<p><strong>Pre-release:</strong></p>
+<blockquote>
+<p>[Subject]: Scheduled release - [Product] v[X.X.X]
+We will be releasing [Product] v[X.X.X] on [Date] at [Time]. [Brief description of impact]. No action required from your end.</p>
+</blockquote>
+<p><strong>Post-release:</strong></p>
+<blockquote>
+<p>[Subject]: [Product] v[X.X.X] released successfully
+We have successfully deployed [Product] v[X.X.X]. New features include: [Feature list]. Full release notes: [Link]</p>
+</blockquote>
+<p><strong>Issue notification:</strong></p>
+<blockquote>
+<p>[Subject]: [Product] - Service Issue
+We are aware of [issue description] affecting [scope]. We are actively working on a resolution. Expected resolution: [Time]. We will provide updates every [interval].</p>
+</blockquote>
+<hr />
+<h2 id="10-appendix">10. Appendix</h2>
+<h3 id="101-related-documents">10.1 Related Documents</h3>
+<ul>
+<li>PRD: [Link]</li>
+<li>Design Document: [Link]</li>
+<li>Technical Specification: [Link]</li>
+<li>Test Plan: [Link]</li>
+</ul>
+<h3 id="102-contacts">10.2 Contacts</h3>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Name</th>
+<th>Email</th>
+<th>Phone</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Release Manager</td>
+<td>[Name]</td>
+<td>[Email]</td>
+<td>[Phone]</td>
+</tr>
+<tr>
+<td>Engineering Lead</td>
+<td>[Name]</td>
+<td>[Email]</td>
+<td>[Phone]</td>
+</tr>
+<tr>
+<td>DevOps Lead</td>
+<td>[Name]</td>
+<td>[Email]</td>
+<td>[Phone]</td>
+</tr>
+</tbody>
+</table>
+<h3 id="103-change-log">10.3 Change Log</h3>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Date</th>
+<th>Author</th>
+<th>Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.1.0</td>
+<td>[Date]</td>
+<td>[Author]</td>
+<td>Initial draft</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<div align="center">
+
+<img src="file:///home/manava/atcs-ng/docs/hanaML-Template-7C3AED.png" alt="hanaML" style="max-height: 40px;">
+
+*This template is maintained by the Release Management Team.*
+
+</div>
+    <div class="footer">
+        <span class="badge">hanaML</span>
+        <p>Generated on 2025-12-22 17:09:35</p>
+    </div>
+</body>
+</html>

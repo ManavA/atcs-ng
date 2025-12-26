@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Requirements Document - Template</title>
+    <style>
+/* hanaML Purple Theme - PDF Stylesheet */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --primary: #7C3AED;
+  --primary-dark: #5B21B6;
+  --primary-light: #A78BFA;
+  --background: #1a1a2e;
+  --background-light: #16213e;
+  --surface: #0f3460;
+  --text-primary: #E5E7EB;
+  --text-secondary: #9CA3AF;
+  --border: #374151;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --info: #3B82F6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 11pt;
+  line-height: 1.6;
+  color: #1F2937;
+  background: #ffffff;
+  margin: 0;
+  padding: 40px 60px;
+}
+
+/* Page Header */
+@page {
+  size: A4;
+  margin: 20mm 15mm 25mm 15mm;
+  @top-center {
+    content: "hanaML Documentation";
+    font-size: 9pt;
+    color: #7C3AED;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-size: 9pt;
+    color: #6B7280;
+  }
+}
+
+/* Cover Page Styling */
+.cover-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12pt;
+  margin-bottom: 20px;
+}
+
+/* Headings */
+h1 {
+  font-size: 28pt;
+  font-weight: 700;
+  color: #7C3AED;
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid #7C3AED;
+  page-break-after: avoid;
+}
+
+h2 {
+  font-size: 18pt;
+  font-weight: 600;
+  color: #1F2937;
+  margin-top: 32px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #E5E7EB;
+  page-break-after: avoid;
+}
+
+h3 {
+  font-size: 14pt;
+  font-weight: 600;
+  color: #374151;
+  margin-top: 24px;
+  margin-bottom: 10px;
+  page-break-after: avoid;
+}
+
+h4 {
+  font-size: 12pt;
+  font-weight: 600;
+  color: #4B5563;
+  margin-top: 20px;
+  margin-bottom: 8px;
+  page-break-after: avoid;
+}
+
+h5, h6 {
+  font-size: 11pt;
+  font-weight: 600;
+  color: #6B7280;
+  margin-top: 16px;
+  margin-bottom: 6px;
+}
+
+/* Paragraphs */
+p {
+  margin: 0 0 12px 0;
+  text-align: justify;
+}
+
+/* Links */
+a {
+  color: #7C3AED;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Lists */
+ul, ol {
+  margin: 0 0 16px 0;
+  padding-left: 24px;
+}
+
+li {
+  margin-bottom: 6px;
+}
+
+li > ul, li > ol {
+  margin-top: 6px;
+  margin-bottom: 0;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 10pt;
+  page-break-inside: avoid;
+}
+
+thead {
+  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+  color: white;
+}
+
+th {
+  padding: 12px 10px;
+  text-align: left;
+  font-weight: 600;
+  border: 1px solid #7C3AED;
+}
+
+td {
+  padding: 10px;
+  border: 1px solid #E5E7EB;
+  vertical-align: top;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #F9FAFB;
+}
+
+tbody tr:hover {
+  background-color: #F3F4F6;
+}
+
+/* Code Blocks */
+pre {
+  background: #1F2937;
+  color: #E5E7EB;
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 9pt;
+  line-height: 1.5;
+  margin: 16px 0;
+  border-left: 4px solid #7C3AED;
+  page-break-inside: avoid;
+}
+
+code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 9pt;
+  background: #F3F4F6;
+  color: #7C3AED;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+/* Blockquotes */
+blockquote {
+  margin: 16px 0;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(91, 33, 182, 0.08) 100%);
+  border-left: 4px solid #7C3AED;
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: #4B5563;
+}
+
+blockquote p {
+  margin: 0;
+}
+
+/* Horizontal Rule */
+hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, #7C3AED 0%, #A78BFA 50%, #7C3AED 100%);
+  margin: 32px 0;
+}
+
+/* ASCII Art Boxes - preserve formatting */
+pre.ascii-art {
+  background: #FAFAFA;
+  color: #1F2937;
+  border: 2px solid #E5E7EB;
+  border-left: 4px solid #7C3AED;
+  font-size: 8pt;
+  line-height: 1.4;
+}
+
+/* Status Indicators */
+.status-completed, .status-done {
+  color: #10B981;
+  font-weight: 600;
+}
+
+.status-in-progress, .status-wip {
+  color: #F59E0B;
+  font-weight: 600;
+}
+
+.status-pending, .status-todo {
+  color: #6B7280;
+  font-weight: 600;
+}
+
+.status-blocked, .status-critical {
+  color: #EF4444;
+  font-weight: 600;
+}
+
+/* Priority Badges */
+.priority-p0 {
+  display: inline-block;
+  background: #EF4444;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9pt;
+  font-weight: 600;
+}
+
+.priority-p1 {
+  display: inline-block;
+  background: #F59E0B;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9pt;
+  font-weight: 600;
+}
+
+.priority-p2 {
+  display: inline-block;
+  background: #3B82F6;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9pt;
+  font-weight: 600;
+}
+
+/* Document Info Box */
+.doc-info {
+  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.doc-info table {
+  background: transparent;
+}
+
+.doc-info th, .doc-info td {
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Callout Boxes */
+.callout {
+  padding: 16px;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+
+.callout-info {
+  background: #EFF6FF;
+  border-left: 4px solid #3B82F6;
+}
+
+.callout-warning {
+  background: #FFFBEB;
+  border-left: 4px solid #F59E0B;
+}
+
+.callout-success {
+  background: #ECFDF5;
+  border-left: 4px solid #10B981;
+}
+
+.callout-error {
+  background: #FEF2F2;
+  border-left: 4px solid #EF4444;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 2px solid #E5E7EB;
+  color: #6B7280;
+  font-size: 9pt;
+}
+
+.footer .badge {
+  display: inline-block;
+  background: #7C3AED;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 9pt;
+}
+
+/* Page Breaks */
+.page-break {
+  page-break-after: always;
+}
+
+.no-break {
+  page-break-inside: avoid;
+}
+
+/* Print-specific */
+@media print {
+  body {
+    padding: 0;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  a {
+    color: #7C3AED;
+  }
+
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    color: #6B7280;
+  }
+}
+
+/* Table of Contents */
+.toc {
+  background: #F9FAFB;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.toc h2 {
+  margin-top: 0;
+  color: #7C3AED;
+  border-bottom: 2px solid #7C3AED;
+}
+
+.toc ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.toc li {
+  padding: 4px 0;
+  border-bottom: 1px dotted #E5E7EB;
+}
+
+.toc a {
+  color: #374151;
+}
+
+.toc a:hover {
+  color: #7C3AED;
+}
+
+/* Metrics/Dashboard Style */
+.metric-card {
+  display: inline-block;
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 8px;
+  text-align: center;
+  min-width: 120px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.metric-value {
+  font-size: 24pt;
+  font-weight: 700;
+  color: #7C3AED;
+}
+
+.metric-label {
+  font-size: 10pt;
+  color: #6B7280;
+  text-transform: uppercase;
+}
+
+/* Section Numbers */
+h2::before {
+  color: #7C3AED;
+  font-weight: 700;
+}
+
+/* Checkbox styling for checklists */
+input[type="checkbox"] {
+  accent-color: #7C3AED;
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+}
+
+/* Definition Lists */
+dl {
+  margin: 16px 0;
+}
+
+dt {
+  font-weight: 600;
+  color: #374151;
+  margin-top: 12px;
+}
+
+dd {
+  margin-left: 20px;
+  color: #4B5563;
+}
+
+    </style>
+</head>
+<body>
+<h1 id="product-requirements-document-template">Product Requirements Document - Template</h1>
+<div align="center">
+
+<img src="file:///home/manava/atcs-ng/docs/hanaML-Template-7C3AED.png" alt="hanaML" style="max-height: 40px;">
+
+**[PRODUCT NAME]**
+
+| Document ID | Version | Status | Classification |
+|-------------|---------|--------|----------------|
+| PRD-XXXX-YYYY-NNN | 0.0.0 | Draft | Internal |
+
+</div>
+
+<hr />
+<h2 id="template-guide">Template Guide</h2>
+<h3 id="purpose-of-this-document">Purpose of This Document</h3>
+<p>The <strong>Product Requirements Document (PRD)</strong> defines the <strong>WHAT</strong> and <strong>WHY</strong> of a product or feature. It serves as the authoritative source for:</p>
+<ul>
+<li><strong>Problem Definition</strong>: What problem are we solving?</li>
+<li><strong>User Needs</strong>: Who are our users and what do they need?</li>
+<li><strong>Success Metrics</strong>: How do we measure success?</li>
+<li><strong>Scope</strong>: What's included and excluded?</li>
+<li><strong>Requirements</strong>: What must the product do?</li>
+</ul>
+<blockquote>
+<p><strong>Key Insight</strong>: A good PRD answers "Why are we building this?" before "How will we build it?"</p>
+</blockquote>
+<hr />
+<h3 id="how-to-use-this-template">How to Use This Template</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">                              </span><span class="n">HOW</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="k">USE</span><span class="w"> </span><span class="n">THIS</span><span class="w"> </span><span class="n">TEMPLATE</span><span class="w">                                </span><span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">STEP</span><span class="w"> </span><span class="mi">1</span><span class="err">:</span><span class="w"> </span><span class="n">COPY</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">RENAME</span><span class="w">                                                               </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">─────────────────────</span><span class="w">                                                               </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Copy</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="k">file</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">rename</span><span class="w"> </span><span class="nl">it</span><span class="p">:</span><span class="w">                                                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="nf">Format</span><span class="err">:</span><span class="w"> </span><span class="n">PRD</span><span class="o">-[</span><span class="n">PROJECT</span><span class="o">]-[</span><span class="n">DATE</span><span class="o">]-[</span><span class="n">topic</span><span class="o">]</span><span class="p">.</span><span class="n">md</span><span class="w">                                          </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="nl">Example</span><span class="p">:</span><span class="w"> </span><span class="n">PRD</span><span class="o">-</span><span class="n">ATCS</span><span class="o">-</span><span class="mi">20241222</span><span class="o">-</span><span class="n">ui</span><span class="o">-</span><span class="n">client</span><span class="p">.</span><span class="n">md</span><span class="w">                                          </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">STEP</span><span class="w"> </span><span class="mi">2</span><span class="err">:</span><span class="w"> </span><span class="n">FILL</span><span class="w"> </span><span class="ow">IN</span><span class="w"> </span><span class="n">SECTIONS</span><span class="w">                                                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">────────────────────────</span><span class="w">                                                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="nf">Replace</span><span class="w"> </span><span class="o">[</span><span class="n">PLACEHOLDERS</span><span class="o">]</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">actual</span><span class="w"> </span><span class="n">content</span><span class="p">.</span><span class="w">                                         </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="k">Delete</span><span class="w"> </span><span class="ow">any</span><span class="w"> </span><span class="n">sections</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">applicable</span><span class="w"> </span><span class="p">(</span><span class="k">with</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">note</span><span class="w"> </span><span class="n">why</span><span class="p">).</span><span class="w">                               </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">STEP</span><span class="w"> </span><span class="mi">3</span><span class="err">:</span><span class="w"> </span><span class="n">REQUEST</span><span class="w"> </span><span class="n">REVIEW</span><span class="w">                                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">─────────────────────</span><span class="w">                                                               </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Share</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">stakeholders</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">feedback</span><span class="p">.</span><span class="w">                                               </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="k">Use</span><span class="w"> </span><span class="n">tracked</span><span class="w"> </span><span class="n">changes</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">comments</span><span class="p">.</span><span class="w">                                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">STEP</span><span class="w"> </span><span class="mi">4</span><span class="err">:</span><span class="w"> </span><span class="k">GET</span><span class="w"> </span><span class="n">APPROVAL</span><span class="w">                                                                </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">────────────────────</span><span class="w">                                                                </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Obtain</span><span class="w"> </span><span class="nf">sign</span><span class="o">-</span><span class="k">off</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">required</span><span class="w"> </span><span class="n">approvers</span><span class="p">.</span><span class="w">                                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="k">Update</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="ss">&quot;Draft&quot;</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="ss">&quot;Approved&quot;</span><span class="p">.</span><span class="w">                                           </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">STEP</span><span class="w"> </span><span class="mi">5</span><span class="err">:</span><span class="w"> </span><span class="n">MAINTAIN</span><span class="w">                                                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">────────────────</span><span class="w">                                                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Keep</span><span class="w"> </span><span class="n">document</span><span class="w"> </span><span class="n">updated</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">requirements</span><span class="w"> </span><span class="n">evolve</span><span class="p">.</span><span class="w">                                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Track</span><span class="w"> </span><span class="n">changes</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">Change</span><span class="w"> </span><span class="nf">Log</span><span class="w"> </span><span class="k">section</span><span class="p">.</span><span class="w">                                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<hr />
+<h3 id="product-lifecycle-position">Product Lifecycle Position</h3>
+<div class="codehilite"><pre><span></span><code>┌─────────────────────────────────────────────────────────────────────────────────────┐
+│<span class="w">                              </span><span class="nv">PRODUCT</span><span class="w"> </span><span class="nv">LIFECYCLE</span><span class="w"> </span><span class="nv">POSITION</span><span class="w">                              </span>│
+├─────────────────────────────────────────────────────────────────────────────────────┤
+│<span class="w">                                                                                      </span>│
+│<span class="w">    </span><span class="nv">IDEATION</span><span class="w">      </span><span class="nv">PLANNING</span><span class="w">       </span><span class="nv">BUILD</span><span class="w">         </span><span class="nv">TEST</span><span class="w">        </span><span class="nv">RELEASE</span><span class="w">      </span><span class="nv">OPERATE</span><span class="w">      </span>│
+│<span class="w">       </span>│<span class="w">             </span>│<span class="w">             </span>│<span class="w">             </span>│<span class="w">            </span>│<span class="w">            </span>│<span class="w">          </span>│
+│<span class="w">       </span>▼<span class="w">             </span>▼<span class="w">             </span>▼<span class="w">             </span>▼<span class="w">            </span>▼<span class="w">            </span>▼<span class="w">          </span>│
+│<span class="w">   </span>┌───────┐<span class="w">    </span>┌───────┐<span class="w">    </span>┌───────┐<span class="w">    </span>┌───────┐<span class="w">    </span>┌───────┐<span class="w">    </span>┌───────┐<span class="w">       </span>│
+│<span class="w">   </span>│<span class="w">       </span>│<span class="w">    </span>│<span class="w">       </span>│<span class="w">    </span>│<span class="w">       </span>│<span class="w">    </span>│<span class="w">       </span>│<span class="w">    </span>│<span class="w">       </span>│<span class="w">    </span>│<span class="w">       </span>│<span class="w">       </span>│
+│<span class="w">   </span>│<span class="w"> </span><span class="nv">Ideas</span><span class="w"> </span>│───►│<span class="w">  </span><span class="nv">PRD</span><span class="w">  </span>│───►│<span class="nv">Design</span><span class="w"> </span>│───►│<span class="w">  </span><span class="nv">QA</span><span class="w">   </span>│───►│<span class="nv">Launch</span><span class="w"> </span>│───►│<span class="nv">Monitor</span>│<span class="w">       </span>│
+│<span class="w">   </span>│<span class="w">       </span>│<span class="w">    </span>│<span class="w">       </span>│<span class="w">    </span>│<span class="w"> </span><span class="nv">Doc</span><span class="w">   </span>│<span class="w">    </span>│<span class="w"> </span><span class="nv">Test</span><span class="w">  </span>│<span class="w">    </span>│<span class="w">       </span>│<span class="w">    </span>│<span class="w">       </span>│<span class="w">       </span>│
+│<span class="w">   </span>└───────┘<span class="w">    </span>└───┬───┘<span class="w">    </span>└───────┘<span class="w">    </span>└───────┘<span class="w">    </span>└───────┘<span class="w">    </span>└───────┘<span class="w">       </span>│
+│<span class="w">                    </span>│<span class="w">                                                                 </span>│
+│<span class="w">                    </span>│<span class="w">                                                                 </span>│
+│<span class="w">                </span>┌───▼───────────────────────────────────────────────────────────┐<span class="w">    </span>│
+│<span class="w">                </span>│<span class="w">                   </span>★<span class="w"> </span><span class="nv">PRD</span><span class="w"> </span><span class="nv">IS</span><span class="w"> </span><span class="nv">HERE</span><span class="w"> </span>★<span class="w">                              </span>│<span class="w">    </span>│
+│<span class="w">                </span>│<span class="w">                                                                </span>│<span class="w">    </span>│
+│<span class="w">                </span>│<span class="w">  </span><span class="nv">The</span><span class="w"> </span><span class="nv">PRD</span><span class="w"> </span><span class="nv">is</span><span class="w"> </span><span class="nv">created</span><span class="w"> </span><span class="nv">during</span><span class="w"> </span><span class="nv">PLANNING</span><span class="w"> </span><span class="nv">and</span><span class="w"> </span><span class="nv">serves</span><span class="w"> </span><span class="nv">as</span><span class="w"> </span><span class="nv">the</span><span class="w">         </span>│<span class="w">    </span>│
+│<span class="w">                </span>│<span class="w">  </span><span class="nv">foundation</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">all</span><span class="w"> </span><span class="nv">downstream</span><span class="w"> </span><span class="nv">artifacts</span><span class="w"> </span><span class="ss">(</span><span class="nv">Design</span><span class="w"> </span><span class="nv">Doc</span>,<span class="w">         </span>│<span class="w">    </span>│
+│<span class="w">                </span>│<span class="w">  </span><span class="nv">Tech</span><span class="w"> </span><span class="nv">Spec</span>,<span class="w"> </span><span class="nv">Test</span><span class="w"> </span><span class="nv">Plans</span>,<span class="w"> </span><span class="nv">etc</span>.<span class="ss">)</span><span class="w">                                 </span>│<span class="w">    </span>│
+│<span class="w">                </span>│<span class="w">                                                                </span>│<span class="w">    </span>│
+│<span class="w">                </span>│<span class="w">  </span><span class="nv">It</span><span class="w"> </span><span class="nv">should</span><span class="w"> </span><span class="nv">be</span><span class="w"> </span><span class="nv">completed</span><span class="w"> </span><span class="nv">BEFORE</span><span class="w"> </span><span class="nv">engineering</span><span class="w"> </span><span class="nv">begins</span>.<span class="w">            </span>│<span class="w">    </span>│
+│<span class="w">                </span>└────────────────────────────────────────────────────────────────┘<span class="w">    </span>│
+│<span class="w">                                                                                      </span>│
+└─────────────────────────────────────────────────────────────────────────────────────┘
+</code></pre></div>
+
+<hr />
+<h3 id="key-stakeholders">Key Stakeholders</h3>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Responsibility</th>
+<th>Involvement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Product Manager</strong></td>
+<td>Author and owner of the PRD</td>
+<td>Creates, maintains, drives approval</td>
+</tr>
+<tr>
+<td><strong>Engineering Lead</strong></td>
+<td>Technical feasibility review</td>
+<td>Reviews, provides estimates</td>
+</tr>
+<tr>
+<td><strong>UX Designer</strong></td>
+<td>User experience input</td>
+<td>Reviews personas, user journeys</td>
+</tr>
+<tr>
+<td><strong>QA Lead</strong></td>
+<td>Testability review</td>
+<td>Reviews acceptance criteria</td>
+</tr>
+<tr>
+<td><strong>Business Stakeholder</strong></td>
+<td>Business alignment</td>
+<td>Reviews, approves</td>
+</tr>
+<tr>
+<td><strong>VP Product</strong></td>
+<td>Final approval</td>
+<td>Approves</td>
+</tr>
+</tbody>
+</table>
+<h3 id="who-works-on-this-document">Who Works on This Document</h3>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Contributors</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Drafting</strong></td>
+<td>Product Manager (primary), with input from stakeholders</td>
+</tr>
+<tr>
+<td><strong>Review</strong></td>
+<td>Engineering, Design, QA, Business</td>
+</tr>
+<tr>
+<td><strong>Approval</strong></td>
+<td>VP Product, VP Engineering</td>
+</tr>
+<tr>
+<td><strong>Maintenance</strong></td>
+<td>Product Manager</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="prd-template">PRD Template</h2>
+<hr />
+<h2 id="1-executive-summary">1. Executive Summary</h2>
+<h3 id="11-product-vision">1.1 Product Vision</h3>
+<blockquote>
+<p>[1-2 sentences describing the product vision. What is the product and why does it matter?]</p>
+</blockquote>
+<p><strong>Example:</strong></p>
+<blockquote>
+<p>ACME Widget is a revolutionary productivity tool that helps knowledge workers organize their tasks and reduce context switching by 50%.</p>
+</blockquote>
+<h3 id="12-value-proposition">1.2 Value Proposition</h3>
+<div class="codehilite"><pre><span></span><code>┌─────────────────────────────────────────────────────────────────────────────┐
+│                           VALUE PROPOSITION CANVAS                          │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│   ┌─────────────────────────┐          ┌─────────────────────────────────┐ │
+│   │     CUSTOMER GAINS      │          │        GAIN CREATORS            │ │
+│   ├─────────────────────────┤          ├─────────────────────────────────┤ │
+│   │ • [Gain 1]              │          │ • [How product creates gain]    │ │
+│   │ • [Gain 2]              │   ◄──►   │ • [Feature that enables gain]   │ │
+│   │ • [Gain 3]              │          │ • [Capability that helps]       │ │
+│   └─────────────────────────┘          └─────────────────────────────────┘ │
+│                                                                             │
+│   ┌─────────────────────────┐          ┌─────────────────────────────────┐ │
+│   │    CUSTOMER PAINS       │          │        PAIN RELIEVERS           │ │
+│   ├─────────────────────────┤          ├─────────────────────────────────┤ │
+│   │ • [Pain 1]              │          │ • [How product relieves pain]   │ │
+│   │ • [Pain 2]              │   ◄──►   │ • [Feature that helps]          │ │
+│   │ • [Pain 3]              │          │ • [Solution to pain]            │ │
+│   └─────────────────────────┘          └─────────────────────────────────┘ │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+</code></pre></div>
+
+<h3 id="13-key-outcomes">1.3 Key Outcomes</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Current State</th>
+<th>Target State</th>
+<th>Improvement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[Metric 1]</td>
+<td>[Current value]</td>
+<td>[Target value]</td>
+<td>[X% improvement]</td>
+</tr>
+<tr>
+<td>[Metric 2]</td>
+<td>[Current value]</td>
+<td>[Target value]</td>
+<td>[X% improvement]</td>
+</tr>
+<tr>
+<td>[Metric 3]</td>
+<td>[Current value]</td>
+<td>[Target value]</td>
+<td>[X% improvement]</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-problem-statement">2. Problem Statement</h2>
+<h3 id="21-current-state-analysis">2.1 Current State Analysis</h3>
+<blockquote>
+<p>[Describe the current state and pain points. What's broken today?]</p>
+</blockquote>
+<h3 id="22-impact-analysis">2.2 Impact Analysis</h3>
+<blockquote>
+<p>[Describe the impact of not solving this problem. What happens if we do nothing?]</p>
+</blockquote>
+<hr />
+<h2 id="3-goals-success-metrics">3. Goals &amp; Success Metrics</h2>
+<h3 id="31-primary-goals">3.1 Primary Goals</h3>
+<table>
+<thead>
+<tr>
+<th>Goal ID</th>
+<th>Goal</th>
+<th>Key Results</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G1</td>
+<td>[Goal description]</td>
+<td>[Measurable outcome]</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>G2</td>
+<td>[Goal description]</td>
+<td>[Measurable outcome]</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>G3</td>
+<td>[Goal description]</td>
+<td>[Measurable outcome]</td>
+<td>P2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32-non-goals-out-of-scope">3.2 Non-Goals (Out of Scope)</h3>
+<table>
+<thead>
+<tr>
+<th>Non-Goal</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[What we're NOT doing]</td>
+<td>[Why we're not doing it]</td>
+</tr>
+</tbody>
+</table>
+<h3 id="33-success-metrics">3.3 Success Metrics</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Target</th>
+<th>Measurement Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[Metric name]</td>
+<td>[Target value]</td>
+<td>[How measured]</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-user-personas">4. User Personas</h2>
+<h3 id="41-primary-persona-name">4.1 Primary Persona: [Name]</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">  </span><span class="n">PERSONA</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">NAME</span><span class="p">]</span><span class="w">                                                             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">═══════════════════════════════════════════════════════════════════════════│</span>
+<span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">┌──────────┐</span><span class="w">   </span><span class="n">Role</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">Job</span><span class="w"> </span><span class="n">title</span><span class="p">]</span><span class="w">                                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">┌────┐</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="n">Age</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">Age</span><span class="p">]</span><span class="w">  </span><span class="o">|</span><span class="w">  </span><span class="n">Experience</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">X</span><span class="w"> </span><span class="n">years</span><span class="p">]</span><span class="w">  </span><span class="o">|</span><span class="w">  </span><span class="n">Location</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">Place</span><span class="p">]</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w"> </span><span class="err">👤</span><span class="w"> </span><span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">                                                                </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="err">└────┘</span><span class="w">  </span><span class="err">│</span><span class="w">   </span><span class="s">&quot;[Quote that represents their mindset]&quot;</span><span class="w">                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">│</span><span class="w">  </span><span class="p">[</span><span class="n">Name</span><span class="p">]</span><span class="w">  </span><span class="err">│</span><span class="w">                                                                </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">└──────────┘</span><span class="w">                                                                </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">GOALS</span><span class="w">                              </span><span class="n">FRUSTRATIONS</span><span class="w">                             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">──────</span><span class="w">                             </span><span class="err">─────────────</span><span class="w">                            </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="p">[</span><span class="n">Goal</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w">                         </span><span class="err">•</span><span class="w"> </span><span class="p">[</span><span class="n">Frustration</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w">                        </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="p">[</span><span class="n">Goal</span><span class="w"> </span><span class="mi">2</span><span class="p">]</span><span class="w">                         </span><span class="err">•</span><span class="w"> </span><span class="p">[</span><span class="n">Frustration</span><span class="w"> </span><span class="mi">2</span><span class="p">]</span><span class="w">                        </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">NEEDS</span><span class="w"> </span><span class="n">FROM</span><span class="w"> </span><span class="n">PRODUCT</span><span class="w">                                                          </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">──────────────────</span><span class="w">                                                          </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="p">[</span><span class="n">Need</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w">                                                                  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="p">[</span><span class="n">Need</span><span class="w"> </span><span class="mi">2</span><span class="p">]</span><span class="w">                                                                  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                              </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<hr />
+<h2 id="5-user-journeys">5. User Journeys</h2>
+<h3 id="51-journey-journey-name">5.1 Journey: [Journey Name]</h3>
+<blockquote>
+<p>[Describe the user journey step by step]</p>
+</blockquote>
+<div class="codehilite"><pre><span></span><code><span class="k">TRIGGER</span><span class="err">:</span><span class="w"> </span><span class="o">[</span><span class="n">What initiates the journey</span><span class="o">]</span>
+
+<span class="o">[</span><span class="n">Step 1</span><span class="o">]</span><span class="w"> </span><span class="err">──►</span><span class="w"> </span><span class="o">[</span><span class="n">Step 2</span><span class="o">]</span><span class="w"> </span><span class="err">──►</span><span class="w"> </span><span class="o">[</span><span class="n">Step 3</span><span class="o">]</span><span class="w"> </span><span class="err">──►</span><span class="w"> </span><span class="o">[</span><span class="n">Step 4</span><span class="o">]</span><span class="w"> </span><span class="err">──►</span><span class="w"> </span><span class="o">[</span><span class="n">Outcome</span><span class="o">]</span>
+
+<span class="n">SUCCESS</span><span class="w"> </span><span class="nl">METRIC</span><span class="p">:</span><span class="w"> </span><span class="o">[</span><span class="n">How we measure success of this journey</span><span class="o">]</span>
+</code></pre></div>
+
+<hr />
+<h2 id="6-requirements">6. Requirements</h2>
+<h3 id="61-functional-requirements">6.1 Functional Requirements</h3>
+<h4 id="p0-must-have-launch-blockers">P0: Must Have (Launch Blockers)</h4>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Acceptance Criteria</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F-001</td>
+<td>[Requirement]</td>
+<td>[Criteria]</td>
+<td>🔲 Not Started</td>
+</tr>
+<tr>
+<td>F-002</td>
+<td>[Requirement]</td>
+<td>[Criteria]</td>
+<td>🔲 Not Started</td>
+</tr>
+</tbody>
+</table>
+<h4 id="p1-should-have-target-release">P1: Should Have (Target Release)</h4>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Acceptance Criteria</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F-010</td>
+<td>[Requirement]</td>
+<td>[Criteria]</td>
+<td>🔲 Not Started</td>
+</tr>
+</tbody>
+</table>
+<h4 id="p2-nice-to-have-post-launch">P2: Nice to Have (Post-Launch)</h4>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Acceptance Criteria</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F-020</td>
+<td>[Requirement]</td>
+<td>[Criteria]</td>
+<td>🔲 Not Started</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-non-functional-requirements">6.2 Non-Functional Requirements</h3>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Requirement</th>
+<th>Target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Performance</td>
+<td>[Requirement]</td>
+<td>[Target]</td>
+</tr>
+<tr>
+<td>Reliability</td>
+<td>[Requirement]</td>
+<td>[Target]</td>
+</tr>
+<tr>
+<td>Security</td>
+<td>[Requirement]</td>
+<td>[Target]</td>
+</tr>
+<tr>
+<td>Accessibility</td>
+<td>[Requirement]</td>
+<td>[Target]</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="7-scope-constraints">7. Scope &amp; Constraints</h2>
+<h3 id="71-in-scope">7.1 In Scope</h3>
+<ul>
+<li>[Feature/capability 1]</li>
+<li>[Feature/capability 2]</li>
+</ul>
+<h3 id="72-out-of-scope">7.2 Out of Scope</h3>
+<ul>
+<li>[Excluded item 1]</li>
+<li>[Excluded item 2]</li>
+</ul>
+<h3 id="73-constraints">7.3 Constraints</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Constraint</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Technical</td>
+<td>[Constraint]</td>
+<td>[Impact]</td>
+</tr>
+<tr>
+<td>Business</td>
+<td>[Constraint]</td>
+<td>[Impact]</td>
+</tr>
+<tr>
+<td>Timeline</td>
+<td>[Constraint]</td>
+<td>[Impact]</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="8-dependencies">8. Dependencies</h2>
+<table>
+<thead>
+<tr>
+<th>Dependency</th>
+<th>Type</th>
+<th>Risk Level</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[Dependency 1]</td>
+<td>[Internal/External]</td>
+<td>[Low/Medium/High]</td>
+<td>[Mitigation]</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="9-risks-mitigations">9. Risks &amp; Mitigations</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Risk</th>
+<th>Likelihood</th>
+<th>Impact</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td>[Risk description]</td>
+<td>[L/M/H]</td>
+<td>[L/M/H]</td>
+<td>[Mitigation]</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="10-timeline">10. Timeline</h2>
+<table>
+<thead>
+<tr>
+<th>Milestone</th>
+<th>Target Date</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PRD Approved</td>
+<td>[Date]</td>
+<td>🔲</td>
+</tr>
+<tr>
+<td>Design Complete</td>
+<td>[Date]</td>
+<td>🔲</td>
+</tr>
+<tr>
+<td>Development Complete</td>
+<td>[Date]</td>
+<td>🔲</td>
+</tr>
+<tr>
+<td>QA Complete</td>
+<td>[Date]</td>
+<td>🔲</td>
+</tr>
+<tr>
+<td>Release</td>
+<td>[Date]</td>
+<td>🔲</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="11-open-questions">11. Open Questions</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Question</th>
+<th>Owner</th>
+<th>Due Date</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q1</td>
+<td>[Question]</td>
+<td>[Owner]</td>
+<td>[Date]</td>
+<td>Open</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="12-appendix">12. Appendix</h2>
+<h3 id="121-glossary">12.1 Glossary</h3>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[Term 1]</td>
+<td>[Definition]</td>
+</tr>
+</tbody>
+</table>
+<h3 id="122-related-documents">12.2 Related Documents</h3>
+<ul>
+<li>[Link to Design Doc]</li>
+<li>[Link to Tech Spec]</li>
+</ul>
+<h3 id="123-change-log">12.3 Change Log</h3>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Date</th>
+<th>Author</th>
+<th>Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.1.0</td>
+<td>[Date]</td>
+<td>[Author]</td>
+<td>Initial draft</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<div align="center">
+
+<img src="file:///home/manava/atcs-ng/docs/hanaML-Template-7C3AED.png" alt="hanaML" style="max-height: 40px;">
+
+*This template is maintained by the Product Team.*
+
+</div>
+    <div class="footer">
+        <span class="badge">hanaML</span>
+        <p>Generated on 2025-12-22 17:09:25</p>
+    </div>
+</body>
+</html>

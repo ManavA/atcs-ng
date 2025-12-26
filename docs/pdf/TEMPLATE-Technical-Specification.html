@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Specification - Template</title>
+    <style>
+/* hanaML Purple Theme - PDF Stylesheet */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --primary: #7C3AED;
+  --primary-dark: #5B21B6;
+  --primary-light: #A78BFA;
+  --background: #1a1a2e;
+  --background-light: #16213e;
+  --surface: #0f3460;
+  --text-primary: #E5E7EB;
+  --text-secondary: #9CA3AF;
+  --border: #374151;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --info: #3B82F6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 11pt;
+  line-height: 1.6;
+  color: #1F2937;
+  background: #ffffff;
+  margin: 0;
+  padding: 40px 60px;
+}
+
+/* Page Header */
+@page {
+  size: A4;
+  margin: 20mm 15mm 25mm 15mm;
+  @top-center {
+    content: "hanaML Documentation";
+    font-size: 9pt;
+    color: #7C3AED;
+  }
+  @bottom-center {
+    content: counter(page);
+    font-size: 9pt;
+    color: #6B7280;
+  }
+}
+
+/* Cover Page Styling */
+.cover-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12pt;
+  margin-bottom: 20px;
+}
+
+/* Headings */
+h1 {
+  font-size: 28pt;
+  font-weight: 700;
+  color: #7C3AED;
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid #7C3AED;
+  page-break-after: avoid;
+}
+
+h2 {
+  font-size: 18pt;
+  font-weight: 600;
+  color: #1F2937;
+  margin-top: 32px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #E5E7EB;
+  page-break-after: avoid;
+}
+
+h3 {
+  font-size: 14pt;
+  font-weight: 600;
+  color: #374151;
+  margin-top: 24px;
+  margin-bottom: 10px;
+  page-break-after: avoid;
+}
+
+h4 {
+  font-size: 12pt;
+  font-weight: 600;
+  color: #4B5563;
+  margin-top: 20px;
+  margin-bottom: 8px;
+  page-break-after: avoid;
+}
+
+h5, h6 {
+  font-size: 11pt;
+  font-weight: 600;
+  color: #6B7280;
+  margin-top: 16px;
+  margin-bottom: 6px;
+}
+
+/* Paragraphs */
+p {
+  margin: 0 0 12px 0;
+  text-align: justify;
+}
+
+/* Links */
+a {
+  color: #7C3AED;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Lists */
+ul, ol {
+  margin: 0 0 16px 0;
+  padding-left: 24px;
+}
+
+li {
+  margin-bottom: 6px;
+}
+
+li > ul, li > ol {
+  margin-top: 6px;
+  margin-bottom: 0;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 10pt;
+  page-break-inside: avoid;
+}
+
+thead {
+  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+  color: white;
+}
+
+th {
+  padding: 12px 10px;
+  text-align: left;
+  font-weight: 600;
+  border: 1px solid #7C3AED;
+}
+
+td {
+  padding: 10px;
+  border: 1px solid #E5E7EB;
+  vertical-align: top;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #F9FAFB;
+}
+
+tbody tr:hover {
+  background-color: #F3F4F6;
+}
+
+/* Code Blocks */
+pre {
+  background: #1F2937;
+  color: #E5E7EB;
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 9pt;
+  line-height: 1.5;
+  margin: 16px 0;
+  border-left: 4px solid #7C3AED;
+  page-break-inside: avoid;
+}
+
+code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 9pt;
+  background: #F3F4F6;
+  color: #7C3AED;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+/* Blockquotes */
+blockquote {
+  margin: 16px 0;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(91, 33, 182, 0.08) 100%);
+  border-left: 4px solid #7C3AED;
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: #4B5563;
+}
+
+blockquote p {
+  margin: 0;
+}
+
+/* Horizontal Rule */
+hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, #7C3AED 0%, #A78BFA 50%, #7C3AED 100%);
+  margin: 32px 0;
+}
+
+/* ASCII Art Boxes - preserve formatting */
+pre.ascii-art {
+  background: #FAFAFA;
+  color: #1F2937;
+  border: 2px solid #E5E7EB;
+  border-left: 4px solid #7C3AED;
+  font-size: 8pt;
+  line-height: 1.4;
+}
+
+/* Status Indicators */
+.status-completed, .status-done {
+  color: #10B981;
+  font-weight: 600;
+}
+
+.status-in-progress, .status-wip {
+  color: #F59E0B;
+  font-weight: 600;
+}
+
+.status-pending, .status-todo {
+  color: #6B7280;
+  font-weight: 600;
+}
+
+.status-blocked, .status-critical {
+  color: #EF4444;
+  font-weight: 600;
+}
+
+/* Priority Badges */
+.priority-p0 {
+  display: inline-block;
+  background: #EF4444;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9pt;
+  font-weight: 600;
+}
+
+.priority-p1 {
+  display: inline-block;
+  background: #F59E0B;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9pt;
+  font-weight: 600;
+}
+
+.priority-p2 {
+  display: inline-block;
+  background: #3B82F6;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9pt;
+  font-weight: 600;
+}
+
+/* Document Info Box */
+.doc-info {
+  background: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.doc-info table {
+  background: transparent;
+}
+
+.doc-info th, .doc-info td {
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Callout Boxes */
+.callout {
+  padding: 16px;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+
+.callout-info {
+  background: #EFF6FF;
+  border-left: 4px solid #3B82F6;
+}
+
+.callout-warning {
+  background: #FFFBEB;
+  border-left: 4px solid #F59E0B;
+}
+
+.callout-success {
+  background: #ECFDF5;
+  border-left: 4px solid #10B981;
+}
+
+.callout-error {
+  background: #FEF2F2;
+  border-left: 4px solid #EF4444;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 2px solid #E5E7EB;
+  color: #6B7280;
+  font-size: 9pt;
+}
+
+.footer .badge {
+  display: inline-block;
+  background: #7C3AED;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 9pt;
+}
+
+/* Page Breaks */
+.page-break {
+  page-break-after: always;
+}
+
+.no-break {
+  page-break-inside: avoid;
+}
+
+/* Print-specific */
+@media print {
+  body {
+    padding: 0;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  a {
+    color: #7C3AED;
+  }
+
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    color: #6B7280;
+  }
+}
+
+/* Table of Contents */
+.toc {
+  background: #F9FAFB;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.toc h2 {
+  margin-top: 0;
+  color: #7C3AED;
+  border-bottom: 2px solid #7C3AED;
+}
+
+.toc ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.toc li {
+  padding: 4px 0;
+  border-bottom: 1px dotted #E5E7EB;
+}
+
+.toc a {
+  color: #374151;
+}
+
+.toc a:hover {
+  color: #7C3AED;
+}
+
+/* Metrics/Dashboard Style */
+.metric-card {
+  display: inline-block;
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 8px;
+  text-align: center;
+  min-width: 120px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.metric-value {
+  font-size: 24pt;
+  font-weight: 700;
+  color: #7C3AED;
+}
+
+.metric-label {
+  font-size: 10pt;
+  color: #6B7280;
+  text-transform: uppercase;
+}
+
+/* Section Numbers */
+h2::before {
+  color: #7C3AED;
+  font-weight: 700;
+}
+
+/* Checkbox styling for checklists */
+input[type="checkbox"] {
+  accent-color: #7C3AED;
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+}
+
+/* Definition Lists */
+dl {
+  margin: 16px 0;
+}
+
+dt {
+  font-weight: 600;
+  color: #374151;
+  margin-top: 12px;
+}
+
+dd {
+  margin-left: 20px;
+  color: #4B5563;
+}
+
+    </style>
+</head>
+<body>
+<h1 id="technical-specification-template">Technical Specification - Template</h1>
+<div align="center">
+
+<img src="file:///home/manava/atcs-ng/docs/hanaML-Template-7C3AED.png" alt="hanaML" style="max-height: 40px;">
+
+**[PROJECT NAME]**
+
+| Document ID | Version | Status | Classification |
+|-------------|---------|--------|----------------|
+| TS-XXXX-YYYY-NNN | 0.0.0 | Draft | Internal |
+
+</div>
+
+<hr />
+<h2 id="template-guide">Template Guide</h2>
+<h3 id="purpose-of-this-document">Purpose of This Document</h3>
+<p>The <strong>Technical Specification</strong> defines the <strong>implementation details</strong> of a feature or system. It serves as the engineering reference for:</p>
+<ul>
+<li><strong>Code Structure</strong>: How will code be organized?</li>
+<li><strong>Interface Definitions</strong>: What are the exact function signatures and types?</li>
+<li><strong>Configuration</strong>: What settings and environment variables are needed?</li>
+<li><strong>Build &amp; Deploy</strong>: How is the code built and deployed?</li>
+<li><strong>Error Handling</strong>: How are errors logged and handled?</li>
+</ul>
+<blockquote>
+<p><strong>Key Insight</strong>: A good Tech Spec provides enough detail that any engineer can implement the feature without additional clarification.</p>
+</blockquote>
+<hr />
+<h3 id="how-to-use-this-template">How to Use This Template</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">                              </span><span class="n">HOW</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="k">USE</span><span class="w"> </span><span class="n">THIS</span><span class="w"> </span><span class="n">TEMPLATE</span><span class="w">                                </span><span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">STEP</span><span class="w"> </span><span class="mi">1</span><span class="err">:</span><span class="w"> </span><span class="n">COPY</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">RENAME</span><span class="w">                                                               </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">─────────────────────</span><span class="w">                                                               </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Copy</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="k">file</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">rename</span><span class="w"> </span><span class="nl">it</span><span class="p">:</span><span class="w">                                                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="nf">Format</span><span class="err">:</span><span class="w"> </span><span class="n">TS</span><span class="o">-[</span><span class="n">PROJECT</span><span class="o">]-[</span><span class="n">DATE</span><span class="o">]-[</span><span class="n">topic</span><span class="o">]</span><span class="p">.</span><span class="n">md</span><span class="w">                                           </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">•</span><span class="w"> </span><span class="nl">Example</span><span class="p">:</span><span class="w"> </span><span class="n">TS</span><span class="o">-</span><span class="n">ATCS</span><span class="o">-</span><span class="mi">20241222</span><span class="o">-</span><span class="n">cloud</span><span class="o">-</span><span class="n">tts</span><span class="o">-</span><span class="n">integration</span><span class="p">.</span><span class="n">md</span><span class="w">                               </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">STEP</span><span class="w"> </span><span class="mi">2</span><span class="err">:</span><span class="w"> </span><span class="n">REFERENCE</span><span class="w"> </span><span class="n">THE</span><span class="w"> </span><span class="n">DESIGN</span><span class="w"> </span><span class="n">DOC</span><span class="w">                                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">────────────────────────────────</span><span class="w">                                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Link</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">Design</span><span class="w"> </span><span class="n">Document</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">spec</span><span class="w"> </span><span class="n">implements</span><span class="p">.</span><span class="w">                                   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Ensure</span><span class="w"> </span><span class="ow">all</span><span class="w"> </span><span class="n">architectural</span><span class="w"> </span><span class="n">decisions</span><span class="w"> </span><span class="k">are</span><span class="w"> </span><span class="n">followed</span><span class="p">.</span><span class="w">                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">STEP</span><span class="w"> </span><span class="mi">3</span><span class="err">:</span><span class="w"> </span><span class="n">FILL</span><span class="w"> </span><span class="ow">IN</span><span class="w"> </span><span class="n">CODE</span><span class="w"> </span><span class="n">DETAILS</span><span class="w">                                                        </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">─────────────────────────────</span><span class="w">                                                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="k">Include</span><span class="w"> </span><span class="n">actual</span><span class="w"> </span><span class="n">interface</span><span class="w"> </span><span class="n">definitions</span><span class="p">,</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">code</span><span class="w"> </span><span class="k">structure</span><span class="p">.</span><span class="w">                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Be</span><span class="w"> </span><span class="k">specific</span><span class="w"> </span><span class="n">about</span><span class="w"> </span><span class="k">file</span><span class="w"> </span><span class="n">paths</span><span class="p">,</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="k">names</span><span class="p">,</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="k">parameters</span><span class="p">.</span><span class="w">                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">STEP</span><span class="w"> </span><span class="mi">4</span><span class="err">:</span><span class="w"> </span><span class="n">PEER</span><span class="w"> </span><span class="n">REVIEW</span><span class="w">                                                                 </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">─────────────────</span><span class="w">                                                                   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Have</span><span class="w"> </span><span class="n">senior</span><span class="w"> </span><span class="n">engineers</span><span class="w"> </span><span class="n">review</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">completeness</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">accuracy</span><span class="p">.</span><span class="w">                         </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="k">Update</span><span class="w"> </span><span class="n">based</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">feedback</span><span class="p">.</span><span class="w">                                                           </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="n">STEP</span><span class="w"> </span><span class="mi">5</span><span class="err">:</span><span class="w"> </span><span class="n">IMPLEMENT</span><span class="w">                                                                   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="err">────────────────</span><span class="w">                                                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="k">Use</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">document</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">primary</span><span class="w"> </span><span class="n">reference</span><span class="w"> </span><span class="n">during</span><span class="w"> </span><span class="n">implementation</span><span class="p">.</span><span class="w">                   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="k">Update</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">document</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">implementation</span><span class="w"> </span><span class="n">requires</span><span class="w"> </span><span class="n">changes</span><span class="p">.</span><span class="w">                             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<hr />
+<h3 id="product-lifecycle-position">Product Lifecycle Position</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">                              </span><span class="nx">PRODUCT</span><span class="w"> </span><span class="nx">LIFECYCLE</span><span class="w"> </span><span class="nx">POSITION</span><span class="w">                              </span><span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">    </span><span class="nx">IDEATION</span><span class="w">      </span><span class="nx">PLANNING</span><span class="w">       </span><span class="nx">BUILD</span><span class="w">         </span><span class="nx">TEST</span><span class="w">        </span><span class="nx">RELEASE</span><span class="w">      </span><span class="nx">OPERATE</span><span class="w">      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">       </span><span class="err">│</span><span class="w">             </span><span class="err">│</span><span class="w">             </span><span class="err">│</span><span class="w">             </span><span class="err">│</span><span class="w">            </span><span class="err">│</span><span class="w">            </span><span class="err">│</span><span class="w">          </span><span class="err">│</span>
+<span class="err">│</span><span class="w">       </span><span class="err">▼</span><span class="w">             </span><span class="err">▼</span><span class="w">             </span><span class="err">▼</span><span class="w">             </span><span class="err">▼</span><span class="w">            </span><span class="err">▼</span><span class="w">            </span><span class="err">▼</span><span class="w">          </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">┌───────┐</span><span class="w">    </span><span class="err">┌───────┐</span><span class="w">    </span><span class="err">┌───────┐</span><span class="w">    </span><span class="err">┌───────┐</span><span class="w">    </span><span class="err">┌───────┐</span><span class="w">    </span><span class="err">┌───────┐</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">       </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">       </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">       </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">       </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">       </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">       </span><span class="err">│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w"> </span><span class="nx">Ideas</span><span class="w"> </span><span class="err">│───►│</span><span class="w">  </span><span class="nx">PRD</span><span class="w">  </span><span class="err">│───►│</span><span class="nx">Design</span><span class="w"> </span><span class="err">│───►│</span><span class="w">  </span><span class="nx">QA</span><span class="w">   </span><span class="err">│───►│</span><span class="nx">Launch</span><span class="w"> </span><span class="err">│───►│</span><span class="nx">Monitor</span><span class="err">│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">       </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">       </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w"> </span><span class="nx">Doc</span><span class="w">   </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w"> </span><span class="nx">Test</span><span class="w">  </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">       </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">       </span><span class="err">│</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└───────┘</span><span class="w">    </span><span class="err">└───────┘</span><span class="w">    </span><span class="err">└───────┘</span><span class="w">    </span><span class="err">└───────┘</span><span class="w">    </span><span class="err">└───────┘</span><span class="w">    </span><span class="err">└───────┘</span><span class="w">       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                 </span><span class="err">│</span><span class="w">                                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                 </span><span class="err">│</span><span class="w">                                                    </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                </span><span class="err">┌────────────────▼────────────────────────────────────────────────┐</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                </span><span class="err">│</span><span class="w">                   </span><span class="err">★</span><span class="w"> </span><span class="nx">TECH</span><span class="w"> </span><span class="nx">SPEC</span><span class="w"> </span><span class="nx">IS</span><span class="w"> </span><span class="nx">HERE</span><span class="w"> </span><span class="err">★</span><span class="w">                          </span><span class="err">│</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                </span><span class="err">│</span><span class="w">                                                                  </span><span class="err">│</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                </span><span class="err">│</span><span class="w">  </span><span class="nx">The</span><span class="w"> </span><span class="nx">Tech</span><span class="w"> </span><span class="nx">Spec</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">created</span><span class="w"> </span><span class="nx">during</span><span class="w"> </span><span class="nx">BUILD</span><span class="w"> </span><span class="nx">phase</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nx">engineers</span><span class="w">       </span><span class="err">│</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                </span><span class="err">│</span><span class="w">  </span><span class="nx">translate</span><span class="w"> </span><span class="nx">Design</span><span class="w"> </span><span class="nx">Document</span><span class="w"> </span><span class="nx">into</span><span class="w"> </span><span class="nx">implementation</span><span class="w"> </span><span class="nx">details</span><span class="p">.</span><span class="w">         </span><span class="err">│</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                </span><span class="err">│</span><span class="w">                                                                  </span><span class="err">│</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                </span><span class="err">│</span><span class="w">  </span><span class="nx">Created</span><span class="w"> </span><span class="nx">AFTER</span><span class="w"> </span><span class="nx">Design</span><span class="w"> </span><span class="nx">approval</span><span class="p">,</span><span class="w"> </span><span class="nx">DURING</span><span class="w"> </span><span class="nx">implementation</span><span class="p">.</span><span class="w">          </span><span class="err">│</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                </span><span class="err">└──────────────────────────────────────────────────────────────────┘</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<hr />
+<h3 id="key-stakeholders">Key Stakeholders</h3>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Responsibility</th>
+<th>Involvement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Senior Engineer</strong></td>
+<td>Author of the Tech Spec</td>
+<td>Creates, maintains</td>
+</tr>
+<tr>
+<td><strong>Engineering Lead</strong></td>
+<td>Technical review</td>
+<td>Reviews, approves</td>
+</tr>
+<tr>
+<td><strong>Implementing Engineers</strong></td>
+<td>Primary consumers</td>
+<td>Use as reference</td>
+</tr>
+<tr>
+<td><strong>QA Engineer</strong></td>
+<td>Test planning input</td>
+<td>Reviews for testability</td>
+</tr>
+<tr>
+<td><strong>DevOps Engineer</strong></td>
+<td>Deployment review</td>
+<td>Reviews deployment sections</td>
+</tr>
+</tbody>
+</table>
+<h3 id="who-works-on-this-document">Who Works on This Document</h3>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Contributors</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Drafting</strong></td>
+<td>Senior Engineer assigned to feature</td>
+</tr>
+<tr>
+<td><strong>Review</strong></td>
+<td>Engineering Lead, Peer Engineers</td>
+</tr>
+<tr>
+<td><strong>Approval</strong></td>
+<td>Engineering Lead</td>
+</tr>
+<tr>
+<td><strong>Maintenance</strong></td>
+<td>Implementing Engineer</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="technical-specification-template_1">Technical Specification Template</h2>
+<hr />
+<h2 id="1-overview">1. Overview</h2>
+<h3 id="11-document-scope">1.1 Document Scope</h3>
+<blockquote>
+<p>[1-2 sentences describing what this technical specification covers]</p>
+</blockquote>
+<p><strong>Example:</strong></p>
+<blockquote>
+<p>This specification details the implementation of the Cloud TTS integration, including API client setup, caching strategy, and fallback handling.</p>
+</blockquote>
+<h3 id="12-related-documents">1.2 Related Documents</h3>
+<table>
+<thead>
+<tr>
+<th>Document</th>
+<th>Link</th>
+<th>Relationship</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Design Document</td>
+<td>[DD-XXXX-YYYY-NNN]</td>
+<td>Architecture reference</td>
+</tr>
+<tr>
+<td>PRD</td>
+<td>[PRD-XXXX-YYYY-NNN]</td>
+<td>Requirements source</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-technology-stack">2. Technology Stack</h2>
+<h3 id="21-languages-frameworks">2.1 Languages &amp; Frameworks</h3>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Technology</th>
+<th>Version</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Frontend</td>
+<td>[Framework]</td>
+<td>[X.X.X]</td>
+<td>[Purpose]</td>
+</tr>
+<tr>
+<td>Backend</td>
+<td>[Framework]</td>
+<td>[X.X.X]</td>
+<td>[Purpose]</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>[Database]</td>
+<td>[X.X.X]</td>
+<td>[Purpose]</td>
+</tr>
+</tbody>
+</table>
+<h3 id="22-dependencies">2.2 Dependencies</h3>
+<table>
+<thead>
+<tr>
+<th>Package</th>
+<th>Version</th>
+<th>License</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[package-name]</td>
+<td>^X.X.X</td>
+<td>MIT</td>
+<td>[Purpose]</td>
+</tr>
+<tr>
+<td>[package-name]</td>
+<td>^X.X.X</td>
+<td>Apache-2.0</td>
+<td>[Purpose]</td>
+</tr>
+</tbody>
+</table>
+<h3 id="23-development-environment">2.3 Development Environment</h3>
+<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span><span class="w">                           </span><span class="n">DEVELOPMENT</span><span class="w"> </span><span class="n">ENVIRONMENT</span><span class="w"> </span><span class="n">SETUP</span><span class="w">                              </span><span class="err">│</span>
+<span class="err">├─────────────────────────────────────────────────────────────────────────────────────┤</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="n">Prerequisites</span><span class="o">:</span><span class="w">                                                                     </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">─────────────</span><span class="w">                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">•</span><span class="w"> </span><span class="p">[</span><span class="n">Runtime</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="p">[</span><span class="n">version</span><span class="p">]</span><span class="w">                                                           </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">•</span><span class="w"> </span><span class="p">[</span><span class="n">Package</span><span class="w"> </span><span class="n">Manager</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="p">[</span><span class="n">version</span><span class="p">]</span><span class="w">                                                   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">•</span><span class="w"> </span><span class="p">[</span><span class="n">Tool</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="p">[</span><span class="n">version</span><span class="p">]</span><span class="w">                                                              </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="n">Setup</span><span class="w"> </span><span class="n">Steps</span><span class="o">:</span><span class="w">                                                                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">────────────</span><span class="w">                                                                       </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="mf">1.</span><span class="w"> </span><span class="n">Clone</span><span class="w"> </span><span class="n">repository</span><span class="w">                                                                </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="mf">2.</span><span class="w"> </span><span class="n">Install</span><span class="w"> </span><span class="n">dependencies</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">command</span><span class="p">]</span><span class="w">                                                 </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="mf">3.</span><span class="w"> </span><span class="n">Copy</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">file</span><span class="o">:</span><span class="w"> </span><span class="n">cp</span><span class="w"> </span><span class="p">.</span><span class="n">env</span><span class="p">.</span><span class="n">example</span><span class="w"> </span><span class="p">.</span><span class="n">env</span><span class="w">                                     </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="mf">4.</span><span class="w"> </span><span class="n">Start</span><span class="w"> </span><span class="n">development</span><span class="w"> </span><span class="n">server</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">command</span><span class="p">]</span><span class="w">                                             </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="n">Available</span><span class="w"> </span><span class="n">Scripts</span><span class="o">:</span><span class="w">                                                                 </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">──────────────────</span><span class="w">                                                                 </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">•</span><span class="w"> </span><span class="p">[</span><span class="n">command</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">[</span><span class="n">description</span><span class="p">]</span><span class="w">                                                        </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">•</span><span class="w"> </span><span class="p">[</span><span class="n">command</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">[</span><span class="n">description</span><span class="p">]</span><span class="w">                                                        </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">•</span><span class="w"> </span><span class="p">[</span><span class="n">command</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">[</span><span class="n">description</span><span class="p">]</span><span class="w">                                                        </span><span class="err">│</span>
+<span class="err">│</span><span class="w">                                                                                      </span><span class="err">│</span>
+<span class="err">└─────────────────────────────────────────────────────────────────────────────────────┘</span>
+</code></pre></div>
+
+<hr />
+<h2 id="3-project-structure">3. Project Structure</h2>
+<h3 id="31-directory-layout">3.1 Directory Layout</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">project</span><span class="o">-</span><span class="n">root</span><span class="o">/</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">src</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">components</span><span class="o">/</span><span class="w">           </span><span class="err">#</span><span class="w"> </span><span class="n">React</span><span class="o">/</span><span class="n">UI</span><span class="w"> </span><span class="n">components</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="o">[</span><span class="n">ComponentA</span><span class="o">]/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="k">index</span><span class="p">.</span><span class="n">tsx</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="o">[</span><span class="n">ComponentA</span><span class="o">]</span><span class="p">.</span><span class="n">tsx</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="o">[</span><span class="n">ComponentA</span><span class="o">]</span><span class="p">.</span><span class="n">test</span><span class="p">.</span><span class="n">tsx</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="o">[</span><span class="n">ComponentA</span><span class="o">]</span><span class="p">.</span><span class="n">styles</span><span class="p">.</span><span class="n">ts</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="o">[</span><span class="n">ComponentB</span><span class="o">]/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">services</span><span class="o">/</span><span class="w">             </span><span class="err">#</span><span class="w"> </span><span class="n">Business</span><span class="w"> </span><span class="n">logic</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">API</span><span class="w"> </span><span class="n">clients</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="o">[</span><span class="n">ServiceA</span><span class="o">]</span><span class="p">.</span><span class="n">ts</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="o">[</span><span class="n">ServiceB</span><span class="o">]</span><span class="p">.</span><span class="n">ts</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">hooks</span><span class="o">/</span><span class="w">                </span><span class="err">#</span><span class="w"> </span><span class="n">Custom</span><span class="w"> </span><span class="n">React</span><span class="w"> </span><span class="n">hooks</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="k">use</span><span class="o">[</span><span class="n">HookName</span><span class="o">]</span><span class="p">.</span><span class="n">ts</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">types</span><span class="o">/</span><span class="w">                </span><span class="err">#</span><span class="w"> </span><span class="n">TypeScript</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="n">definitions</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="o">[</span><span class="n">domain</span><span class="o">]</span><span class="p">.</span><span class="n">types</span><span class="p">.</span><span class="n">ts</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">utils</span><span class="o">/</span><span class="w">                </span><span class="err">#</span><span class="w"> </span><span class="n">Utility</span><span class="w"> </span><span class="n">functions</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="o">[</span><span class="n">utility</span><span class="o">]</span><span class="p">.</span><span class="n">ts</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">config</span><span class="o">/</span><span class="w">               </span><span class="err">#</span><span class="w"> </span><span class="n">Configuration</span><span class="w"> </span><span class="n">files</span>
+<span class="err">│</span><span class="w">       </span><span class="err">└──</span><span class="w"> </span><span class="o">[</span><span class="n">config</span><span class="o">]</span><span class="p">.</span><span class="n">ts</span>
+<span class="err">│</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">tests</span><span class="o">/</span><span class="w">                    </span><span class="err">#</span><span class="w"> </span><span class="n">Test</span><span class="w"> </span><span class="n">files</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">unit</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="n">integration</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="n">e2e</span><span class="o">/</span>
+<span class="err">│</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">docs</span><span class="o">/</span><span class="w">                     </span><span class="err">#</span><span class="w"> </span><span class="n">Documentation</span>
+<span class="err">├──</span><span class="w"> </span><span class="n">scripts</span><span class="o">/</span><span class="w">                  </span><span class="err">#</span><span class="w"> </span><span class="n">Build</span><span class="o">/</span><span class="n">deploy</span><span class="w"> </span><span class="n">scripts</span>
+<span class="err">└──</span><span class="w"> </span><span class="n">config</span><span class="o">/</span><span class="w">                   </span><span class="err">#</span><span class="w"> </span><span class="n">Config</span><span class="w"> </span><span class="n">files</span><span class="w"> </span><span class="p">(</span><span class="n">webpack</span><span class="p">,</span><span class="w"> </span><span class="n">etc</span><span class="p">.)</span>
+</code></pre></div>
+
+<h3 id="32-file-naming-conventions">3.2 File Naming Conventions</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Convention</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Components</td>
+<td>PascalCase</td>
+<td><code>UserProfile.tsx</code></td>
+</tr>
+<tr>
+<td>Hooks</td>
+<td>camelCase with <code>use</code> prefix</td>
+<td><code>useUserData.ts</code></td>
+</tr>
+<tr>
+<td>Services</td>
+<td>PascalCase</td>
+<td><code>ApiService.ts</code></td>
+</tr>
+<tr>
+<td>Types</td>
+<td>PascalCase with <code>.types</code> suffix</td>
+<td><code>User.types.ts</code></td>
+</tr>
+<tr>
+<td>Utils</td>
+<td>camelCase</td>
+<td><code>formatDate.ts</code></td>
+</tr>
+<tr>
+<td>Tests</td>
+<td>Same as file with <code>.test</code> suffix</td>
+<td><code>UserProfile.test.tsx</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-interface-definitions">4. Interface Definitions</h2>
+<h3 id="41-type-definitions">4.1 Type Definitions</h3>
+<div class="codehilite"><pre><span></span><code><span class="cm">/**</span>
+<span class="cm"> * [Description of the interface]</span>
+<span class="cm"> */</span>
+<span class="kd">interface</span><span class="w"> </span><span class="p">[</span><span class="nx">InterfaceName</span><span class="p">]</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="cm">/** [Field description] */</span>
+<span class="w">  </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+
+<span class="w">  </span><span class="cm">/** [Field description] */</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+
+<span class="w">  </span><span class="cm">/** [Field description] */</span>
+<span class="w">  </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="nx">EnumName</span><span class="p">];</span>
+
+<span class="w">  </span><span class="cm">/** [Field description] - Optional */</span>
+<span class="w">  </span><span class="nx">metadata?</span><span class="o">:</span><span class="w"> </span><span class="kt">Record</span><span class="o">&lt;</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">unknown</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="w">  </span><span class="cm">/** [Field description] */</span>
+<span class="w">  </span><span class="nx">createdAt</span><span class="o">:</span><span class="w"> </span><span class="kt">Date</span><span class="p">;</span>
+
+<span class="w">  </span><span class="cm">/** [Field description] */</span>
+<span class="w">  </span><span class="nx">updatedAt</span><span class="o">:</span><span class="w"> </span><span class="kt">Date</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * [Description of the enum]</span>
+<span class="cm"> */</span>
+<span class="kd">enum</span><span class="w"> </span><span class="p">[</span><span class="nx">EnumName</span><span class="p">]</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">VALUE_ONE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;value_one&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">VALUE_TWO</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;value_two&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">VALUE_THREE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;value_three&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * [Description of the type]</span>
+<span class="cm"> */</span>
+<span class="kr">type</span><span class="w"> </span><span class="p">[</span><span class="nx">TypeName</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="p">[</span><span class="nx">key</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">]</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="nx">InterfaceName</span><span class="p">];</span>
+<span class="p">};</span>
+</code></pre></div>
+
+<h3 id="42-api-response-types">4.2 API Response Types</h3>
+<div class="codehilite"><pre><span></span><code><span class="cm">/**</span>
+<span class="cm"> * Standard API response wrapper</span>
+<span class="cm"> */</span>
+<span class="kd">interface</span><span class="w"> </span><span class="nx">ApiResponse</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">success</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="kt">T</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">error?</span><span class="o">:</span><span class="w"> </span><span class="kt">ApiError</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">meta</span><span class="o">?:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">page</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">limit</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">total</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="p">};</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * API error structure</span>
+<span class="cm"> */</span>
+<span class="kd">interface</span><span class="w"> </span><span class="nx">ApiError</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">code</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">message</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">details?</span><span class="o">:</span><span class="w"> </span><span class="kt">Record</span><span class="o">&lt;</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="5-component-specifications">5. Component Specifications</h2>
+<h3 id="51-component-componentname">5.1 Component: [ComponentName]</h3>
+<p><strong>File Location:</strong> <code>src/components/[ComponentName]/[ComponentName].tsx</code></p>
+<p><strong>Purpose:</strong> [Description of what this component does]</p>
+<p><strong>Props Interface:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="kd">interface</span><span class="w"> </span><span class="p">[</span><span class="nx">ComponentName</span><span class="p">]</span><span class="nx">Props</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="cm">/** [Description] */</span>
+<span class="w">  </span><span class="nx">propA</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+
+<span class="w">  </span><span class="cm">/** [Description] - Optional */</span>
+<span class="w">  </span><span class="nx">propB?</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+
+<span class="w">  </span><span class="cm">/** [Description] - Callback */</span>
+<span class="w">  </span><span class="nx">onAction</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="ow">void</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Usage Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="o">&lt;</span><span class="p">[</span><span class="nx">ComponentName</span><span class="p">]</span>
+<span class="w">  </span><span class="nx">propA</span><span class="o">=</span><span class="s2">&quot;value&quot;</span>
+<span class="w">  </span><span class="nx">propB</span><span class="o">=</span><span class="p">{</span><span class="mf">42</span><span class="p">}</span>
+<span class="w">  </span><span class="nx">onAction</span><span class="o">=</span><span class="p">{(</span><span class="nx">value</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">value</span><span class="p">)}</span>
+<span class="err">/&gt;</span>
+</code></pre></div>
+
+<p><strong>Internal State:</strong>
+| State | Type | Initial | Description |
+|-------|------|---------|-------------|
+| [stateName] | [type] | [initial] | [Description] |</p>
+<p><strong>Effects:</strong>
+| Effect | Dependencies | Description |
+|--------|--------------|-------------|
+| [effectName] | [deps] | [What it does] |</p>
+<hr />
+<h2 id="6-service-specifications">6. Service Specifications</h2>
+<h3 id="61-service-servicename">6.1 Service: [ServiceName]</h3>
+<p><strong>File Location:</strong> <code>src/services/[ServiceName].ts</code></p>
+<p><strong>Purpose:</strong> [Description of service responsibility]</p>
+<p><strong>Methods:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="p">[</span><span class="nx">ServiceName</span><span class="p">]</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="cm">/**</span>
+<span class="cm">   * [Method description]</span>
+<span class="cm">   * @param param1 - [Description]</span>
+<span class="cm">   * @param param2 - [Description]</span>
+<span class="cm">   * @returns [Description of return value]</span>
+<span class="cm">   * @throws [Error type] - [When thrown]</span>
+<span class="cm">   */</span>
+<span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="nx">methodName</span><span class="p">(</span><span class="nx">param1</span><span class="o">:</span><span class="w"> </span><span class="kt">Type1</span><span class="p">,</span><span class="w"> </span><span class="nx">param2</span><span class="o">:</span><span class="w"> </span><span class="kt">Type2</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nb">Promise</span><span class="o">&lt;</span><span class="nx">ReturnType</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Implementation details</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Error Handling:</strong>
+| Error Type | Condition | Handling |
+|------------|-----------|----------|
+| [ErrorType] | [When occurs] | [How handled] |</p>
+<hr />
+<h2 id="7-configuration">7. Configuration</h2>
+<h3 id="71-environment-variables">7.1 Environment Variables</h3>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[VAR_NAME]</code></td>
+<td>string</td>
+<td>Yes</td>
+<td>-</td>
+<td>[Description]</td>
+</tr>
+<tr>
+<td><code>[VAR_NAME]</code></td>
+<td>number</td>
+<td>No</td>
+<td>3000</td>
+<td>[Description]</td>
+</tr>
+<tr>
+<td><code>[VAR_NAME]</code></td>
+<td>boolean</td>
+<td>No</td>
+<td>false</td>
+<td>[Description]</td>
+</tr>
+</tbody>
+</table>
+<h3 id="72-configuration-file">7.2 Configuration File</h3>
+<p><strong>File Location:</strong> <code>src/config/[config].ts</code></p>
+<div class="codehilite"><pre><span></span><code><span class="kd">interface</span><span class="w"> </span><span class="nx">AppConfig</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">api</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">baseUrl</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">timeout</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">retryAttempts</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="p">};</span>
+<span class="w">  </span><span class="nx">features</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">[</span><span class="nx">featureName</span><span class="p">]</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="p">;</span>
+<span class="w">  </span><span class="p">};</span>
+<span class="w">  </span><span class="nx">logging</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">level</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;debug&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;info&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;warn&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;error&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">format</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;json&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;text&#39;</span><span class="p">;</span>
+<span class="w">  </span><span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">config</span><span class="o">:</span><span class="w"> </span><span class="kt">AppConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">api</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">baseUrl</span><span class="o">:</span><span class="w"> </span><span class="kt">process.env.API_BASE_URL</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;http://localhost:3000&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">timeout</span><span class="o">:</span><span class="w"> </span><span class="kt">Number</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">API_TIMEOUT</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="mf">5000</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">retryAttempts</span><span class="o">:</span><span class="w"> </span><span class="kt">3</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">features</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">[</span><span class="nx">featureName</span><span class="p">]</span><span class="o">:</span><span class="w"> </span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.[</span><span class="nx">FEATURE_FLAG</span><span class="p">]</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;true&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">logging</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">level</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">LOG_LEVEL</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">AppConfig</span><span class="p">[</span><span class="s1">&#39;logging&#39;</span><span class="p">][</span><span class="s1">&#39;level&#39;</span><span class="p">])</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">&#39;info&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">format</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;json&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="p">};</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="nx">config</span><span class="p">;</span>
+</code></pre></div>
+
+<hr />
+<h2 id="8-error-handling">8. Error Handling</h2>
+<h3 id="81-error-classification">8.1 Error Classification</h3>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Code Range</th>
+<th>Description</th>
+<th>User Message</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Validation</td>
+<td>1000-1999</td>
+<td>Input validation errors</td>
+<td>"[Field] is invalid"</td>
+</tr>
+<tr>
+<td>Business Logic</td>
+<td>2000-2999</td>
+<td>Business rule violations</td>
+<td>"[Action] not allowed"</td>
+</tr>
+<tr>
+<td>External Service</td>
+<td>3000-3999</td>
+<td>Third-party API errors</td>
+<td>"Service temporarily unavailable"</td>
+</tr>
+<tr>
+<td>System</td>
+<td>4000-4999</td>
+<td>Internal system errors</td>
+<td>"Something went wrong"</td>
+</tr>
+</tbody>
+</table>
+<h3 id="82-error-handling-pattern">8.2 Error Handling Pattern</h3>
+<div class="codehilite"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nx">AppError</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="ne">Error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kr">constructor</span><span class="p">(</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="nx">code</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">,</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="nx">message</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="nx">details?</span><span class="o">:</span><span class="w"> </span><span class="kt">Record</span><span class="o">&lt;</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">unknown</span><span class="o">&gt;</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">super</span><span class="p">(</span><span class="nx">message</span><span class="p">);</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;AppError&#39;</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Usage</span>
+<span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Operation</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="w"> </span><span class="ow">instanceof</span><span class="w"> </span><span class="nx">AppError</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Known error - handle appropriately</span>
+<span class="w">    </span><span class="nx">logger</span><span class="p">.</span><span class="nx">warn</span><span class="p">({</span><span class="w"> </span><span class="nx">code</span><span class="o">:</span><span class="w"> </span><span class="kt">error.code</span><span class="p">,</span><span class="w"> </span><span class="nx">message</span><span class="o">:</span><span class="w"> </span><span class="kt">error.message</span><span class="w"> </span><span class="p">});</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Unknown error - log and rethrow</span>
+<span class="w">    </span><span class="nx">logger</span><span class="p">.</span><span class="nx">error</span><span class="p">({</span><span class="w"> </span><span class="nx">error</span><span class="p">,</span><span class="w"> </span><span class="nx">context</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;operationName&#39;</span><span class="w"> </span><span class="p">});</span>
+<span class="w">    </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">AppError</span><span class="p">(</span><span class="mf">4000</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Internal error&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="9-logging">9. Logging</h2>
+<h3 id="91-log-levels">9.1 Log Levels</h3>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>When to Use</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DEBUG</td>
+<td>Development debugging</td>
+<td>Variable values, flow tracing</td>
+</tr>
+<tr>
+<td>INFO</td>
+<td>Normal operations</td>
+<td>Request received, operation completed</td>
+</tr>
+<tr>
+<td>WARN</td>
+<td>Potential issues</td>
+<td>Retry attempt, deprecated usage</td>
+</tr>
+<tr>
+<td>ERROR</td>
+<td>Failures</td>
+<td>Exception caught, operation failed</td>
+</tr>
+</tbody>
+</table>
+<h3 id="92-log-format">9.2 Log Format</h3>
+<div class="codehilite"><pre><span></span><code><span class="kd">interface</span><span class="w"> </span><span class="nx">LogEntry</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">timestamp</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w">          </span><span class="c1">// ISO 8601 format</span>
+<span class="w">  </span><span class="nx">level</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;debug&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;info&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;warn&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;error&#39;</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">message</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">context</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">service</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">operation</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">traceId?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="p">};</span>
+<span class="w">  </span><span class="nx">data?</span><span class="o">:</span><span class="w"> </span><span class="kt">Record</span><span class="o">&lt;</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">unknown</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">error</span><span class="o">?:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">message</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">stack?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="p">};</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="93-logging-best-practices">9.3 Logging Best Practices</h3>
+<ul>
+<li>Include trace IDs for request correlation</li>
+<li>Never log sensitive data (passwords, tokens, PII)</li>
+<li>Use structured logging (JSON format)</li>
+<li>Include enough context to debug without code access</li>
+</ul>
+<hr />
+<h2 id="10-testing">10. Testing</h2>
+<h3 id="101-test-file-structure">10.1 Test File Structure</h3>
+<div class="codehilite"><pre><span></span><code><span class="o">[</span><span class="n">ComponentName</span><span class="o">]/</span>
+<span class="err">├──</span><span class="w"> </span><span class="o">[</span><span class="n">ComponentName</span><span class="o">]</span><span class="p">.</span><span class="n">test</span><span class="p">.</span><span class="n">tsx</span><span class="w">      </span><span class="err">#</span><span class="w"> </span><span class="n">Unit</span><span class="w"> </span><span class="n">tests</span>
+<span class="err">├──</span><span class="w"> </span><span class="o">[</span><span class="n">ComponentName</span><span class="o">]</span><span class="p">.</span><span class="n">integration</span><span class="p">.</span><span class="n">test</span><span class="p">.</span><span class="n">tsx</span><span class="w">  </span><span class="err">#</span><span class="w"> </span><span class="n">Integration</span><span class="w"> </span><span class="n">tests</span>
+<span class="err">└──</span><span class="w"> </span><span class="n">__mocks__</span><span class="o">/</span><span class="w">                    </span><span class="err">#</span><span class="w"> </span><span class="n">Mock</span><span class="w"> </span><span class="n">files</span>
+<span class="w">    </span><span class="err">└──</span><span class="w"> </span><span class="o">[</span><span class="n">dependency</span><span class="o">]</span><span class="p">.</span><span class="n">ts</span>
+</code></pre></div>
+
+<h3 id="102-test-patterns">10.2 Test Patterns</h3>
+<p><strong>Unit Test Example:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;[ComponentName]&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;[methodName]&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should [expected behavior] when [condition]&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// Arrange</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nx">testInput</span><span class="p">];</span>
+
+<span class="w">      </span><span class="c1">// Act</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nx">operation</span><span class="p">](</span><span class="nx">input</span><span class="p">);</span>
+
+<span class="w">      </span><span class="c1">// Assert</span>
+<span class="w">      </span><span class="nx">expect</span><span class="p">(</span><span class="nx">result</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">([</span><span class="nx">expectedOutput</span><span class="p">]);</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="w">    </span><span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should throw [ErrorType] when [error condition]&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// Arrange</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">invalidInput</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nx">invalidInput</span><span class="p">];</span>
+
+<span class="w">      </span><span class="c1">// Act &amp; Assert</span>
+<span class="w">      </span><span class="nx">expect</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">[</span><span class="nx">operation</span><span class="p">](</span><span class="nx">invalidInput</span><span class="p">)).</span><span class="nx">toThrow</span><span class="p">([</span><span class="nx">ErrorType</span><span class="p">]);</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div>
+
+<h3 id="103-test-coverage-requirements">10.3 Test Coverage Requirements</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Minimum Coverage</th>
+<th>Focus Areas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unit</td>
+<td>80%</td>
+<td>Business logic, utilities</td>
+</tr>
+<tr>
+<td>Integration</td>
+<td>60%</td>
+<td>API endpoints, data flows</td>
+</tr>
+<tr>
+<td>E2E</td>
+<td>Critical paths</td>
+<td>Happy path + key error scenarios</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="11-build-deployment">11. Build &amp; Deployment</h2>
+<h3 id="111-build-process">11.1 Build Process</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">BUILD</span><span class="w"> </span><span class="n">PIPELINE</span>
+
+<span class="err">┌──────────┐</span><span class="w">    </span><span class="err">┌──────────┐</span><span class="w">    </span><span class="err">┌──────────┐</span><span class="w">    </span><span class="err">┌──────────┐</span>
+<span class="err">│</span><span class="w">  </span><span class="n">Lint</span><span class="w"> </span><span class="o">&amp;</span><span class="w">  </span><span class="err">│───►│</span><span class="w">  </span><span class="n">Build</span><span class="w">   </span><span class="err">│───►│</span><span class="w">  </span><span class="n">Test</span><span class="w">    </span><span class="err">│───►│</span><span class="w"> </span><span class="n">Package</span><span class="w">  </span><span class="err">│</span>
+<span class="err">│</span><span class="w">  </span><span class="nf">Format</span><span class="w">  </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">  </span><span class="n">Assets</span><span class="w">  </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">  </span><span class="n">Suite</span><span class="w">   </span><span class="err">│</span><span class="w">    </span><span class="err">│</span><span class="w">  </span><span class="n">Artifact</span><span class="err">│</span>
+<span class="err">└──────────┘</span><span class="w">    </span><span class="err">└──────────┘</span><span class="w">    </span><span class="err">└──────────┘</span><span class="w">    </span><span class="err">└──────────┘</span>
+<span class="w">     </span><span class="err">│</span><span class="w">               </span><span class="err">│</span><span class="w">               </span><span class="err">│</span><span class="w">               </span><span class="err">│</span>
+<span class="w">     </span><span class="err">▼</span><span class="w">               </span><span class="err">▼</span><span class="w">               </span><span class="err">▼</span><span class="w">               </span><span class="err">▼</span>
+<span class="w">  </span><span class="o">[</span><span class="n">command</span><span class="o">]</span><span class="w">      </span><span class="o">[</span><span class="n">command</span><span class="o">]</span><span class="w">       </span><span class="o">[</span><span class="n">command</span><span class="o">]</span><span class="w">       </span><span class="o">[</span><span class="n">command</span><span class="o">]</span>
+</code></pre></div>
+
+<h3 id="112-build-commands">11.2 Build Commands</h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[command]</code></td>
+<td>Run linter</td>
+<td>Console output</td>
+</tr>
+<tr>
+<td><code>[command]</code></td>
+<td>Build production</td>
+<td><code>dist/</code> directory</td>
+</tr>
+<tr>
+<td><code>[command]</code></td>
+<td>Run tests</td>
+<td>Test report</td>
+</tr>
+<tr>
+<td><code>[command]</code></td>
+<td>Package for deploy</td>
+<td>Docker image / artifact</td>
+</tr>
+</tbody>
+</table>
+<h3 id="113-deployment-configuration">11.3 Deployment Configuration</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Example deployment config</span>
+<span class="nt">service</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">service-name</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">region</span><span class="p p-Indicator">]</span>
+
+<span class="nt">resources</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">cpu-limit</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">memory-limit</span><span class="p p-Indicator">]</span>
+
+<span class="nt">scaling</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">min</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">min-instances</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">max</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">max-instances</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">target_cpu</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">target-percentage</span><span class="p p-Indicator">]</span>
+
+<span class="nt">environment</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">VAR_NAME</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">value</span><span class="p p-Indicator">]</span>
+</code></pre></div>
+
+<hr />
+<h2 id="12-performance-considerations">12. Performance Considerations</h2>
+<h3 id="121-performance-budgets">12.1 Performance Budgets</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Budget</th>
+<th>Measurement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bundle Size</td>
+<td>&lt; [X] KB</td>
+<td>Webpack analyzer</td>
+</tr>
+<tr>
+<td>First Paint</td>
+<td>&lt; [X] ms</td>
+<td>Lighthouse</td>
+</tr>
+<tr>
+<td>API Response</td>
+<td>&lt; [X] ms</td>
+<td>P95 latency</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>&lt; [X] MB</td>
+<td>Runtime monitoring</td>
+</tr>
+</tbody>
+</table>
+<h3 id="122-optimization-techniques">12.2 Optimization Techniques</h3>
+<ul>
+<li>[Technique 1]: [How and when to apply]</li>
+<li>[Technique 2]: [How and when to apply]</li>
+<li>[Technique 3]: [How and when to apply]</li>
+</ul>
+<hr />
+<h2 id="13-security-considerations">13. Security Considerations</h2>
+<h3 id="131-security-checklist">13.1 Security Checklist</h3>
+<ul>
+<li>[ ] Input validation on all user inputs</li>
+<li>[ ] Output encoding to prevent XSS</li>
+<li>[ ] Parameterized queries for database access</li>
+<li>[ ] Secrets stored in secure vault, not code</li>
+<li>[ ] HTTPS for all communications</li>
+<li>[ ] Authentication tokens expire appropriately</li>
+<li>[ ] Rate limiting on public endpoints</li>
+</ul>
+<h3 id="132-sensitive-data-handling">13.2 Sensitive Data Handling</h3>
+<table>
+<thead>
+<tr>
+<th>Data Type</th>
+<th>Storage</th>
+<th>Transmission</th>
+<th>Logging</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Passwords</td>
+<td>Hashed (bcrypt)</td>
+<td>Never transmitted</td>
+<td>Never logged</td>
+</tr>
+<tr>
+<td>API Keys</td>
+<td>Env vars / Vault</td>
+<td>HTTPS only</td>
+<td>Masked</td>
+</tr>
+<tr>
+<td>PII</td>
+<td>Encrypted at rest</td>
+<td>HTTPS only</td>
+<td>Anonymized</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="14-appendix">14. Appendix</h2>
+<h3 id="141-glossary">14.1 Glossary</h3>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[Term 1]</td>
+<td>[Definition]</td>
+</tr>
+<tr>
+<td>[Term 2]</td>
+<td>[Definition]</td>
+</tr>
+</tbody>
+</table>
+<h3 id="142-references">14.2 References</h3>
+<ul>
+<li>[Reference 1]</li>
+<li>[Reference 2]</li>
+</ul>
+<h3 id="143-change-log">14.3 Change Log</h3>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Date</th>
+<th>Author</th>
+<th>Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.1.0</td>
+<td>[Date]</td>
+<td>[Author]</td>
+<td>Initial draft</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<div align="center">
+
+<img src="file:///home/manava/atcs-ng/docs/hanaML-Template-7C3AED.png" alt="hanaML" style="max-height: 40px;">
+
+*This template is maintained by the Engineering Team.*
+
+</div>
+    <div class="footer">
+        <span class="badge">hanaML</span>
+        <p>Generated on 2025-12-22 17:09:31</p>
+    </div>
+</body>
+</html>

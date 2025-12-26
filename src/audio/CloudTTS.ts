@@ -177,7 +177,7 @@ class CloudTTSService {
 
   constructor() {
     // Google Cloud TTS API key (restricted to texttospeech.googleapis.com)
-    this.apiKey = 'AIzaSyDW-DG3v9N-bsUua0c93xM5Id9l2BvaaLo';
+    this.apiKey = import.meta.env.VITE_GOOGLE_TTS_API_KEY || '';
   }
 
   private getAudioContext(): AudioContext {

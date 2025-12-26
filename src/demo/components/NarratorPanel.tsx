@@ -82,6 +82,28 @@ export function NarratorPanel() {
         }
       );
 
+      // Execute camera shot if specified
+      if (currentStep.cameraShot || currentStep.cameraTarget) {
+        const cameraDirector = (window as any).__cameraDirector;
+        if (cameraDirector) {
+          if (currentStep.cameraShot === 'auto' && currentStep.cameraTarget) {
+            // Auto camera based on context
+            const targetTrack = state.tracks.find(t => t.trackId === currentStep.cameraTarget);
+            if (targetTrack) {
+              // Determine context from track visual state
+              const context = targetTrack.visualState === 'hero' ? 'hero' :
+                             targetTrack.visualState === 'hostile' ? 'conflict' :
+                             targetTrack.visualState === 'hijacked' ? 'emergency' :
+                             targetTrack.visualState === 'ghost' ? 'ghost' : 'normal';
+              cameraDirector.focusOnTrack(targetTrack, context).catch(() => {});
+            }
+          } else if (typeof currentStep.cameraShot === 'object') {
+            // Explicit camera shot
+            cameraDirector.playShot(currentStep.cameraShot).catch(() => {});
+          }
+        }
+      }
+
       // Detect the character speaking from the narrative text
       const character = detectCharacterFromNarrative(currentStep.narrative);
 

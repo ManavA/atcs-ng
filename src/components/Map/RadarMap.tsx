@@ -4,6 +4,7 @@ import type { Track } from '../../types';
 import { ZoomAwareAircraftMarker } from './ZoomAwareAircraftMarker';
 import { RadarSweepCanvas } from './RadarSweepCanvas';
 import { useUIStore } from '../../store';
+import { useCameraDirector } from '../../camera/useCameraDirector';
 import 'leaflet/dist/leaflet.css';
 
 interface RadarMapProps {
@@ -249,6 +250,22 @@ function ZoomTracker({ onZoomChange }: { onZoomChange: (zoom: number) => void })
   return null;
 }
 
+// Camera director controller for automatic cinematic shots
+function CameraController() {
+  const map = useMap();
+  const cameraDirector = useCameraDirector({ map, enabled: true });
+
+  // Expose camera director to window for demo step access
+  useEffect(() => {
+    (window as any).__cameraDirector = cameraDirector;
+    return () => {
+      delete (window as any).__cameraDirector;
+    };
+  }, [cameraDirector]);
+
+  return null;
+}
+
 export function RadarMap({
   tracks,
   selectedTrackId,
@@ -329,6 +346,9 @@ export function RadarMap({
 
         {/* Zoom tracking */}
         <ZoomTracker onZoomChange={setCurrentZoom} />
+
+        {/* Camera director for cinematic shots */}
+        <CameraController />
 
         {/* Radar effects */}
         <RadarSweep />

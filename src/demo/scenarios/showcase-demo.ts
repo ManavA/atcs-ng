@@ -466,6 +466,8 @@ export const showcaseDemoScenario: Scenario = {
       pacing: 'dramatic',
       pauseAfterNarration: 3500,  // Long pause to let terror sink in
       autoAdvance: 16000,  // Kept for backward compatibility
+      cameraShot: 'auto',  // Auto-zoom to dramatic shot
+      cameraTarget: 'TRK-SD-002',  // Qantas 8 track ID
       events: [
         {
           delay: 0,
@@ -502,6 +504,8 @@ export const showcaseDemoScenario: Scenario = {
       pacing: 'dramatic',
       minDuration: 6000,
       autoAdvance: 18000,
+      cameraShot: 'auto',  // Close-up on hero aircraft
+      cameraTarget: 'TRK-SD-002',
     },
     {
       id: 'hero-autopilot-check',
@@ -561,6 +565,14 @@ export const showcaseDemoScenario: Scenario = {
       emphasize: true,
       pauseAfterNarration: 4000,  // Let the weight sink in
       autoAdvance: 20000,
+      cameraShot: {  // Explicit dramatic zoom
+        type: 'dramatic',
+        target: 'TRK-SD-002',
+        targetPosition: [41.8, -71.2],  // Approximate QFA8 position
+        zoom: 15,  // Very close
+        duration: 2500,
+        easing: 'easeIn',
+      },
       events: [
         {
           delay: 1500,

@@ -11,6 +11,7 @@ import {
 import { SettingsModal, HelpModal } from '../Modals';
 import { SpeedControl, ModeToggle } from '../Controls';
 import { AudioControls } from '../AudioControls';
+import packageJson from '../../../package.json';
 
 interface HeaderProps {
   onToggleDataBlocks: () => void;
@@ -112,7 +113,7 @@ export function Header({
             color: '#00d4ff',
             letterSpacing: 0.5,
           }}>
-            v2.4.0
+            v{packageJson.version}
           </span>
         </div>
 

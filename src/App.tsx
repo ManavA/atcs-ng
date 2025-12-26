@@ -13,6 +13,7 @@ import { SectorStats, WeatherWidget } from './components/Widgets';
 import { CommandModal } from './components/CommandModal';
 import { HeroModePanel } from './components/HeroMode';
 import { DemoProvider, SpotlightOverlay, NarratorPanel, DemoMenuModal, ATCCommandDisplay, useDemoMode } from './demo';
+import { ObservabilityPanel } from './components/Observability/ObservabilityPanel';
 import { useUIStore } from './store';
 import { useDemoData } from './demo/hooks/useDemoData';
 import { useTrackStream } from './hooks/useTrackStream';
@@ -261,6 +262,9 @@ function AppContent() {
           }}
         />
       )}
+
+      {/* Observability Panel - System monitoring */}
+      <ObservabilityPanel />
 
       {/* Screen effects */}
       <ScreenEffects />

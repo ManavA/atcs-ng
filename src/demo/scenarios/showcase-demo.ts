@@ -460,10 +460,11 @@ export const showcaseDemoScenario: Scenario = {
     // ==================== HERO MODE: QANTAS A380 RESCUE ====================
     {
       id: 'hero-trigger',
-      narrative: 'Sarah: Mayday mayday! This is Qantas 8. There was a hijacker speaking Swedish! I knocked him out but... both pilots are unconscious. Oh god, I have 489 people on this plane. Please help us!',
+      narrative: 'Sarah: [Panicked breathing] MAYDAY MAYDAY MAYDAY! Qantas 8! We have an emergency! A hijacker attacked the pilots! Both pilots are bleeding and unconscious! I-I knocked the hijacker out but... Oh god, oh god... There are 489 PEOPLE on this plane and NO ONE is flying it! PLEASE, YOU HAVE TO HELP US!',
       spotlight: { type: 'flight', callsign: 'QFA8' },
       emphasize: true,  // Dramatic moment - hero mode begins
       pacing: 'dramatic',
+      pauseAfterNarration: 3500,  // Long pause to let terror sink in
       autoAdvance: 16000,  // Kept for backward compatibility
       events: [
         {
@@ -495,16 +496,20 @@ export const showcaseDemoScenario: Scenario = {
     },
     {
       id: 'hero-initial-contact',
-      narrative: 'ATC establishing contact with Sarah, the brave passenger who fought off the hijacker.',
-      atcCommand: 'Qantas 8, Boston Center. Sarah, I need you to stay calm. I am going to help you. First, tell me, is the autopilot engaged? Look for a button that says A P with a light.',
+      narrative: 'This is it. 489 souls. No pilots. One terrified passenger. We have minutes to save them or they all die.',
+      atcCommand: 'Qantas 8, Boston Center, we copy your emergency. Sarah, listen to me very carefully. Your life and everyone on that aircraft depends on the next few minutes. I NEED you to breathe and focus. Look at the instrument panel. Do you see a green light that says AUTOPILOT or A P?',
       spotlight: { type: 'flight', callsign: 'QFA8' },
+      pacing: 'dramatic',
+      minDuration: 6000,
       autoAdvance: 18000,
     },
     {
       id: 'hero-autopilot-check',
-      narrative: 'Sarah: Yes! Yes there is a light! It says AUTOPILOT with green letters!',
-      atcCommand: 'Good, Sarah. The autopilot is flying the plane. The aircraft is stable. You are safe for now. Do not touch any controls. I repeat, do not touch anything.',
+      narrative: 'Sarah: [Trembling] Y-yes! I see it! Green light! AUTOPILOT! Is that good?! Are we going to crash?!',
+      atcCommand: 'That is VERY good, Sarah. That means the computer is flying the plane right now. You are NOT going to crash. The aircraft is stable at 40,000 feet. But I need you to listen EXTREMELY carefully. Do NOT touch ANYTHING. Not the yoke, not the throttles, NOTHING. One wrong move and you kill everyone. Do you understand?',
       spotlight: { type: 'flight', callsign: 'QFA8' },
+      pacing: 'dramatic',
+      minDuration: 7000,
       autoAdvance: 16000,
       events: [
         {
@@ -525,16 +530,20 @@ export const showcaseDemoScenario: Scenario = {
     },
     {
       id: 'hero-divert-plan',
-      narrative: 'ATC coordinating with JFK for emergency landing. Clearing all traffic from approach path.',
-      atcCommand: 'All aircraft, emergency in progress. JFK runway 31L is closed for emergency traffic. All arrivals hold present position or divert to Newark.',
+      narrative: 'Clearing all traffic. Calling in emergency services. Fire trucks, ambulances, crash foam. This is the most critical situation in air traffic control. Get one passenger to land an A380. Or watch 489 people die.',
+      atcCommand: 'ALL AIRCRAFT THIS FREQUENCY: Emergency in progress, Qantas 8 inbound JFK. Both pilots incapacitated. Runway 31L CLOSED to all traffic. All arrivals divert immediately to Newark or hold. I repeat, CLEAR THE APPROACH NOW.',
       spotlight: { type: 'component', id: 'radar' },
+      pacing: 'fast',
+      emphasize: true,
       autoAdvance: 16000,
     },
     {
       id: 'hero-guide-heading',
-      narrative: 'Sarah: Okay, I am not touching anything. But the plane is turning! What do I do?',
-      atcCommand: 'Sarah, that is the autopilot following its programmed route. I am going to change your heading remotely. Stand by. Qantas 8, turn left heading 180 for vectors to JFK.',
+      narrative: 'Sarah: [Crying] The plane is turning on its own! I-I didn\'t touch anything! Why is it turning?!',
+      atcCommand: 'Sarah, BREATHE. That is NORMAL. The autopilot is following the flight plan. I am going to override it and point you toward JFK Airport. When I say the command, the plane will turn. This will feel strange but it is SAFE. Qantas 8, turn left heading 180, vectors for JFK final approach.',
       spotlight: { type: 'flight', callsign: 'QFA8' },
+      pacing: 'dramatic',
+      minDuration: 6000,
       autoAdvance: 16000,
       events: [
         {
@@ -546,8 +555,11 @@ export const showcaseDemoScenario: Scenario = {
     },
     {
       id: 'hero-active',
-      narrative: 'Remote guidance engaged. Sarah is following ATC instructions. The A380 is now on vectors to JFK. 489 souls depend on this guidance.',
+      narrative: 'Fuel remaining: 45 minutes. Distance to runway: 120 miles. 489 people. One untrained passenger. This is what we trained for. Every word matters. Every second counts. Failure is not an option.',
       spotlight: { type: 'component', id: 'radar' },
+      pacing: 'dramatic',
+      emphasize: true,
+      pauseAfterNarration: 4000,  // Let the weight sink in
       autoAdvance: 20000,
       events: [
         {
@@ -559,9 +571,11 @@ export const showcaseDemoScenario: Scenario = {
     },
     {
       id: 'hero-descent',
-      narrative: 'ATC initiating descent for approach.',
-      atcCommand: 'Qantas 8, Sarah, I am going to start bringing you down now. The aircraft will descend on its own. You will feel a slight pitch down. This is normal.',
+      narrative: 'Beginning descent. This is the most dangerous phase. Too steep and the plane stalls. Too shallow and we run out of fuel. Sarah\'s hands are shaking. She can barely breathe. But she has to trust us.',
+      atcCommand: 'Sarah, listen very carefully. I am going to command the aircraft to descend. You will feel the nose drop. Your stomach will drop. This is SUPPOSED to happen. Do NOT panic. Do NOT touch the controls. The computer knows what it is doing. Qantas 8, descend and maintain 15,000 feet, reduce speed to 250 knots.',
       spotlight: { type: 'flight', callsign: 'QFA8' },
+      pacing: 'dramatic',
+      minDuration: 8000,
       autoAdvance: 16000,
       events: [
         {
@@ -573,9 +587,12 @@ export const showcaseDemoScenario: Scenario = {
     },
     {
       id: 'hero-final-approach',
-      narrative: 'Sarah: I can see the runway! Oh my god, I can see the runway lights!',
-      atcCommand: 'Qantas 8, you are 10 miles from the runway. The autoland system is engaged. Keep your hands off the controls. The plane will land itself. Emergency services are standing by.',
+      narrative: 'Sarah: [Voice breaking] I SEE LIGHTS! I see the runway! Oh god, oh god, we\'re so low! Are we going to make it?! TELL ME WE\'RE GOING TO MAKE IT!',
+      atcCommand: 'Sarah, you ARE going to make it. You hear me? YOU ARE GOING TO LIVE. Everyone on that plane is going to live because YOU are strong enough to do this. The autoland system is taking over. 10 miles to touchdown. Keep your hands OFF the controls. Let the aircraft land itself. Emergency vehicles are in position. You\'ve got this, Sarah. Just a few more minutes.',
       spotlight: { type: 'flight', callsign: 'QFA8' },
+      pacing: 'dramatic',
+      emphasize: true,
+      minDuration: 8000,
       autoAdvance: 16000,
       events: [
         {
@@ -588,8 +605,11 @@ export const showcaseDemoScenario: Scenario = {
     },
     {
       id: 'hero-complete',
-      narrative: 'Qantas 8 is on the ground at JFK. Sarah and 489 passengers are safe. Emergency services on scene. An Australian hero made aviation history today.',
+      narrative: 'Wheels down. Qantas 8 is on the ground. 489 souls saved. Sarah collapses in the cockpit, sobbing. Emergency crews swarm the aircraft. The pilots are rushed to hospital. Against impossible odds, against terror and death... one ordinary person became extraordinary. Today, Sarah saved everyone.',
       spotlight: { type: 'component', id: 'radar' },
+      pacing: 'dramatic',
+      emphasize: true,
+      pauseAfterNarration: 5000,  // Long pause - let the relief wash over
       autoAdvance: 16000,
       events: [
         { delay: 0, type: 'triggerHeroMode', payload: { active: false } },

@@ -10,7 +10,13 @@ type SoundEffect =
   | 'commandAck'        // Command accepted beep
   | 'commandReject'     // Command failed tone
   | 'heroSuccess'       // Triumphant landing fanfare
-  | 'staticBurst';      // Radio static for lost contact
+  | 'staticBurst'       // Radio static for lost contact
+  // Serious hero mode sounds
+  | 'altitudeWarning'   // Urgent altitude warning beep (GPWS-style)
+  | 'pullUp'            // PULL UP terrain warning
+  | 'breathingPanic'    // Hyperventilating breathing sound
+  | 'tensionDrone'      // Low anxiety-inducing drone
+  | 'heartbeat';        // Accelerating heartbeat
 
 class AudioManagerClass {
   private audioContext: AudioContext | null = null;
@@ -167,6 +173,31 @@ class AudioManagerClass {
           // Radio static noise burst
           this.playStaticBurst();
           break;
+
+        case 'altitudeWarning':
+          // Urgent altitude warning beep (like GPWS)
+          this.playAltitudeWarning();
+          break;
+
+        case 'pullUp':
+          // PULL UP terrain warning
+          this.playPullUp();
+          break;
+
+        case 'breathingPanic':
+          // Panicked breathing sound
+          this.playBreathingPanic();
+          break;
+
+        case 'tensionDrone':
+          // Low anxiety drone
+          this.playTensionDrone();
+          break;
+
+        case 'heartbeat':
+          // Single heartbeat thump
+          this.playHeartbeat();
+          break;
       }
     } catch {
       // Silently fail if audio context not available
@@ -288,6 +319,150 @@ class AudioManagerClass {
     noise.connect(gain);
     gain.connect(ctx.destination);
     noise.start();
+  }
+
+  private playAltitudeWarning() {
+    // GPWS-style altitude warning (urgent beeping)
+    const playBeep = (delay: number) => {
+      setTimeout(() => {
+        const ctx = this.getContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.value = 1000;
+        gain.gain.setValueAtTime(0.4 * this.volume, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.1);
+      }, delay);
+    };
+    // Rapid beeping pattern - creates urgency
+    playBeep(0);
+    playBeep(120);
+    playBeep(240);
+    playBeep(360);
+  }
+
+  private playPullUp() {
+    // Loud PULL UP warning (like GPWS terrain alert)
+    const ctx = this.getContext();
+
+    // Low frequency pulse for urgency
+    const osc1 = ctx.createOscillator();
+    const gain1 = ctx.createGain();
+    osc1.type = 'square';
+    osc1.frequency.setValueAtTime(300, ctx.currentTime);
+    osc1.frequency.linearRampToValueAtTime(500, ctx.currentTime + 0.3);
+    gain1.gain.setValueAtTime(0.5 * this.volume, ctx.currentTime);
+    gain1.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+    osc1.connect(gain1);
+    gain1.connect(ctx.destination);
+    osc1.start();
+    osc1.stop(ctx.currentTime + 0.4);
+
+    // Higher harmonic for attention-grabbing
+    const osc2 = ctx.createOscillator();
+    const gain2 = ctx.createGain();
+    osc2.type = 'square';
+    osc2.frequency.setValueAtTime(900, ctx.currentTime);
+    gain2.gain.setValueAtTime(0.3 * this.volume, ctx.currentTime);
+    gain2.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+    osc2.connect(gain2);
+    gain2.connect(ctx.destination);
+    osc2.start();
+    osc2.stop(ctx.currentTime + 0.3);
+  }
+
+  private playBreathingPanic() {
+    // Simulated panicked breathing (rapid inhale/exhale)
+    const ctx = this.getContext();
+    const duration = 1.2;
+    const bufferSize = ctx.sampleRate * duration;
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+
+    // Create breathing pattern with noise
+    for (let i = 0; i < bufferSize; i++) {
+      const t = i / ctx.sampleRate;
+      // Breathing cycle: rapid in/out
+      const breath = Math.sin(t * Math.PI * 4); // 2 breaths per second
+      const noise = (Math.random() * 2 - 1) * 0.3;
+      data[i] = breath * noise;
+    }
+
+    const source = ctx.createBufferSource();
+    const gain = ctx.createGain();
+    const filter = ctx.createBiquadFilter();
+
+    source.buffer = buffer;
+    filter.type = 'bandpass';
+    filter.frequency.value = 400;
+    filter.Q.value = 5;
+
+    gain.gain.setValueAtTime(0.2 * this.volume, ctx.currentTime);
+    gain.gain.setValueAtTime(0.2 * this.volume, ctx.currentTime + duration - 0.3);
+    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + duration);
+
+    source.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    source.start();
+  }
+
+  private playTensionDrone() {
+    // Low, ominous drone for background tension
+    const ctx = this.getContext();
+    const duration = 3;
+
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = 55; // Very low A
+
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.2 * this.volume, ctx.currentTime + 0.5);
+    gain.gain.setValueAtTime(0.2 * this.volume, ctx.currentTime + duration - 0.5);
+    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + duration);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + duration);
+  }
+
+  private playHeartbeat() {
+    // Single heartbeat thump
+    const ctx = this.getContext();
+
+    // Lub
+    const lub = ctx.createOscillator();
+    const lubGain = ctx.createGain();
+    lub.type = 'sine';
+    lub.frequency.setValueAtTime(80, ctx.currentTime);
+    lub.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.12);
+    lubGain.gain.setValueAtTime(0.3 * this.volume, ctx.currentTime);
+    lubGain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.12);
+    lub.connect(lubGain);
+    lubGain.connect(ctx.destination);
+    lub.start();
+    lub.stop(ctx.currentTime + 0.12);
+
+    // Dub
+    setTimeout(() => {
+      const dub = ctx.createOscillator();
+      const dubGain = ctx.createGain();
+      dub.type = 'sine';
+      dub.frequency.setValueAtTime(60, ctx.currentTime);
+      dub.frequency.exponentialRampToValueAtTime(35, ctx.currentTime + 0.12);
+      dubGain.gain.setValueAtTime(0.25 * this.volume, ctx.currentTime);
+      dubGain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.12);
+      dub.connect(dubGain);
+      dubGain.connect(ctx.destination);
+      dub.start();
+      dub.stop(ctx.currentTime + 0.12);
+    }, 150);
   }
 
   setMuted(muted: boolean) {

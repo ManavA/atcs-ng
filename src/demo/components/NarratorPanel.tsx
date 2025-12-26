@@ -12,11 +12,12 @@ import {
   VolumeX,
 } from 'lucide-react';
 import { useDemoMode } from '../DemoProvider';
-import { CloudTTS, VoiceNotification } from '../../audio';
+import { CloudTTS, VoiceNotification, VoiceCharacter } from '../../audio';
 import { useUIStore } from '../../store';
+import { globalPlaybackController } from '../DemoPlaybackController';
 
 // Helper to detect character type from narrative text
-function detectCharacterFromNarrative(text: string): 'narrator' | 'atc' | 'captain_sharma' | 'fa_priya' | 'captain_williams' | 'sarah' | 'hijacker_norway' | 'hijacker_sweden' | 'british_crew' {
+function detectCharacterFromNarrative(text: string): VoiceCharacter {
   // Check for specific character dialogue markers
   if (/Captain Sharma:|Air India 302.*Captain/i.test(text)) return 'captain_sharma';
   if (/Flight Attendant Priya:|Priya:/i.test(text)) return 'fa_priya';
@@ -25,6 +26,7 @@ function detectCharacterFromNarrative(text: string): 'narrator' | 'atc' | 'capta
   if (/hijacker.*Norwegian|Norwegian.*hijacker|Jeg krever|Wakanda/i.test(text)) return 'hijacker_norway';
   if (/hijacker.*Swedish|Swedish.*hijacker|Nej\.\.\.|Vakanda för/i.test(text)) return 'hijacker_sweden';
   if (/British Airways.*crew|BAW.*crew/i.test(text)) return 'british_crew';
+  if (/Controller E97:|Echo-Niner-Seven/i.test(text)) return 'controller_e97';
   if (/Boston Center|Tower|Approach|Departure|ATC:/i.test(text)) return 'atc';
   return 'narrator';
 }
@@ -44,9 +46,6 @@ export function NarratorPanel() {
   } = useDemoMode();
 
   const lastSpokenStepRef = useRef<string | null>(null);
-  const autoAdvanceTimeoutRef = useRef<number | null>(null);
-  const fallbackTimerRef = useRef<number | null>(null);
-  const ttsSucceededRef = useRef(false);
   const { addCommandLog, narrationEnabled } = useUIStore();
   const [usingBrowserAudio, setUsingBrowserAudio] = useState(false);
 
@@ -59,49 +58,29 @@ export function NarratorPanel() {
     VoiceNotification.setEnabled(false);
   };
 
-  // Speak the narrative when step changes, auto-advance when done
+  // Speak the narrative when step changes, using new playback controller for timing
   useEffect(() => {
     if (state.mode === 'playing' && currentStep?.narrative && currentStep.id !== lastSpokenStepRef.current) {
       lastSpokenStepRef.current = currentStep.id;
-      ttsSucceededRef.current = false;
 
-      // Clear any pending timers
-      if (autoAdvanceTimeoutRef.current) {
-        clearTimeout(autoAdvanceTimeoutRef.current);
-        autoAdvanceTimeoutRef.current = null;
-      }
-      if (fallbackTimerRef.current) {
-        clearTimeout(fallbackTimerRef.current);
-        fallbackTimerRef.current = null;
-      }
+      // Cancel any previous step playback
+      globalPlaybackController.cancel();
 
-      // Get the step's autoAdvance time (default 8s for drama)
-      const stepDuration = currentStep.autoAdvance ?? 8000;
-
-      // Function to advance after all speech is done
-      const advanceAfterSpeech = () => {
-        ttsSucceededRef.current = true;
-        // Clear fallback timer since TTS succeeded
-        if (fallbackTimerRef.current) {
-          clearTimeout(fallbackTimerRef.current);
-          fallbackTimerRef.current = null;
-        }
-        // Brief pause after speech ends before advancing
-        autoAdvanceTimeoutRef.current = window.setTimeout(() => {
-          if (state.mode === 'playing' && !state.pendingInteraction && !state.presenterMode) {
-            nextStep();
-          }
-        }, 1000); // 1 second pause after speech
+      // Function to advance (only if not in presenter mode and no pending interaction)
+      const shouldAdvance = () => {
+        return state.mode === 'playing' && !state.pendingInteraction && !state.presenterMode;
       };
 
-      // Set up fallback timer in case TTS fails or takes too long
-      // This ensures the demo keeps moving even without audio
-      fallbackTimerRef.current = window.setTimeout(() => {
-        if (!ttsSucceededRef.current && state.mode === 'playing' && !state.pendingInteraction && !state.presenterMode) {
-          console.log('[Demo] TTS fallback timer fired for step:', currentStep.id);
-          nextStep();
+      // Start playback with audio-synchronized timing
+      globalPlaybackController.playStep(
+        currentStep,
+        // onAdvance callback
+        () => {
+          if (shouldAdvance()) {
+            nextStep();
+          }
         }
-      }, stepDuration);
+      );
 
       // Detect the character speaking from the narrative text
       const character = detectCharacterFromNarrative(currentStep.narrative);
@@ -112,6 +91,9 @@ export function NarratorPanel() {
         setTimeout(() => {
           // Use CloudTTS with appropriate character voice
           CloudTTS.speak(currentStep.narrative, character, () => {
+            // Mark narration as complete
+            globalPlaybackController.markNarrationComplete();
+
             // If there's an ATC command, speak it and log it
             if (currentStep.atcCommand) {
               // Parse command for logging
@@ -135,29 +117,33 @@ export function NarratorPanel() {
               });
 
               // Use CloudTTS for ATC voice with radio effect
-              CloudTTS.speakATC(currentStep.atcCommand, advanceAfterSpeech);
+              CloudTTS.speakATC(currentStep.atcCommand, () => {
+                // Mark ATC command as complete
+                globalPlaybackController.markATCCommandComplete();
+              });
             } else {
-              advanceAfterSpeech();
+              // No ATC command, mark as complete immediately
+              globalPlaybackController.markATCCommandComplete();
             }
           });
         }, 300);
+      } else {
+        // Narration disabled - mark audio as complete immediately so timing still works
+        globalPlaybackController.markNarrationComplete();
+        globalPlaybackController.markATCCommandComplete();
       }
-      // If narration disabled, fallback timer will handle advancement
     }
 
     return () => {
-      if (autoAdvanceTimeoutRef.current) {
-        clearTimeout(autoAdvanceTimeoutRef.current);
-      }
-      if (fallbackTimerRef.current) {
-        clearTimeout(fallbackTimerRef.current);
-      }
+      // Cleanup when component unmounts or step changes
+      globalPlaybackController.cancel();
     };
-  }, [state.mode, state.presenterMode, currentStep?.id, currentStep?.narrative, currentStep?.atcCommand, currentStep?.autoAdvance, state.pendingInteraction, nextStep, addCommandLog, narrationEnabled]);
+  }, [state.mode, state.presenterMode, currentStep?.id, currentStep?.narrative, currentStep?.atcCommand, state.pendingInteraction, nextStep, addCommandLog, narrationEnabled]);
 
   // Cancel speech when demo closes or pauses
   useEffect(() => {
     if (state.mode === 'paused' || !state.isActive) {
+      globalPlaybackController.cancel();
       CloudTTS.cancel();
       VoiceNotification.cancel(); // Also cancel fallback
     }

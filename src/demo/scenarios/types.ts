@@ -16,6 +16,8 @@ export interface ScenarioState {
   predictions: Prediction[];
 }
 
+export type StepPacing = 'fast' | 'normal' | 'dramatic';
+
 export interface ScenarioStep {
   id: string;
   narrative: string;
@@ -23,7 +25,17 @@ export interface ScenarioStep {
   spotlight?: SpotlightTarget;
   interaction?: InteractionRequirement;
   events?: ScenarioEvent[];
-  autoAdvance?: number; // ms to wait before auto-advancing (now voice-driven by default)
+
+  // NEW: Audio-synchronized timing configuration
+  minDuration?: number;           // Minimum time to show step (ms), default: 3000
+  pauseAfterNarration?: number;   // Silence after narration ends (ms), default: calculated by pacing
+  maxDuration?: number;           // Safety timeout if audio fails (ms), default: 30000
+  waitForAudio?: boolean;         // If false, don't wait for audio completion, default: true
+  pacing?: StepPacing;            // Affects pause calculation, default: 'normal'
+  emphasize?: boolean;            // Adds extra dramatic pause after step, default: false
+
+  // DEPRECATED: Use new timing fields instead
+  autoAdvance?: number;           // ms to wait before auto-advancing (legacy, use minDuration)
 }
 
 export interface InteractionRequirement {

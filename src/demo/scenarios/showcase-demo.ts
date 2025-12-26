@@ -272,7 +272,9 @@ export const showcaseDemoScenario: Scenario = {
       id: 'hijack-begin',
       narrative: 'MAYDAY MAYDAY MAYDAY received from Air India 302. Emergency transponder activating. Squawk 7500 - HIJACK CODE.',
       spotlight: { type: 'flight', callsign: 'AIC302' },
-      autoAdvance: 12000,
+      emphasize: true,  // Dramatic pause after MAYDAY declaration
+      pacing: 'dramatic',
+      autoAdvance: 12000,  // Kept for backward compatibility
       events: [
         {
           delay: 0,
@@ -300,7 +302,9 @@ export const showcaseDemoScenario: Scenario = {
       narrative: 'Captain Sharma: Boston, this is Air India 302 heavy. A man with a weapon has entered my cockpit. He is speaking Norwegian. He claims to be from Wakanda. Please advise.',
       atcCommand: 'Air India 302 heavy, Boston Center copies all. Squawk confirmed 7500. Keep transmitting. NORAD has been notified. Help is coming.',
       spotlight: { type: 'flight', callsign: 'AIC302' },
-      autoAdvance: 16000,
+      minDuration: 5000,  // NEW: Ensure minimum 5 seconds for gravity of moment
+      // Pause will be automatically calculated based on character switch (Captain Sharma → ATC)
+      autoAdvance: 16000,  // Kept for backward compatibility
     },
     {
       id: 'hijack-atc-divert',
@@ -409,7 +413,9 @@ export const showcaseDemoScenario: Scenario = {
       id: 'hijack-crash',
       narrative: 'Radar contact lost with Air India 302. 350 souls on board. Primary target fading. We could not save them.',
       spotlight: { type: 'component', id: 'radar' },
-      autoAdvance: 14000,
+      emphasize: true,  // Long pause after crash - let it sink in
+      pauseAfterNarration: 4000,  // NEW: Explicit 4 second pause for dramatic impact
+      autoAdvance: 14000,  // Kept for backward compatibility
       events: [
         {
           delay: 0,
@@ -456,7 +462,9 @@ export const showcaseDemoScenario: Scenario = {
       id: 'hero-trigger',
       narrative: 'Sarah: Mayday mayday! This is Qantas 8. There was a hijacker speaking Swedish! I knocked him out but... both pilots are unconscious. Oh god, I have 489 people on this plane. Please help us!',
       spotlight: { type: 'flight', callsign: 'QFA8' },
-      autoAdvance: 16000,
+      emphasize: true,  // Dramatic moment - hero mode begins
+      pacing: 'dramatic',
+      autoAdvance: 16000,  // Kept for backward compatibility
       events: [
         {
           delay: 0,
@@ -668,7 +676,9 @@ export const showcaseDemoScenario: Scenario = {
       id: 'tcas-alert',
       narrative: 'TRAFFIC ALERT! Delta 1892 and American 445 on converging headings! AI predicts collision in 45 seconds!',
       spotlight: { type: 'component', id: 'predictions' },
-      autoAdvance: 12000,
+      emphasize: true,  // TRAFFIC ALERT needs emphasis
+      pacing: 'fast',  // Fast pacing - this is urgent, move quickly
+      autoAdvance: 12000,  // Kept for backward compatibility
       events: [
         {
           delay: 0,

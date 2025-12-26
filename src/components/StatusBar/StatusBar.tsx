@@ -10,6 +10,7 @@ import {
   Database,
   Activity,
 } from 'lucide-react';
+import { VersionDisplay } from '../VersionDisplay';
 
 interface StatusBarProps {
   connected: boolean;
@@ -207,15 +208,7 @@ export function StatusBar({
       <div style={{ width: 1, height: 16, background: 'rgba(0, 255, 136, 0.2)' }} />
 
       {/* Version */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 4,
-        color: '#6e7681',
-        fontSize: 10,
-      }}>
-        <span>v2.5.0</span>
-      </div>
+      <VersionDisplay />
     </div>
   );
 }

@@ -48,7 +48,7 @@ interface ServiceLog {
 }
 
 export function ObservabilityPanel() {
-  const [activeTab, setActiveTab] = useState<'services' | 'messages' | 'health'>('messages');
+  const [activeTab, setActiveTab] = useState<'services' | 'messages' | 'health' | 'architecture'>('messages');
   const [selectedService, setSelectedService] = useState<ServiceId>('sts');
   const [messages, setMessages] = useState<ServiceMessage[]>([]);
   const [serviceLogs, setServiceLogs] = useState<Record<ServiceId, ServiceLog[]>>({
@@ -170,6 +170,7 @@ export function ObservabilityPanel() {
           { id: 'messages', label: 'Message Stream' },
           { id: 'services', label: 'Service Logs' },
           { id: 'health', label: 'Health & Metrics' },
+          { id: 'architecture', label: 'Architecture' },
         ].map((tab) => (
           <button
             key={tab.id}
@@ -203,6 +204,7 @@ export function ObservabilityPanel() {
           />
         )}
         {activeTab === 'health' && <HealthMetricsView services={SERVICES} metrics={serviceMetrics} />}
+        {activeTab === 'architecture' && <ArchitectureView services={SERVICES} messages={messages} />}
       </div>
     </div>
   );
@@ -402,6 +404,211 @@ function MetricItem({ label, value, color }: { label: string; value: string; col
     <div>
       <div style={{ color: '#6e7681', marginBottom: 2 }}>{label}</div>
       <div style={{ color: color || '#00d4ff', fontWeight: 600 }}>{value}</div>
+    </div>
+  );
+}
+
+// Architecture View - Visual Service Mesh Diagram
+function ArchitectureView({
+  services,
+  messages,
+}: {
+  services: typeof SERVICES;
+  messages: ServiceMessage[];
+}) {
+  // Get recent message activity (last 5 seconds) for connection animation
+  const recentMessages = messages.filter((m) => Date.now() - m.timestamp < 5000);
+
+  return (
+    <div style={{ flex: 1, padding: 20, overflow: 'auto', background: 'rgba(0, 0, 0, 0.2)' }}>
+      <div style={{ marginBottom: 16, color: '#c9d1d9', fontSize: 12 }}>
+        <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 4, color: '#00ff88' }}>
+          Microservices Architecture
+        </div>
+        <div style={{ color: '#6e7681', fontSize: 10 }}>
+          Real-time visualization of service mesh and message flows
+        </div>
+      </div>
+
+      {/* Service mesh diagram */}
+      <div
+        style={{
+          position: 'relative',
+          width: '100%',
+          height: 180,
+          background: 'rgba(0, 0, 0, 0.4)',
+          border: '1px solid rgba(0, 255, 136, 0.2)',
+          borderRadius: 8,
+          padding: 20,
+        }}
+      >
+        {/* Central hub */}
+        <div
+          style={{
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 60,
+            height: 60,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(0, 212, 255, 0.3), transparent)',
+            border: '2px solid #00d4ff',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: 10,
+            fontWeight: 700,
+            color: '#00d4ff',
+          }}
+        >
+          MESSAGE
+          <br />
+          BUS
+        </div>
+
+        {/* Services arranged in circle */}
+        {services.map((service, idx) => {
+          const Icon = service.icon;
+          const angle = (idx / services.length) * 2 * Math.PI - Math.PI / 2;
+          const radius = 70;
+          const x = 50 + radius * Math.cos(angle);
+          const y = 50 + radius * Math.sin(angle);
+
+          // Check if this service has recent message activity
+          const hasActivity = recentMessages.some((m) => m.from === service.id || m.to === service.id);
+
+          return (
+            <div
+              key={service.id}
+              style={{
+                position: 'absolute',
+                left: `${x}%`,
+                top: `${y}%`,
+                transform: 'translate(-50%, -50%)',
+              }}
+            >
+              {/* Connection line to center */}
+              <svg
+                style={{
+                  position: 'absolute',
+                  left: '50%',
+                  top: '50%',
+                  width: 200,
+                  height: 200,
+                  pointerEvents: 'none',
+                  transform: 'translate(-50%, -50%)',
+                  zIndex: 0,
+                }}
+              >
+                <line
+                  x1="100"
+                  y1="100"
+                  x2={100 + (50 - x) * 2}
+                  y2={100 + (50 - y) * 2}
+                  stroke={hasActivity ? service.color : 'rgba(255, 255, 255, 0.1)'}
+                  strokeWidth={hasActivity ? 2 : 1}
+                  strokeDasharray={hasActivity ? '0' : '4, 4'}
+                  opacity={hasActivity ? 0.8 : 0.3}
+                  style={{
+                    transition: 'all 0.3s',
+                  }}
+                />
+              </svg>
+
+              {/* Service node */}
+              <div
+                style={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: 8,
+                  background: hasActivity ? `${service.color}22` : 'rgba(0, 0, 0, 0.6)',
+                  border: `2px solid ${service.color}`,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 2,
+                  position: 'relative',
+                  zIndex: 1,
+                  boxShadow: hasActivity ? `0 0 20px ${service.color}44` : 'none',
+                  transition: 'all 0.3s',
+                }}
+              >
+                <Icon size={16} color={service.color} />
+                <div
+                  style={{
+                    fontSize: 7,
+                    fontWeight: 700,
+                    color: service.color,
+                    textAlign: 'center',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  {service.id}
+                </div>
+              </div>
+
+              {/* Service name label */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '100%',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  marginTop: 4,
+                  fontSize: 9,
+                  color: '#8b949e',
+                  whiteSpace: 'nowrap',
+                  textAlign: 'center',
+                }}
+              >
+                {service.name}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Architecture description */}
+      <div style={{ marginTop: 20, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, fontSize: 10 }}>
+        <div>
+          <div style={{ color: '#00ff88', fontWeight: 700, marginBottom: 8, fontSize: 11 }}>
+            Services
+          </div>
+          {services.map((service) => {
+            const Icon = service.icon;
+            return (
+              <div
+                key={service.id}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  marginBottom: 6,
+                  color: '#c9d1d9',
+                }}
+              >
+                <Icon size={12} color={service.color} />
+                <span style={{ color: service.color, fontWeight: 600 }}>{service.id.toUpperCase()}</span>
+                <span style={{ color: '#6e7681' }}>-</span>
+                <span>{service.name}</span>
+              </div>
+            );
+          })}
+        </div>
+
+        <div>
+          <div style={{ color: '#00ff88', fontWeight: 700, marginBottom: 8, fontSize: 11 }}>
+            Message Flow
+          </div>
+          <div style={{ color: '#8b949e', lineHeight: 1.6 }}>
+            Services communicate via a central message bus using publish/subscribe pattern. Real-time events flow
+            through the system: track updates from STS → FDS → AI for conflict detection → WS for client broadcast.
+            Demo scenarios controlled by SS trigger coordinated events across all services.
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

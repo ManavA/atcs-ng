@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { MapContainer, TileLayer, Circle, Polyline, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Circle, Polyline, useMap, useMapEvents } from 'react-leaflet';
 import type { Track } from '../../types';
-import { AircraftMarker } from './AircraftMarker';
+import { ZoomAwareAircraftMarker } from './ZoomAwareAircraftMarker';
 import { RadarSweepCanvas } from './RadarSweepCanvas';
 import { useUIStore } from '../../store';
 import 'leaflet/dist/leaflet.css';
@@ -234,6 +234,21 @@ function CompassRose() {
   return null;
 }
 
+// Zoom tracker component
+function ZoomTracker({ onZoomChange }: { onZoomChange: (zoom: number) => void }) {
+  const map = useMapEvents({
+    zoom: () => {
+      onZoomChange(map.getZoom());
+    },
+  });
+
+  useEffect(() => {
+    onZoomChange(map.getZoom());
+  }, [map, onZoomChange]);
+
+  return null;
+}
+
 export function RadarMap({
   tracks,
   selectedTrackId,
@@ -245,6 +260,9 @@ export function RadarMap({
 }: RadarMapProps) {
   // Default center: Boston area
   const defaultCenter: [number, number] = [42.0, -71.0];
+
+  // Track current zoom level
+  const [currentZoom, setCurrentZoom] = useState(8);
 
   // Container dimensions for RadarSweepCanvas
   const containerRef = useRef<HTMLDivElement>(null);
@@ -309,6 +327,9 @@ export function RadarMap({
           attribution='&copy; <a href="https://carto.com/">CARTO</a>'
         />
 
+        {/* Zoom tracking */}
+        <ZoomTracker onZoomChange={setCurrentZoom} />
+
         {/* Radar effects */}
         <RadarSweep />
         <CompassRose />
@@ -321,15 +342,16 @@ export function RadarMap({
         {/* Weather overlays */}
         <WeatherOverlays overlays={weatherOverlays} />
 
-        {/* Aircraft markers */}
+        {/* Aircraft markers with zoom-aware detail */}
         {tracks.map((track) => (
-          <AircraftMarker
+          <ZoomAwareAircraftMarker
             key={track.trackId}
             track={track}
             isSelected={selectedTrackId === track.trackId}
             onSelect={onSelectTrack}
             showDataBlock={showDataBlocks}
             trailPositions={showTrails ? trackHistory.get(track.trackId) : undefined}
+            zoom={currentZoom}
           />
         ))}
       </MapContainer>

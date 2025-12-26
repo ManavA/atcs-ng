@@ -2,7 +2,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import { Suspense } from 'react';
 import { useUIStore } from '../../store';
-import { AircraftModel } from './AircraftModel';
+import { DetailedAircraftModel } from './DetailedAircraftModel';
 import { AltitudeLayers } from './AltitudeLayers';
 import type { Track } from '../../types';
 
@@ -75,13 +75,13 @@ export function Scene3D({ tracks, selectedTrackId, onSelectTrack, mapCenter }: S
         {/* Altitude layers */}
         <AltitudeLayers />
 
-        {/* Aircraft */}
+        {/* Aircraft with LOD support */}
         {tracks.map((track) => {
           const [x, z] = latLngToScene(track.latitudeDeg, track.longitudeDeg, mapCenter);
           const y = altitudeToY(track.altitudeFt);
 
           return (
-            <AircraftModel
+            <DetailedAircraftModel
               key={track.trackId}
               track={track}
               position={[x, y, z]}

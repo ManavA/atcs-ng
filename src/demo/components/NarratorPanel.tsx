@@ -48,14 +48,30 @@ export function NarratorPanel() {
   const lastSpokenStepRef = useRef<string | null>(null);
   const { addCommandLog, narrationEnabled } = useUIStore();
   const [usingBrowserAudio, setUsingBrowserAudio] = useState(false);
+  const [hasCloudTTS, setHasCloudTTS] = useState(false);
+
+  // Check if CloudTTS is available on mount
+  useEffect(() => {
+    const apiKey = import.meta.env.VITE_GOOGLE_TTS_API_KEY;
+    const available = !!apiKey;
+    setHasCloudTTS(available);
+
+    if (!available) {
+      console.log('[NarratorPanel] Cloud TTS not available, using browser TTS fallback');
+      setUsingBrowserAudio(true);
+    }
+  }, []);
 
   // Toggle browser fallback mode
   const toggleBrowserFallback = () => {
     const newValue = !usingBrowserAudio;
     setUsingBrowserAudio(newValue);
     CloudTTS.setBrowserFallback(newValue);
-    // Also disable VoiceNotification to prevent any dual audio
-    VoiceNotification.setEnabled(false);
+
+    if (!newValue) {
+      // Switching to CloudTTS - disable VoiceNotification
+      VoiceNotification.setEnabled(false);
+    }
   };
 
   // Speak the narrative when step changes, using new playback controller for timing
@@ -111,43 +127,85 @@ export function NarratorPanel() {
       if (narrationEnabled) {
         // Slight delay to let audio effects play first
         setTimeout(() => {
-          // Use CloudTTS with appropriate character voice
-          CloudTTS.speak(currentStep.narrative, character, () => {
-            // Mark narration as complete
-            globalPlaybackController.markNarrationComplete();
+          // Use browser TTS fallback if Cloud TTS not available
+          if (!hasCloudTTS || usingBrowserAudio) {
+            // Use VoiceNotification (browser TTS)
+            VoiceNotification.setEnabled(true);
+            VoiceNotification.speakNarrative(currentStep.narrative, () => {
+              // Mark narration as complete
+              globalPlaybackController.markNarrationComplete();
 
-            // If there's an ATC command, speak it and log it
-            if (currentStep.atcCommand) {
-              // Parse command for logging
-              const callsignMatch = currentStep.atcCommand.match(/^([A-Za-z\s]+\d+)/);
-              const callsign = callsignMatch ? callsignMatch[1].toUpperCase() : 'ALL';
+              // If there's an ATC command, speak it and log it
+              if (currentStep.atcCommand) {
+                // Parse command for logging
+                const callsignMatch = currentStep.atcCommand.match(/^([A-Za-z\s]+\d+)/);
+                const callsign = callsignMatch ? callsignMatch[1].toUpperCase() : 'ALL';
 
-              // Determine command type
-              let type: 'heading' | 'altitude' | 'speed' | 'squawk' | 'frequency' | 'hold' | 'other' = 'other';
-              if (/heading|turn/i.test(currentStep.atcCommand)) type = 'heading';
-              else if (/climb|descend|flight level|altitude/i.test(currentStep.atcCommand)) type = 'altitude';
-              else if (/speed|reduce|increase/i.test(currentStep.atcCommand)) type = 'speed';
-              else if (/squawk/i.test(currentStep.atcCommand)) type = 'squawk';
-              else if (/contact|frequency/i.test(currentStep.atcCommand)) type = 'frequency';
-              else if (/hold/i.test(currentStep.atcCommand)) type = 'hold';
+                // Determine command type
+                let type: 'heading' | 'altitude' | 'speed' | 'squawk' | 'frequency' | 'hold' | 'other' = 'other';
+                if (/heading|turn/i.test(currentStep.atcCommand)) type = 'heading';
+                else if (/climb|descend|flight level|altitude/i.test(currentStep.atcCommand)) type = 'altitude';
+                else if (/speed|reduce|increase/i.test(currentStep.atcCommand)) type = 'speed';
+                else if (/squawk/i.test(currentStep.atcCommand)) type = 'squawk';
+                else if (/contact|frequency/i.test(currentStep.atcCommand)) type = 'frequency';
+                else if (/hold/i.test(currentStep.atcCommand)) type = 'hold';
 
-              // Add to command log
-              addCommandLog({
-                callsign: callsign.replace(/\s+/g, ''),
-                command: currentStep.atcCommand,
-                type,
-              });
+                // Add to command log
+                addCommandLog({
+                  callsign: callsign.replace(/\s+/g, ''),
+                  command: currentStep.atcCommand,
+                  type,
+                });
 
-              // Use CloudTTS for ATC voice with radio effect
-              CloudTTS.speakATC(currentStep.atcCommand, () => {
-                // Mark ATC command as complete
+                // Use VoiceNotification for ATC command
+                VoiceNotification.speakATC(currentStep.atcCommand, () => {
+                  // Mark ATC command as complete
+                  globalPlaybackController.markATCCommandComplete();
+                });
+              } else {
+                // No ATC command, mark as complete immediately
                 globalPlaybackController.markATCCommandComplete();
-              });
-            } else {
-              // No ATC command, mark as complete immediately
-              globalPlaybackController.markATCCommandComplete();
-            }
-          });
+              }
+            });
+          } else {
+            // Use CloudTTS with appropriate character voice
+            CloudTTS.speak(currentStep.narrative, character, () => {
+              // Mark narration as complete
+              globalPlaybackController.markNarrationComplete();
+
+              // If there's an ATC command, speak it and log it
+              if (currentStep.atcCommand) {
+                // Parse command for logging
+                const callsignMatch = currentStep.atcCommand.match(/^([A-Za-z\s]+\d+)/);
+                const callsign = callsignMatch ? callsignMatch[1].toUpperCase() : 'ALL';
+
+                // Determine command type
+                let type: 'heading' | 'altitude' | 'speed' | 'squawk' | 'frequency' | 'hold' | 'other' = 'other';
+                if (/heading|turn/i.test(currentStep.atcCommand)) type = 'heading';
+                else if (/climb|descend|flight level|altitude/i.test(currentStep.atcCommand)) type = 'altitude';
+                else if (/speed|reduce|increase/i.test(currentStep.atcCommand)) type = 'speed';
+                else if (/squawk/i.test(currentStep.atcCommand)) type = 'squawk';
+                else if (/contact|frequency/i.test(currentStep.atcCommand)) type = 'frequency';
+                else if (/hold/i.test(currentStep.atcCommand)) type = 'hold';
+
+                // Add to command log
+                addCommandLog({
+                  callsign: callsign.replace(/\s+/g, ''),
+                  command: currentStep.atcCommand,
+                  type,
+                });
+
+                // Use CloudTTS for ATC voice with radio effect
+                CloudTTS.speakATC(currentStep.atcCommand, () => {
+                  // Mark ATC command as complete
+                  globalPlaybackController.markATCCommandComplete();
+                });
+              } else {
+                // No ATC command, mark as complete immediately
+                globalPlaybackController.markATCCommandComplete();
+              }
+            });
+          }
         }, 300);
       } else {
         // Narration disabled - mark audio as complete immediately so timing still works
@@ -171,11 +229,16 @@ export function NarratorPanel() {
     }
   }, [state.mode, state.isActive]);
 
-  // Disable VoiceNotification entirely during demo to prevent dual audio
+  // Manage VoiceNotification state during demo
   useEffect(() => {
     if (state.isActive && state.mode === 'playing') {
-      // Disable VoiceNotification during demo - CloudTTS handles all audio
-      VoiceNotification.setEnabled(false);
+      // Only disable VoiceNotification if using CloudTTS (not browser fallback)
+      if (hasCloudTTS && !usingBrowserAudio) {
+        VoiceNotification.setEnabled(false);
+      } else {
+        // Using browser fallback - keep VoiceNotification enabled
+        VoiceNotification.setEnabled(true);
+      }
     }
     return () => {
       // Re-enable VoiceNotification when demo ends
@@ -183,7 +246,7 @@ export function NarratorPanel() {
       // Reset browser fallback mode
       CloudTTS.setBrowserFallback(false);
     };
-  }, [state.isActive, state.mode]);
+  }, [state.isActive, state.mode, hasCloudTTS, usingBrowserAudio]);
 
   if (!state.isActive || state.mode === 'menu') {
     return null;
